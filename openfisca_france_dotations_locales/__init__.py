@@ -4,8 +4,8 @@ import os
 
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
-from openfisca_country_template import entities
-from openfisca_country_template.situation_examples import couple
+from openfisca_france_dotations_locales import entities
+from openfisca_france_dotations_locales.situation_examples import couple
 
 
 COUNTRY_DIR = os.path.dirname(os.path.abspath(__file__))
