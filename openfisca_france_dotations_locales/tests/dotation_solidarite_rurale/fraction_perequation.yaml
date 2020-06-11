@@ -8,3 +8,10 @@
     communes:
       1001-ABERGEMENT-CLEMENCIAT:
         dsr_eligible_fraction_perequation: True
+
+- name: DSR, éligibilité à la fraction péréquation. Plusieurs communes (1001-ABERGEMENT-CLEMENCIAT, 1173-GEX, 44204-THOUARE-SUR-LOIRE).
+  period: 2020
+  input:
+    population_dgf: [800, 13321, 9995]
+  output:
+    dsr_eligible_fraction_perequation: [True, False, True]
