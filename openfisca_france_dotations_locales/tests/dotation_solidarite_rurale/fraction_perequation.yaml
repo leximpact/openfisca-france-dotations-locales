@@ -1,0 +1,10 @@
+- name: DSR, éligibilité à la fraction péréquation. Cas initial.
+  period: 2020
+  input:
+    communes:
+      1001-ABERGEMENT-CLEMENCIAT:
+        population_dgf: 800
+  output:
+    communes:
+      1001-ABERGEMENT-CLEMENCIAT:
+        dsr_eligible_fraction_perequation: True
