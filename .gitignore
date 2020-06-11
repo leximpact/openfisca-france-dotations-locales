@@ -5,6 +5,10 @@
 build
 dist
 
+# Data
+
+*.xlsx
+
 # Editors
 
 .project
