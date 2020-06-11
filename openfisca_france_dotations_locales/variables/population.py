@@ -12,7 +12,7 @@ class strate_demographique(Variable):
     definition_period = YEAR
 
     def formula(commune, period, parameters):
-        pop = person('population_dgf', period)
+        pop = commune('population_dgf', period)
 
         return (
             + 1 * (pop <= 499)
@@ -33,6 +33,12 @@ class strate_demographique(Variable):
             )
 
 
+class population_insee(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+
+
 class population_dgf(Variable):
     value_type = int
     entity = Commune
@@ -42,16 +48,16 @@ class population_dgf(Variable):
         ]
     definition_period = YEAR
 
-    def formula(commune, period, parameters):
-        insee = commune('population_insee', period)
-        nb_resid_second = commune('nb_residences_secondaires', period)
-        nb_caravanes = commune('nb_caravanes', period)
-        dsu_nm1 = commune('dotation_solidarite_urbaine', period.last_year)
-        pfrac_dsu_nm1 = commune('premiere_fraction_dotation_solidarite_rurale', period.last_year)
- 
-        return (
-            + insee
-            + 1 * nb_resid_second
-            + 1 * nb_caravanes
-            + 1 * nb_caravanes * ((dsu_nm1 > 0) + (pfrac_dsu_nm1 > 0))
-            )
+#     def formula(commune, period, parameters):
+#         insee = commune('population_insee', period)
+#         nb_resid_second = commune('nb_residences_secondaires', period)
+#         nb_caravanes = commune('nb_caravanes', period)
+#         dsu_nm1 = commune('dotation_solidarite_urbaine', period.last_year)
+#         pfrac_dsu_nm1 = commune('premiere_fraction_dotation_solidarite_rurale', period.last_year)
+#  
+#         return (
+#             + insee
+#             + 1 * nb_resid_second
+#             + 1 * nb_caravanes
+#             + 1 * nb_caravanes * ((dsu_nm1 > 0) + (pfrac_dsu_nm1 > 0))
+#             )
