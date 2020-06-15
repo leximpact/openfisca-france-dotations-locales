@@ -174,3 +174,12 @@ curl -X POST -H "Content-Type: application/json" \
   -d @./openfisca_france_dotations_locales/situation_examples/couple.json \
   http://localhost:5000/calculate
 ```
+
+## Références
+
+Ce code a été initialisé grâce aux travaux réalisés dans ces différents dépôts :
+
+* [travaux au hackathon #dataFin](https://github.com/leximpact/dataFin)
+* [openfisca-collectivites-territoriales par @guillett](https://github.com/guillett/openfisca-collectivites-territoriales)
+* [analyse de la DSR par @magemax](https://github.com/magemax/dsr)
+* [template du moteur openfisca](https://github.com/openfisca/country-template)

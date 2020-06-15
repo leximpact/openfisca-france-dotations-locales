@@ -25,11 +25,11 @@ class dsr_eligible_fraction_perequation(Variable):
     definition_period = YEAR
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
     documentation = '''
-      La deuxième fraction de la dotation de solidarité rurale est attribuée
-      aux communes de moins de 10 000 habitants dont le potentiel financier par habitant
-      est inférieur au double du potentiel financier moyen par habitant
-      des communes appartenant à la même strate démographique.
-      La population à prendre en compte est également la population DGF 2019.
+        La deuxième fraction de la dotation de solidarité rurale est attribuée
+        aux communes de moins de 10 000 habitants dont le potentiel financier par habitant
+        est inférieur au double du potentiel financier moyen par habitant
+        des communes appartenant à la même strate démographique.
+        La population à prendre en compte est également la population DGF 2019.
     '''
 
     def formula(commune, period, parameters):
