@@ -54,7 +54,7 @@ class population_dgf(Variable):
 #         nb_caravanes = commune('nb_caravanes', period)
 #         dsu_nm1 = commune('dotation_solidarite_urbaine', period.last_year)
 #         pfrac_dsu_nm1 = commune('premiere_fraction_dotation_solidarite_rurale', period.last_year)
-#  
+#
 #         return (
 #             + insee
 #             + 1 * nb_resid_second
