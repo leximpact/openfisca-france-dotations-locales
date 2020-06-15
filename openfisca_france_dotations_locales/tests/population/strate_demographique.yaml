@@ -1,0 +1,6 @@
+- name: Identification de la strate démographique des communes. Cas initial.
+  period: 2020
+  input:
+    population_dgf: [499, 500, 4000, 200000]
+  output:
+    strate_demographique: [1, 2, 5, 15]

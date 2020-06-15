@@ -5,11 +5,12 @@ from openfisca_france_dotations_locales.entities import *
 class strate_demographique(Variable):
     value_type = int
     entity = Commune
+    definition_period = YEAR
+    label = "Strate ou groupe démographique de la commune d'après son nombre d'habitants"
     reference = [
         'Code général des collectivités territoriales - Article L2334-3',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033878299&cidTexte=LEGITEXT000006070633'
         ]
-    definition_period = YEAR
 
     def formula(commune, period, parameters):
         pop = commune('population_dgf', period)
