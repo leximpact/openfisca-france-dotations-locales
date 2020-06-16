@@ -25,7 +25,7 @@ class potentiel_financier_par_habitant_moyen(Variable):
         population_dgf = commune('population_dgf', period)
         outre_mer = commune('outre_mer', period)
 
-        liste_strates = np.ndarray(range(1+int(strate_demographique.max())))
+        liste_strates = list(range(1+int(strate_demographique.max())))
         
         potentiel_financier_par_strate = np.fromiter(
             (
@@ -38,7 +38,6 @@ class potentiel_financier_par_habitant_moyen(Variable):
             dtype = float
             )
         return potentiel_financier_par_strate[strate_demographique]
-
 
 class potentiel_financier_par_habitant(Variable):
     value_type = float
