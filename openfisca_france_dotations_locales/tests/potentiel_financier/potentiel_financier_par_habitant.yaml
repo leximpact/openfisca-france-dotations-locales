@@ -19,3 +19,31 @@
     strate_demographique: [1, 1, 1, 2]
     potentiel_financier_par_habitant: [2, 2, 2, 3]
     potentiel_financier_par_habitant_moyen: [2, 2, 2, 3]
+
+
+- name: Potentiel financier par habitant. \
+    Doit ignorer l'outre mer
+  period: 2020
+  input:
+    outre_mer: [True, False, False, False]
+    population_dgf: [50, 100, 499, 500]
+    potentiel_financier: [10, 200, 998, 1500]
+  output:
+    strate_demographique: [1, 1, 1, 2]
+    potentiel_financier_par_habitant: [0.2, 2, 2, 3]
+    potentiel_financier_par_habitant_moyen: [2, 2, 2, 3]
+
+
+- name: Potentiel financier par habitant. \
+    Doit ignorer l'outre mer
+  period: 2020
+  input:
+    outre_mer: [True, False, False, False]
+    population_dgf: [100, 100, 200, 500]
+    potentiel_financier: [0, 200, 600, 1500]
+  output:
+    strate_demographique: [1, 1, 1, 2]
+    potentiel_financier_par_habitant: [0, 2, 3, 3]
+    potentiel_financier_par_habitant_moyen: [2, 2, 2, 3]
+
+
