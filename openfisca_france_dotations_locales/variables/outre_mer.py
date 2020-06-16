@@ -7,4 +7,3 @@ class outre_mer(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Caractère ultramarin de la commune"
-
