@@ -37,7 +37,7 @@
 
 
 - name: Potentiel financier par habitant. \
-    Doit ignorer l'outre mer
+    Doit prendre le quotient des sommes et non la moyenne des quotients
   period: 2020
   input:
     outre_mer: [False, False, False, False]
