@@ -37,7 +37,6 @@ class dsr_eligible_fraction_perequation(Variable):
         population_dgf = commune('population_dgf', period)
 
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
-        strate = commune('strate_demographique', period)
         potentiel_financier_par_habitant_strate = commune('potentiel_financier_par_habitant_moyen', period)
 
         plafond = 2 * potentiel_financier_par_habitant_strate
