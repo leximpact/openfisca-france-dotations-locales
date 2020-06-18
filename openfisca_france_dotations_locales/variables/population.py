@@ -43,6 +43,7 @@ class population_insee(Variable):
 class population_dgf(Variable):
     value_type = int
     entity = Commune
+    label = "Population au sens DGF de la commune"
     reference = [
         'Code général des collectivités territoriales - Article L2334-2',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033878277&cidTexte=LEGITEXT000006070633'
