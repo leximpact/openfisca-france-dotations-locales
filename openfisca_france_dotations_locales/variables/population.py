@@ -86,13 +86,7 @@ class population_dgf_plafonnee(Variable):
     def formula(commune, period, parameters):
         population_dgf = commune('population_dgf', period)
         population_insee = commune('population_insee', period)
-        population_plafonnee = population_dgf
+        bareme_plafond_dgf = parameters(period).population.plafond_dgf
+
         # pour les communes  à la population insee < à la clef, la population dgf est plafonnée à value
-        dictionnaire_plafond = {
-            100: 500,
-            500: 1000,
-            1500: 2250,
-            }
-        for pop_insee_max, plafond_dgf in dictionnaire_plafond.items():
-            population_plafonnee += min_(0, plafond_dgf - population_plafonnee) * (population_insee < pop_insee_max)
-        return population_plafonnee
+        return min_(bareme_plafond_dgf.calc(population_insee), population_dgf)

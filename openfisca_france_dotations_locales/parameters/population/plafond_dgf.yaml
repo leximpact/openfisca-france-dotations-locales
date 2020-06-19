@@ -1,0 +1,30 @@
+description: Barème de plafonnement du nombre d'habitants de la population DGF pour une commune.\
+  Seuils de plafonnement définis par le dernier recensement de population INSEE.
+metadata:
+  type: single_amount
+  reference: https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=849B2A0736FF63D09762D4F7CE98FC9C.tplgfr31s_2?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633
+brackets:
+- amount:
+    2018-01-01:
+      value: 500
+  threshold:
+    2018-01-01:
+      value: 0
+- amount:
+    2018-01-01:
+      value: 1000
+  threshold:
+    2018-01-01:
+      value: 100
+- amount:
+    2018-01-01:
+      value: 2250
+  threshold:
+    2018-01-01:
+      value: 500
+- amount:
+    2018-01-01:
+      value: 999999999
+  threshold:
+    2018-01-01:
+      value: 1500
