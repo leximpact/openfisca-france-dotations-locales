@@ -70,13 +70,13 @@ class population_dgf_plafonnee(Variable):
     entity = Commune
     label = "Population au sens DGF de la commune, plafonnée en fonction de la population INSEE"
     reference = [
-        'Code général des collectivités territoriales - Article L2334-21',
+        'https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=849B2A0736FF63D09762D4F7CE98FC9C.tplgfr31s_2?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033878277&cidTexte=LEGITEXT000006070633',
         "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
         ]
     definition_period = YEAR
     documentation = '''
-    La population prise en compte est celle définie à l'article L. 2334-2 :
+    La population prise en compte est celle définie à l'article L. 2334-21 :
     – plafonnée à 500 habitants pour les communes dont la population issue du dernier recensement est inférieure à 100 habitants ;
     – plafonnée à 1 000 habitants pour les communes dont la population issue du dernier recensement est comprise entre 100 et 499 habitants ;
     – plafonnée à 2 250 habitants pour les communes dont la population issue du dernier recensement est comprise entre 500 et 1 499 habitants.
