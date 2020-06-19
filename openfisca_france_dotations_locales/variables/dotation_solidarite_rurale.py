@@ -57,9 +57,9 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
         # 1° a) Représentant au moins 10 % de la population du département
         #        ou comptant plus de 250 000 habitants ;
         # 1° b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
-        dsr_bc_part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_departement_agglomeration
-        dsr_bc_pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
-        dsr_bc_taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
+        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_departement_agglomeration
+        pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
+        taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
 
         population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
         population_dgf_departement_agglomeration = commune("population_dgf_departement_agglomeration", period)
@@ -68,11 +68,11 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
 
         condition_exclusion_1 = (
             (population_dgf_agglomeration < min_(
-                dsr_bc_pop_max_agglo,
-                dsr_bc_part_max_pop_departement * population_dgf_departement_agglomeration
+                part_max_pop_departement * population_dgf_departement_agglomeration,
+                pop_max_agglo
                 ))
-            * (population_dgf_maximum_commune_agglomeration < dsr_bc_taille_max_plus_grande_commune_agglo)
-            * (~chef_lieu_departement_dans_agglomeration)
+            * (population_dgf_maximum_commune_agglomeration < taille_max_plus_grande_commune_agglo)
+            * not_(chef_lieu_departement_dans_agglomeration)
             )
 
         # 2° Situées dans un canton dont la commune chef-lieu compte plus de 10 000 habitants,
@@ -80,13 +80,13 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
         population_dgf_chef_lieu_de_canton = commune("population_dgf_chef_lieu_de_canton", period)
         bureau_centralisateur = commune("bureau_centralisateur", period)
 
-        dsr_bc_taille_max_chef_lieu_canton = paremetres_exclusion.seuil_population_dgf_chef_lieu_de_canton
-        condition_exclusion_2 = (population_dgf_chef_lieu_de_canton < dsr_bc_taille_max_chef_lieu_canton) | bureau_centralisateur
+        taille_max_chef_lieu_canton = paremetres_exclusion.seuil_population_dgf_chef_lieu_de_canton
+        condition_exclusion_2 = (population_dgf_chef_lieu_de_canton < taille_max_chef_lieu_canton) | bureau_centralisateur
 
         # 3° Dont le potentiel financier par habitant (Pfi) est supérieur au double du potentiel
         # financier moyen par habitant (PFi) des communes de moins de 10 000 habitants.
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
-        dsr_bc_ratio_max_pot_fin = paremetres_exclusion.seuil_rapport_pfi_10000
+        ratio_max_potentiel_financier = paremetres_exclusion.seuil_rapport_pfi_10000
 
         outre_mer = commune('outre_mer', period)
         potentiel_financier = commune('potentiel_financier', period)
@@ -96,7 +96,7 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
         # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
         pot_fin_10000 = (np.sum((~outre_mer) * (population_dgf < taille_max_commune) * potentiel_financier)
                 / np.sum((~outre_mer) * (population_dgf < taille_max_commune) * population_dgf))
-        condition_exclusion_3 = potentiel_financier_par_habitant < (dsr_bc_ratio_max_pot_fin * pot_fin_10000)
+        condition_exclusion_3 = potentiel_financier_par_habitant < (ratio_max_potentiel_financier * pot_fin_10000)
 
         return condition_exclusion_1 * condition_exclusion_2 * condition_exclusion_3
 
