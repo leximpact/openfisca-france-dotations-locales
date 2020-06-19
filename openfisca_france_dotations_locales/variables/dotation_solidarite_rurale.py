@@ -57,7 +57,7 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
         # 1° a) Représentant au moins 10 % de la population du département
         #        ou comptant plus de 250 000 habitants ;
         # 1° b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
-        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_departement_agglomeration
+        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_agglomeration_departement
         pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
         taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
 
