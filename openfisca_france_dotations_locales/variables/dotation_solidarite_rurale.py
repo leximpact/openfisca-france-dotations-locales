@@ -51,7 +51,7 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
 
     def formula(commune, period, parameters):
         # Sources d'exclusion de l'éligibilité...
-        paremetres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion
+        paremetres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
 
         # Situées dans une unité urbaine [agglomération] :
         # 1° a) Représentant au moins 10 % de la population du département
