@@ -1,6 +1,7 @@
 
 ## Références législatives
 
+* [Code général des collectivités territoriales](https://www.legifrance.gouv.fr/affichCode.do?cidTexte=LEGITEXT000006070633)
 * [Toutes notes dotations de la DGCL](http://www.dotations-dgcl.interieur.gouv.fr/consultation/informations_repartition.php)
 
 ### Dotation de Solidarité Rurale
