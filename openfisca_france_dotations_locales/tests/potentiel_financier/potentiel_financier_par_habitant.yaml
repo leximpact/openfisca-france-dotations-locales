@@ -11,7 +11,7 @@
 
 
 - name: Potentiel financier par habitant. \
-    Quelle moyenne pour plusieurs communes de la même strate ?
+    Moyenne pour plusieurs communes de la même strate.
   period: 2020
   input:
     outre_mer: [False, False, False, False]
@@ -24,7 +24,7 @@
 
 
 - name: Potentiel financier par habitant. \
-    Doit ignorer l'outre mer
+    Doit ignorer l'outre-mer.
   period: 2020
   input:
     outre_mer: [True, False, False, False]
@@ -33,11 +33,11 @@
   output:
     strate_demographique: [1, 1, 1, 2]
     potentiel_financier_par_habitant: [0.2, 2, 2, 3]
-    potentiel_financier_par_habitant_moyen: [2, 2, 2, 3]
+    potentiel_financier_par_habitant_moyen: [0, 2, 2, 3]
 
 
 - name: Potentiel financier par habitant. \
-    Doit prendre le quotient des sommes et non la moyenne des quotients
+    Doit prendre le quotient des sommes et non la moyenne des quotients.
   period: 2020
   input:
     outre_mer: [False, False, False, False]
