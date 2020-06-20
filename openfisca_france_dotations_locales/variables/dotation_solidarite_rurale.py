@@ -42,6 +42,75 @@ class dsr_eligible_fraction_perequation(Variable):
         return (~outre_mer) * (population_dgf < seuil_nombre_habitants) * (potentiel_financier_par_habitant <= plafond)
 
 
+class dsr_exclue_fraction_bourg_centre_agglomeration(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        paremetres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
+
+        # Situées dans une unité urbaine [agglomération]
+        # et remplissant au moins une des conditions suivantes :
+        # 1° a) Représentant au moins 10 % de la population du département
+        #        ou comptant plus de 250 000 habitants ;
+        # 1° b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
+        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_agglomeration_departement
+        pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
+        taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
+
+        population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
+        population_dgf_maximum_commune_agglomeration = commune("population_dgf_maximum_commune_agglomeration", period)
+        chef_lieu_departement_dans_agglomeration = commune("chef_lieu_departement_dans_agglomeration", period)
+        part_population_agglomeration_departement = commune("part_population_agglomeration_departement", period)
+
+        return (
+            (part_population_agglomeration_departement >= part_max_pop_departement)
+            | (population_dgf_agglomeration >= pop_max_agglo)
+            | (population_dgf_maximum_commune_agglomeration >= taille_max_plus_grande_commune_agglo)
+            | chef_lieu_departement_dans_agglomeration
+            )
+
+
+class dsr_exclue_fraction_bourg_centre_canton(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        # 2° Situées dans un canton dont la commune chef-lieu compte plus de 10 000 habitants,
+        # à l'exception des communes sièges des bureaux centralisateurs ;
+        population_dgf_chef_lieu_de_canton = commune("population_dgf_chef_lieu_de_canton", period)
+        bureau_centralisateur = commune("bureau_centralisateur", period)
+        taille_max_chef_lieu_canton = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion.seuil_population_dgf_chef_lieu_de_canton
+
+        return ((population_dgf_chef_lieu_de_canton >= taille_max_chef_lieu_canton)
+            * not_(bureau_centralisateur))
+
+
+class dsr_exclue_fraction_bourg_centre_pfi(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        # 3° Dont le potentiel financier par habitant (Pfi) est supérieur au double du potentiel
+        # financier moyen par habitant (PFi) des communes de moins de 10 000 habitants.
+        potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
+        ratio_max_potentiel_financier = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion.seuil_rapport_pfi_10000
+
+        outre_mer = commune('outre_mer', period)
+        potentiel_financier = commune('potentiel_financier', period)
+        population_dgf = commune('population_dgf', period)
+
+        taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
+        # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
+        communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
+        pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
+                / np.sum(communes_moins_10000 * population_dgf))
+        return potentiel_financier_par_habitant >= (ratio_max_potentiel_financier * pot_fin_10000)
+
+
 class dsr_exclue_fraction_bourg_centre_type_1(Variable):
     value_type = bool
     entity = Commune
@@ -51,54 +120,13 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
 
     def formula(commune, period, parameters):
         # Sources d'exclusion de l'éligibilité...
-        paremetres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
+        dsr_exclue_fraction_bourg_centre_agglomeration = commune("dsr_exclue_fraction_bourg_centre_agglomeration", period)
+        dsr_exclue_fraction_bourg_centre_canton = commune("dsr_exclue_fraction_bourg_centre_canton", period)
+        dsr_exclue_fraction_bourg_centre_pfi = commune("dsr_exclue_fraction_bourg_centre_pfi", period)
 
-        # Situées dans une unité urbaine [agglomération] :
-        # 1° a) Représentant au moins 10 % de la population du département
-        #        ou comptant plus de 250 000 habitants ;
-        # 1° b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
-        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_agglomeration_departement
-        pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
-        taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
-
-        population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
-        population_dgf_departement_agglomeration = commune("population_dgf_departement_agglomeration", period)
-        population_dgf_maximum_commune_agglomeration = commune("population_dgf_maximum_commune_agglomeration", period)
-        chef_lieu_departement_dans_agglomeration = commune("chef_lieu_departement_dans_agglomeration", period)
-
-        condition_exclusion_1 = (
-            (population_dgf_agglomeration < min_(
-                part_max_pop_departement * population_dgf_departement_agglomeration,
-                pop_max_agglo
-                ))
-            * (population_dgf_maximum_commune_agglomeration < taille_max_plus_grande_commune_agglo)
-            * not_(chef_lieu_departement_dans_agglomeration)
-            )
-
-        # 2° Situées dans un canton dont la commune chef-lieu compte plus de 10 000 habitants,
-        # à l'exception des communes sièges des bureaux centralisateurs ;
-        population_dgf_chef_lieu_de_canton = commune("population_dgf_chef_lieu_de_canton", period)
-        bureau_centralisateur = commune("bureau_centralisateur", period)
-
-        taille_max_chef_lieu_canton = paremetres_exclusion.seuil_population_dgf_chef_lieu_de_canton
-        condition_exclusion_2 = (population_dgf_chef_lieu_de_canton < taille_max_chef_lieu_canton) | bureau_centralisateur
-
-        # 3° Dont le potentiel financier par habitant (Pfi) est supérieur au double du potentiel
-        # financier moyen par habitant (PFi) des communes de moins de 10 000 habitants.
-        potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
-        ratio_max_potentiel_financier = paremetres_exclusion.seuil_rapport_pfi_10000
-
-        outre_mer = commune('outre_mer', period)
-        potentiel_financier = commune('potentiel_financier', period)
-        population_dgf = commune('population_dgf', period)
-
-        taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
-        # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
-        pot_fin_10000 = (np.sum((~outre_mer) * (population_dgf < taille_max_commune) * potentiel_financier)
-                / np.sum((~outre_mer) * (population_dgf < taille_max_commune) * population_dgf))
-        condition_exclusion_3 = potentiel_financier_par_habitant < (ratio_max_potentiel_financier * pot_fin_10000)
-
-        return condition_exclusion_1 * condition_exclusion_2 * condition_exclusion_3
+        return (dsr_exclue_fraction_bourg_centre_agglomeration
+            | dsr_exclue_fraction_bourg_centre_canton
+            | dsr_exclue_fraction_bourg_centre_pfi)
 
 
 class dsr_eligible_fraction_bourg_centre_type_1(Variable):
@@ -138,7 +166,7 @@ class dsr_eligible_fraction_bourg_centre_type_1(Variable):
         preeligible = (~outre_mer) * taille_eligible * (portion_canton_eligible | bureau_centralisateur | chef_lieu_de_canton)
         dsr_exclue_fraction_bourg_centre_type_1 = commune('dsr_exclue_fraction_bourg_centre_type_1', period)
 
-        return preeligible * dsr_exclue_fraction_bourg_centre_type_1
+        return preeligible * not_(dsr_exclue_fraction_bourg_centre_type_1)
 
 
 class dsr_fraction_perequation(Variable):
