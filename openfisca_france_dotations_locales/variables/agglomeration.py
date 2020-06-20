@@ -36,11 +36,23 @@ class population_dgf_departement_agglomeration(Variable):
     '''
 
 
+class part_population_agglomeration_departement(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Part de la population au sens DGF de l'agglomération dans son département"
+
+    def formula(commune, period, parameters):
+        population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
+        population_dgf_departement_agglomeration = commune("population_dgf_departement_agglomeration", period)
+        return population_dgf_agglomeration / population_dgf_departement_agglomeration
+
+
 class population_dgf_maximum_commune_agglomeration(Variable):
     value_type = int
     entity = Commune
     definition_period = YEAR
-    label = "population maximale d'une commune appartenant à l'agglomération de la commune"
+    label = "Population maximale d'une commune appartenant à l'agglomération de la commune"
     reference = [
         'Code général des collectivités territoriales - Article L2334-21',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033878277&cidTexte=LEGITEXT000006070633',
