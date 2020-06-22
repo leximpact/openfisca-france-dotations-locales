@@ -1,0 +1,6 @@
+description: Population DGF de la plus grande commune de l'agglomération à partir de laquelle \
+  une commune est exclue de la fraction bourg-centre de la DSR.
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=E20A5791DDB95B30174E413589D29DE2.tplgfr24s_2?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633&dateTexte=20200618
+values:
+  2019-01-01:
+    value: 100000

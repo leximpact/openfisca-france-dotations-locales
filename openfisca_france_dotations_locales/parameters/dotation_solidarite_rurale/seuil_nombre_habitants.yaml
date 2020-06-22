@@ -1,5 +1,5 @@
 description: Nombre strictement maximal d'habitants de la commune selon population DGF \
-  pour l'attribution de la DSR, fraction péréquation.
+  pour l'attribution de la DSR.
 reference: http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94
 values:
   2019-01-01:

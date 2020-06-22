@@ -1,0 +1,9 @@
+# Fichier optionnel regroupant les metadata du noeud 'dotation_solidarite_rurale'.
+
+description: Dotation de solidarité rurale.
+reference: http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94
+documentation: |
+  [2019] La dotation de solidarité rurale est attribuée pour tenir compte, 
+  d'une part, des charges que supportent les communes rurales 
+  pour maintenir un niveau de services suffisant, 
+  et d'autre part, de l'insuffisance de leurs ressources fiscales.

@@ -1,0 +1,7 @@
+- name: Plafonnement de la population.
+  period: 2020
+  input:
+    population_dgf: [1000000, 100000, 100000, 100000, 100000, 100000]
+    population_insee: [99,100, 499, 500, 1499, 1500]
+  output:
+    population_dgf_plafonnee: [500, 1000, 1000, 2250, 2250, 100000]
