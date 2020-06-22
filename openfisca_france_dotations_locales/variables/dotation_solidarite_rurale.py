@@ -48,7 +48,7 @@ class dsr_exclue_fraction_bourg_centre_agglomeration(Variable):
     definition_period = YEAR
 
     def formula(commune, period, parameters):
-        parametres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
+        parametres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion
 
         # Situées dans une unité urbaine [agglomération]
         # et remplissant au moins une des conditions suivantes :
@@ -82,7 +82,7 @@ class dsr_exclue_fraction_bourg_centre_canton(Variable):
         # à l'exception des communes sièges des bureaux centralisateurs ;
         population_dgf_chef_lieu_de_canton = commune("population_dgf_chef_lieu_de_canton", period)
         bureau_centralisateur = commune("bureau_centralisateur", period)
-        taille_max_chef_lieu_canton = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion.seuil_population_dgf_chef_lieu_de_canton
+        taille_max_chef_lieu_canton = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_population_dgf_chef_lieu_de_canton
 
         return ((population_dgf_chef_lieu_de_canton >= taille_max_chef_lieu_canton)
             * not_(bureau_centralisateur))
@@ -97,7 +97,7 @@ class dsr_exclue_fraction_bourg_centre_pfi(Variable):
         # 3° Dont le potentiel financier par habitant (Pfi) est supérieur au double du potentiel
         # financier moyen par habitant (PFi) des communes de moins de 10 000 habitants.
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
-        ratio_max_potentiel_financier = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion.seuil_rapport_pfi_10000
+        ratio_max_potentiel_financier = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_rapport_pfi_10000
 
         outre_mer = commune('outre_mer', period)
         potentiel_financier = commune('potentiel_financier', period)
