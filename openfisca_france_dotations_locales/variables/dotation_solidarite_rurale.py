@@ -48,16 +48,16 @@ class dsr_exclue_fraction_bourg_centre_agglomeration(Variable):
     definition_period = YEAR
 
     def formula(commune, period, parameters):
-        paremetres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
+        parametres_exclusion = parameters(period).dotation_solidarite_rurale.bourg_centre.exclusion
 
         # Situées dans une unité urbaine [agglomération]
         # et remplissant au moins une des conditions suivantes :
         # 1° a) Représentant au moins 10 % de la population du département
         #        ou comptant plus de 250 000 habitants ;
         # 1° b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
-        part_max_pop_departement = paremetres_exclusion.seuil_part_population_dgf_agglomeration_departement
-        pop_max_agglo = paremetres_exclusion.seuil_population_dgf_agglomeration
-        taille_max_plus_grande_commune_agglo = paremetres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
+        part_max_pop_departement = parametres_exclusion.seuil_part_population_dgf_agglomeration_departement
+        pop_max_agglo = parametres_exclusion.seuil_population_dgf_agglomeration
+        taille_max_plus_grande_commune_agglo = parametres_exclusion.seuil_population_dgf_maximum_commune_agglomeration
 
         population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
         population_dgf_maximum_commune_agglomeration = commune("population_dgf_maximum_commune_agglomeration", period)
@@ -149,14 +149,14 @@ class dsr_eligible_fraction_bourg_centre_type_1(Variable):
     '''
 
     def formula(commune, period, parameters):
-        paremetres_dsr = parameters(period).dotation_solidarite_rurale
+        parametres_dsr = parameters(period).dotation_solidarite_rurale
 
         population_dgf_plafonnee = commune("population_dgf_plafonnee", period)
-        taille_max_commune = paremetres_dsr.seuil_nombre_habitants
+        taille_max_commune = parametres_dsr.seuil_nombre_habitants
         taille_eligible = (population_dgf_plafonnee < taille_max_commune)
 
         part_population_canton = commune("part_population_canton", period)
-        seuil_part_population_canton = paremetres_dsr.bourg_centre.eligibilite.seuil_part_population_canton
+        seuil_part_population_canton = parametres_dsr.bourg_centre.eligibilite.seuil_part_population_canton
         portion_canton_eligible = (part_population_canton >= seuil_part_population_canton)
 
         bureau_centralisateur = commune("bureau_centralisateur", period)
