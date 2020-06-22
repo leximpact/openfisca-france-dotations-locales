@@ -1,0 +1,5 @@
+description: Part du revenu par habitant dans l'indice synthétique d'éligibilité à la fraction cible de la DSR
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633
+values:
+  2019-01-01:
+    value: 0.3
