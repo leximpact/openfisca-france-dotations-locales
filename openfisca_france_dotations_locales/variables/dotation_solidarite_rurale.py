@@ -208,7 +208,7 @@ class dsr_eligible_fraction_bourg_centre_type_2(Variable):
         # Situées dans une agglomération :
         # 1° a) Représentant au moins 10 % de la population du département
         # b) Comptant une commune soit de plus de 100 000 habitants, soit chef-lieu de département ;
-        dsr_bc_part_max_pop_departement = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_part_population_dgf_departement_agglomeration
+        dsr_bc_part_max_pop_departement = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_part_population_dgf_agglomeration_departement
         dsr_bc_pop_max_agglo = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_population_dgf_agglomeration
         dsr_bc_taille_max_plus_grande_commune_agglo = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.exclusion.seuil_population_dgf_maximum_commune_agglomeration
 
