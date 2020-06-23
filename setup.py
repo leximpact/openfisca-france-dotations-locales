@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = "OpenFisca-France_Dotations_Locales",
+    name = "OpenFisca-France-Dotations-Locales",
     version = "0.1.0",
     author = "LexImpact Team",
     author_email = "leximpact@an.fr",
