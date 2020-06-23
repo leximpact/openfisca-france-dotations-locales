@@ -5,8 +5,8 @@ from setuptools import setup, find_packages
 setup(
     name = "OpenFisca-France_Dotations_Locales",
     version = "0.1.0",
-    author = "OpenFisca Team",
-    author_email = "contact@openfisca.org",
+    author = "LexImpact Team",
+    author_email = "leximpact@an.fr",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: GNU Affero General Public License v3",
