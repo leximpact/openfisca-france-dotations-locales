@@ -1,0 +1,12 @@
+{
+    "communes": {
+        "1001-ABERGEMENT-CLEMENCIAT": {
+            "population_dgf": {
+                "2019": 800
+            },
+            "dsr_eligible_fraction_perequation": {
+                "2019": null
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@ import os
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
 from openfisca_france_dotations_locales import entities
-from openfisca_france_dotations_locales.situation_examples import couple
+from openfisca_france_dotations_locales.situation_examples import communes_dsr
 
 
 COUNTRY_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -31,5 +31,5 @@ class CountryTaxBenefitSystem(TaxBenefitSystem):
         self.open_api_config = {
             "variable_example": "population_dgf_plafonnee",
             "parameter_example": "dotation_solidarite_rurale.seuil_nombre_habitants",
-            "simulation_example": couple,
+            "simulation_example": communes_dsr,
             }
