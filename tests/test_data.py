@@ -3,7 +3,7 @@ import pandas
 
 
 def test_csv_communes_criteres_repartition():
-    csv_communes_criteres_repartition = './openfisca_france_dotations_locales/data/2019-communes-criteres-repartition.csv'
+    csv_communes_criteres_repartition = './data/2019-communes-criteres-repartition.csv'
 
     communes_criteres_repartition_2019 = pandas.read_csv(
         csv_communes_criteres_repartition,
