@@ -12,16 +12,18 @@ setup(
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: POSIX",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
         "Topic :: Scientific/Engineering :: Information Analysis",
         ],
     description = "[EN] OpenFisca tax and benefit system for France State endowments to local authorities. \
         [FR] Modèle de microsimulation OpenFisca dédié aux dotations de l'État aux collectivités territoriales.",
     keywords = "France microsimulation local tax endowment",
     license ="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
-    url = "https://github.com/openfisca/country-template",
+    url = "https://github.com/leximpact/openfisca-france-dotations-locales",
     include_package_data = True,  # Will read MANIFEST.in
     data_files = [
-        ("share/openfisca/openfisca-country-template", ["CHANGELOG.md", "LICENSE", "README.md"]),
+        ("share/openfisca/openfisca-france-dotations-locales",
+        ["CHANGELOG.md", "LICENSE", "README.md"]),
         ],
     install_requires = [
         "OpenFisca-Core[web-api] >=27.0,<35.0",
