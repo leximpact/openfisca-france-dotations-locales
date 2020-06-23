@@ -1,7 +1,12 @@
 # OpenFisca France Dotations Locales
 
+[EN] OpenFisca tax and benefit system for France State endowments to local authorities.
 
-The country whose law is modelled here has a very simple tax and benefit system.
+[FR] Modèle de microsimulation OpenFisca dédié aux dotations de l'État aux collectivités territoriales.
+
+**The following documentation is mainly inherited from [openfisca country-tempate](https://github.com/openfisca/country-template). Update is coming... 😊**
+
+The country whose law is modelled here has a simple tax and benefit system.
 
 - It has a flat rate tax whose rates increase every year.
 - On the first of December, 2015, it introduced a basic income for all its citizens of age who have no income.
@@ -171,7 +176,7 @@ Substitute your package's country name for `openfisca_france_dotations_locales` 
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
-  -d @./openfisca_france_dotations_locales/situation_examples/couple.json \
+  -d @./openfisca_france_dotations_locales/situation_examples/communes_dsr.json \
   http://localhost:5000/calculate
 ```
 
