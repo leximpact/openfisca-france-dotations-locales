@@ -53,4 +53,5 @@ class revenu_par_habitant(Variable):
     definition_period = YEAR
 
     def formula(commune, period, parameters):
-        return commune('revenu_total', period) / commune('population_insee', period)
+        population_insee = commune('population_insee', period)
+        return (population_insee > 0) * np.divide(commune('revenu_total', period), population_insee, where = (population_insee > 0))
