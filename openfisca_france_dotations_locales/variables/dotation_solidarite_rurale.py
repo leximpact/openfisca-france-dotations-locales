@@ -134,7 +134,7 @@ class dsr_exclue_fraction_bourg_centre_type_2(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Exclusion du bénéfice de la fraction bourg-centre de la DSR pour les \
-        communes de taille inférieure au seuil de 10 000 habitants"
+        communes de taille comprise entre 10000 et 20000 habitants"
 
     def formula(commune, period, parameters):
         # Sources d'exclusion de l'éligibilité...
@@ -190,7 +190,7 @@ class dsr_eligible_fraction_bourg_centre_type_2(Variable):
     entity = Commune
     definition_period = YEAR
     label = "eligibilité à la fraction bourg-centre de la DSR pour les \
-        communes de taille inférieure au seuil de 10000 habitants"
+        communes de taille comprise entre 10000 et 20000 habitants"
     reference = [
         'Code général des collectivités territoriales - Article L2334-21',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
@@ -221,8 +221,7 @@ class dsr_eligible_fraction_bourg_centre(Variable):
     value_type = bool
     entity = Commune
     definition_period = YEAR
-    label = "eligibilité à la fraction bourg-centre de la DSR pour les \
-        communes de taille inférieure au seuil de 10000 habitants"
+    label = "eligibilité à la fraction bourg-centre de la DSR"
     reference = [
         'Code général des collectivités territoriales - Article L2334-21',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
