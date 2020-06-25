@@ -197,7 +197,7 @@ class dsr_eligible_fraction_bourg_centre_type_2(Variable):
         "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
         ]
     documentation = '''
-        Bénéficient également de cette fraction les chefs-lieux d'arrondissement
+        Bénéficient également de cette fraction [fraction bourg-centre de la DSR dite 1ère fraction] les chefs-lieux d'arrondissement
         au 31 décembre 2014, dont la population est comprise entre 10 000 et
         20 000 habitants, qui n'entrent pas dans les cas prévus aux 1° et 4° ci-dessus.
     '''
@@ -210,7 +210,7 @@ class dsr_eligible_fraction_bourg_centre_type_2(Variable):
 
         taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
         taille_max_chef_lieu_arrondissement = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.seuil_nombre_habitants_chef_lieu
-        taille_eligible = (population_dgf_plafonnee >= taille_max_commune) * (population_dgf_plafonnee < taille_max_chef_lieu_arrondissement)
+        taille_eligible = (population_dgf_plafonnee >= taille_max_commune) * (population_dgf_plafonnee <= taille_max_chef_lieu_arrondissement)
 
         preeligible = (~outre_mer) * taille_eligible * chef_lieu_arrondissement
 

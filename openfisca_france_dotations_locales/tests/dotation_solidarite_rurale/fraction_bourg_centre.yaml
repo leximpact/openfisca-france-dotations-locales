@@ -133,11 +133,7 @@
     population_insee: [10000, 10000, 5000]
     potentiel_financier: [19999, 20001, 5000]
     chef_lieu_arrondissement: [True, True, True]
-    population_dgf_agglomeration: [10000, 10000, 10000]
-    population_dgf_departement_agglomeration: [8000000, 8000000, 8000000]
-    population_dgf_maximum_commune_agglomeration: [10000, 10000, 10000]
   output:
     dsr_exclue_fraction_bourg_centre_pfi: [False, True, False]
     dsr_exclue_fraction_bourg_centre_type_2: [False, True, False]
     dsr_eligible_fraction_bourg_centre_type_2: [True, False, False]
-

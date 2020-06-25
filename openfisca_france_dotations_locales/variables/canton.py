@@ -58,7 +58,7 @@ class chef_lieu_arrondissement(Variable):
         "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
         ]
     documentation = '''
-        Bénéficient également de cette fraction les chefs-lieux d'arrondissement
+        Bénéficient également de cette fraction [type 2 de la 1ère fraction DSR, i.e. la fraction bourg-centre] les chefs-lieux d'arrondissement
         au 31 décembre 2014, dont la population est comprise entre 10 000 et
         20 000 habitants
     '''
