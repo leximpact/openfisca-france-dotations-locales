@@ -109,13 +109,12 @@
 - name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'exclusion au titre de l'agglomération 
   period: 2020
   input:
-    population_dgf: [10000, 10000, 10000, 10000, 9999]
+    population_dgf: [10000, 10000, 10000, 10000, 10000]
     population_insee: [10000, 10000, 10000, 10000, 10000]
     potentiel_financier: [10000, 10000, 10000, 10000, 10000]
     chef_lieu_arrondissement: [True, True, True, True, True]
     population_dgf_agglomeration: [10000, 10000, 250000, 125000, 10000]
-    population_dgf_departement_agglomeration: [800000, 20000, 8000000, 8000000, 80000]
-    population_dgf_maximum_commune_agglomeration: [10000, 10000, 10000, 100000, 10000]
+    part_population_agglomeration_departement: [0.09, 0.11, 0.09, 0.09, 0.09]
     chef_lieu_departement_dans_agglomeration: [False, False, False, False, True]
   output:
     dsr_exclue_fraction_bourg_centre_agglomeration: [False, True, True, True, True]
