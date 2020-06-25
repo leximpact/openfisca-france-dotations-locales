@@ -49,6 +49,8 @@
 - name: DSR, éligibilité à la fraction cible, calcul de l'indice synthétique. 
   period: 2020
   input:
+    population_dgf: [100, 100, 100, 100, 100, 100]
+    population_insee: [100, 100, 100, 100, 100, 100]
     revenu_par_habitant_moyen: [10, 10, 10, 10, 10, 10]
     potentiel_financier_par_habitant_moyen: [10, 10, 10, 10, 10, 10]
     dsr_eligible_fraction_cible: [True, True, True, True, True, True]
