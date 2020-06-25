@@ -102,9 +102,6 @@
     outre_mer: [False, True, False, False, False]
     chef_lieu_arrondissement: [False, True, True, True, True]
     part_population_canton: [0.1, 0.1, 0.1, 0.1, 0.1]
-    population_dgf_agglomeration: [10000, 10000, 10000, 20000, 9999]
-    population_dgf_departement_agglomeration: [800000, 800000, 800000, 800000, 800000]
-    population_dgf_maximum_commune_agglomeration: [10000, 10000, 10000, 20000, 9999]
   output:
     dsr_eligible_fraction_bourg_centre_type_2: [False, False, True, False, False]
 
