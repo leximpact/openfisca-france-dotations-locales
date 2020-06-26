@@ -91,3 +91,46 @@
     dsr_exclue_fraction_bourg_centre_pfi: [False, False, True]
     dsr_exclue_fraction_bourg_centre_type_1: [False, False, True]
     dsr_eligible_fraction_bourg_centre_type_1: [True, True, False]
+
+
+- name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'éligibilité (hors exclusion) 
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 10000, 20000, 20001, 9999]
+    population_insee: [10000, 10000, 10000, 20000, 20001, 9999]
+    potentiel_financier: [10000, 10000, 10000, 10000, 10001, 9999]
+    outre_mer: [False, True, False, False, False, False]
+    chef_lieu_arrondissement: [False, True, True, True, True, True]
+    part_population_canton: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+  output:
+    dsr_eligible_fraction_bourg_centre_type_2: [False, False, True, True, False, False]
+
+
+- name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'exclusion au titre de l'agglomération 
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 10000, 10000, 10000]
+    population_insee: [10000, 10000, 10000, 10000, 10000]
+    potentiel_financier: [10000, 10000, 10000, 10000, 10000]
+    chef_lieu_arrondissement: [True, True, True, True, True]
+    population_dgf_agglomeration: [10000, 10000, 250000, 125000, 10000]
+    part_population_agglomeration_departement: [0.09, 0.11, 0.09, 0.09, 0.09]
+    chef_lieu_departement_dans_agglomeration: [False, False, False, False, True]
+    population_dgf_maximum_commune_agglomeration: [800, 800, 80000, 100000, 800]
+  output:
+    dsr_exclue_fraction_bourg_centre_agglomeration: [False, True, True, True, True]
+    dsr_exclue_fraction_bourg_centre_type_2: [False, True, True, True, True]
+    dsr_eligible_fraction_bourg_centre_type_2: [True, False, False, False, False]
+
+
+- name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'exclusion au titre du potentiel financier 
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 5000]
+    population_insee: [10000, 10000, 5000]
+    potentiel_financier: [19999, 20001, 5000]
+    chef_lieu_arrondissement: [True, True, True]
+  output:
+    dsr_exclue_fraction_bourg_centre_pfi: [False, True, False]
+    dsr_exclue_fraction_bourg_centre_type_2: [False, True, False]
+    dsr_eligible_fraction_bourg_centre_type_2: [True, False, False]

@@ -1,0 +1,6 @@
+description: Nombre strictement maximal d'habitants de la commune selon population DGF \
+  pour l'attribution de la DSR fraction bourg-centre si la commune est chef lieu d'arrondissement (dite 1ère fraction, type 2).
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000023650523
+values:
+  2017-01-01:
+    value: 20000

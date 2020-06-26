@@ -27,7 +27,7 @@ setup(
         ],
     extras_require = {
         "dev": [
-            "pandas >= 1.0.4,<1.1",
+            "pandas >= 0.24.0, < 0.25.0",
             "autopep8 == 1.5",
             "flake8 >= 3.5.0,<3.8.0",
             "flake8-print",

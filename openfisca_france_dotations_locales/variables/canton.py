@@ -47,6 +47,23 @@ class chef_lieu_de_canton(Variable):
     '''
 
 
+class chef_lieu_arrondissement(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = ETERNITY
+    label = "Décrit si la commune est chef-lieu d'arrondissement au 31 décembre 2014"
+    reference = [
+        'Code général des collectivités territoriales - Article L2334-21',
+        'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033878277&cidTexte=LEGITEXT000006070633',
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+        ]
+    documentation = '''
+        Bénéficient également de cette fraction [type 2 de la 1ère fraction DSR, i.e. la fraction bourg-centre] les chefs-lieux d'arrondissement
+        au 31 décembre 2014, dont la population est comprise entre 10 000 et
+        20 000 habitants
+    '''
+
+
 class bureau_centralisateur(Variable):
     value_type = bool
     entity = Commune

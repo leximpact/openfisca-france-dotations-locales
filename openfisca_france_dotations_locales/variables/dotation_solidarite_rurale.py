@@ -129,6 +129,22 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
             | dsr_exclue_fraction_bourg_centre_pfi)
 
 
+class dsr_exclue_fraction_bourg_centre_type_2(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+    label = "Exclusion du bénéfice de la fraction bourg-centre de la DSR pour les \
+        communes de taille comprise entre 10000 et 20000 habitants"
+
+    def formula(commune, period, parameters):
+        # Sources d'exclusion de l'éligibilité...
+        dsr_exclue_fraction_bourg_centre_agglomeration = commune("dsr_exclue_fraction_bourg_centre_agglomeration", period)
+        dsr_exclue_fraction_bourg_centre_pfi = commune("dsr_exclue_fraction_bourg_centre_pfi", period)
+
+        return (dsr_exclue_fraction_bourg_centre_agglomeration
+            | dsr_exclue_fraction_bourg_centre_pfi)
+
+
 class dsr_eligible_fraction_bourg_centre_type_1(Variable):
     value_type = bool
     entity = Commune
@@ -167,6 +183,55 @@ class dsr_eligible_fraction_bourg_centre_type_1(Variable):
         dsr_exclue_fraction_bourg_centre_type_1 = commune('dsr_exclue_fraction_bourg_centre_type_1', period)
 
         return preeligible * not_(dsr_exclue_fraction_bourg_centre_type_1)
+
+
+class dsr_eligible_fraction_bourg_centre_type_2(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+    label = "eligibilité à la fraction bourg-centre de la DSR pour les \
+        communes de taille comprise entre 10000 et 20000 habitants"
+    reference = [
+        'Code général des collectivités territoriales - Article L2334-21',
+        'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+        ]
+    documentation = '''
+        Bénéficient également de cette fraction [fraction bourg-centre de la DSR dite 1ère fraction] les chefs-lieux d'arrondissement
+        au 31 décembre 2014, dont la population est comprise entre 10 000 et
+        20 000 habitants, qui n'entrent pas dans les cas prévus aux 1° et 4° ci-dessus.
+    '''
+
+    def formula(commune, period, parameters):
+        population_dgf_plafonnee = commune("population_dgf_plafonnee", period)
+        outre_mer = commune('outre_mer', period)
+        chef_lieu_arrondissement = commune("chef_lieu_arrondissement", period)
+        dsr_exclue_fraction_bourg_centre_type_2 = commune('dsr_exclue_fraction_bourg_centre_type_2', period)
+
+        taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
+        taille_max_chef_lieu_arrondissement = parameters(period).dotation_solidarite_rurale.bourg_centre.eligibilite.seuil_nombre_habitants_chef_lieu
+        taille_eligible = (population_dgf_plafonnee >= taille_max_commune) * (population_dgf_plafonnee <= taille_max_chef_lieu_arrondissement)
+
+        preeligible = (~outre_mer) * taille_eligible * chef_lieu_arrondissement
+
+        return preeligible * not_(dsr_exclue_fraction_bourg_centre_type_2)
+
+
+class dsr_eligible_fraction_bourg_centre(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+    label = "eligibilité à la fraction bourg-centre de la DSR"
+    reference = [
+        'Code général des collectivités territoriales - Article L2334-21',
+        'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+        ]
+
+    def formula(commune, period, parameters):
+        dsr_eligible_fraction_bourg_centre_type_1 = commune("dsr_eligible_fraction_bourg_centre_type_1", period)
+        dsr_eligible_fraction_bourg_centre_type_2 = commune("dsr_eligible_fraction_bourg_centre_type_2", period)
+        return dsr_eligible_fraction_bourg_centre_type_1 | dsr_eligible_fraction_bourg_centre_type_2
 
 
 class dsr_fraction_perequation(Variable):
