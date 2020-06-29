@@ -11,15 +11,15 @@ deps:
 	pip install --upgrade pip twine wheel
 
 install: deps
-	@# Install OpenFisca-Extension-Template for development.
-	@# `make install` installs the editable version of OpenFisca-France.
+	@# Install OpenFisca-France-Dotations-Locales for development.
+	@# `make install` installs the editable version of OpenFisca-France-Dotations-Locales.
 	@# This allows contributors to test as they code.
 	pip install --editable .[dev] --upgrade
 
 build: clean deps
-	@# Install OpenFisca-Extension-Template for deployment and publishing.
+	@# Install OpenFisca-France-Dotations-Locales for deployment and publishing.
 	@# `make build` allows us to be be sure tests are run against the packaged version
-	@# of OpenFisca-Extension-Template, the same we put in the hands of users and reusers.
+	@# of OpenFisca-France-Dotations-Locales, the same we put in the hands of users and reusers.
 	python setup.py bdist_wheel
 	find dist -name "*.whl" -exec pip install --upgrade {}[dev] \;
 
@@ -37,7 +37,7 @@ check-style:
 	flake8 `git ls-files | grep "\.py$$"`
 
 test: clean check-syntax-errors check-style
-	openfisca-run-test --country-package openfisca_france_dotations_locales openfisca_france_dotations_locales/tests
+	openfisca-run-test --country-package openfisca_france_dotations_locales tests
 
 serve-local: build
 	openfisca serve --country-package openfisca_france_dotations_locales

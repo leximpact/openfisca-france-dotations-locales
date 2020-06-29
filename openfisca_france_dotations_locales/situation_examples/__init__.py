@@ -13,5 +13,4 @@ def parse(file_name):
         return json.loads(file.read())
 
 
-single = parse('single.json')
-couple = parse('couple.json')
+communes_dsr = parse('communes_dsr.json')

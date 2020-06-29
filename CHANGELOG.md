@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.1.0 [#3](https://github.com/leximpact/openfisca-france-dotations-locales/pull/3)
+
+* Premier versionnement d'OpenFisca-France-Dotations-Locales.
+* Amélioration technique.
+
+## Hérité du country-tempate openfisca
+
+> Pour plus d'information, consulter le [dépôt du country-tempate](https://github.com/openfisca/country-template).
+
 ### 3.9.10 - [#86](https://github.com/openfisca/country-template/pull/86)
 
 * Technical change.
