@@ -47,5 +47,3 @@
   output:
     revenu_par_habitant_moyen: [10, 10, 10, 10, 10]
     revenu_par_habitant: [10, 6, 11.25, 14, 8.88889]
-    
-    
