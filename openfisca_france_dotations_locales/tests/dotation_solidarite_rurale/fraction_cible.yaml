@@ -1,3 +1,14 @@
+- name: DSR, éligibilité à la fraction cible, \
+    données minimales d'éligibilité et valeurs par défaut y contribuant.
+  period: 2020
+  input:
+    population_dgf: [9999, 10000]
+  output:
+    dsr_eligible_fraction_bourg_centre: [False, False]
+    dsr_eligible_fraction_perequation: [True, False]
+    rang_indice_synthetique_dsr_cible: [1, 0]
+    dsr_eligible_fraction_cible: [True, False]
+
 - name: DSR, éligibilité à la fraction cible, conditions hors classement
   period: 2020
   input:
@@ -47,11 +58,3 @@
   output:
     revenu_par_habitant_moyen: [10, 10, 10, 10, 10]
     revenu_par_habitant: [10, 6, 11.25, 14, 8.88889]
-
-
-- name: toto
-  period: 2020
-  input:
-    population_dgf: [9999, 10000]
-  output:
-    dsr_eligible_fraction_cible: [True, False]
