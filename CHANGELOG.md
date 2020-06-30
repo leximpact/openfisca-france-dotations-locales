@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0 [#4](https://github.com/leximpact/openfisca-france-dotations-locales/pull/4)
+
+* Évolution du système socio-fiscal.
+* Détails :
+  - Ajoute, pour la DSR, l'éligibilité à la fraction cible.
+
 ### 0.1.0 [#3](https://github.com/leximpact/openfisca-france-dotations-locales/pull/3)
 
 * Premier versionnement d'OpenFisca-France-Dotations-Locales.
