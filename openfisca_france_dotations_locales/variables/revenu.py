@@ -16,7 +16,16 @@ class revenu_par_habitant_moyen(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Revenu par habitant moyen des communes appartenant à la même strate hors Outre-mer"
-    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    reference = [
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94",
+        "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
+    ]
+    documentation = '''
+    Le cas particulier de l'Article L2334-22-1 du Code général des collectivités territoriales
+    dédié à la DSR, fraction cible précise : 
+    "Le revenu pris en considération est le dernier revenu fiscal de référence connu.
+    La population prise en compte est celle issue du dernier recensement de population."
+    '''
 
     def formula(commune, period, parameters):
         revenu = commune('revenu_total', period)
