@@ -20,9 +20,9 @@
 - name: DSR, fraction cible classement indice synthetique correspond au score
   period: 2020
   input:
-    indice_synthetique_dsr_cible: [168, 13.2, 1535.0, 12, 8, 0]
+    indice_synthetique_dsr_cible: [168, 13.2, 1535.0, 1536.0, 12, 8, 0]
   output:
-    rang_indice_synthetique_dsr_cible: [2, 3, 1, 4, 5, 6]
+    rang_indice_synthetique_dsr_cible: [2, 3, 1, 0, 4, 5, 6]
   
 
 - name: DSR, éligibilité à la fraction cible, calcul de l'indice synthétique. 
@@ -47,3 +47,11 @@
   output:
     revenu_par_habitant_moyen: [10, 10, 10, 10, 10]
     revenu_par_habitant: [10, 6, 11.25, 14, 8.88889]
+
+
+- name: toto
+  period: 2020
+  input:
+    population_dgf: [9999, 10000]
+  output:
+    dsr_eligible_fraction_cible: [True, False]

@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
@@ -51,9 +51,10 @@ class rang_indice_synthetique_dsr_cible(Variable):
 
     def formula(commune, period, parameters):
         indice_synthetique_dsr_cible = commune("indice_synthetique_dsr_cible", period)
-        rank_indice = pd.DataFrame(indice_synthetique_dsr_cible).rank(method="min", ascending= False)
-        rank_indice.columns = ["rang_indice_synthetique"]
-        return rank_indice["rang_indice_synthetique"].astype(int).values
+
+        indices_quicksort = indice_synthetique_dsr_cible.argsort(kind='quicksort')
+        indices_decroissants = np.flip(indices_quicksort)
+        return indices_decroissants.argsort()
 
 
 class dsr_eligible_fraction_cible(Variable):
