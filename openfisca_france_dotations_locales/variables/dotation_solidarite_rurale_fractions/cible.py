@@ -7,7 +7,7 @@ from openfisca_france_dotations_locales.entities import *
 class indice_synthetique_dsr_cible(Variable):
     value_type = float
     entity = Commune
-    label = "Score pour clasement DSR part cible (indice synthétique)"
+    label = "Score pour clasement DSR fraction cible (indice synthétique)"
     definition_period = YEAR
     reference = [
         'Code général des collectivités territoriales - Article L2334-22-1',
@@ -41,7 +41,7 @@ class indice_synthetique_dsr_cible(Variable):
 class rang_indice_synthetique_dsr_cible(Variable):
     value_type = int
     entity = Commune
-    label = "Rang indice synthétique DSR part cible calculé"
+    label = "Rang calculé des communes par indice synthétique décroissant de la DSR fraction cible"
     definition_period = YEAR
     reference = [
         'Code général des collectivités territoriales - Article L2334-22-1',
@@ -61,7 +61,7 @@ class dsr_eligible_fraction_cible(Variable):
     value_type = bool
     entity = Commune
     definition_period = YEAR
-    label = "Eligibilité DSR part-cible"
+    label = "Eligibilité DSR fraction cible"
     reference = [
         'Code général des collectivités territoriales - Article L2334-22-1',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633',
