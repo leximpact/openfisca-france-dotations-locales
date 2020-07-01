@@ -19,7 +19,7 @@ jobs:
             echo "source /tmp/venv/france_dotations_locales/bin/activate" >> $BASH_ENV
 
       - run:
-          name: Install dependencies
+          name: Remove old builds, install dependencies and build new wheel
           command: |
             make build
             # pip install --editable git+https://github.com/openfisca/openfisca-core.git@BRANCH#egg=OpenFisca-Core[web-api]  # use a specific branch of OpenFisca-Core
@@ -33,6 +33,17 @@ jobs:
           key: v1-py37-build-{{ .Revision }}
           paths:
             - dist
+
+  test:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - restore_cache:
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - restore_cache:
+          key: v1-py37-build-{{ .Revision }}
 
       - run:
           name: Run tests
@@ -72,7 +83,7 @@ jobs:
           command: if ! .circleci/has-functional-changes.sh ; then circleci step halt ; fi
 
       - run:
-          name: Upload a Python package to Pypi
+          name: Upload built Python package to Pypi
           command: |
             source /tmp/venv/france_dotations_locales/bin/activate
             twine upload dist/* --username $PYPI_USERNAME --password $PYPI_PASSWORD
@@ -86,10 +97,12 @@ workflows:
   build_and_deploy:
     jobs:
       - build
+      - test
       - check_version
       - deploy:
           requires:
             - build
+            - test
             - check_version
           filters:
             branches:
