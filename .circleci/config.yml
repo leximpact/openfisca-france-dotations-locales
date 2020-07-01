@@ -104,7 +104,9 @@ workflows:
       - test:
           requires:
             - build
-      - check_version
+      - check_version:
+          requires:
+            - build
       - deploy:
           requires:
             - build
