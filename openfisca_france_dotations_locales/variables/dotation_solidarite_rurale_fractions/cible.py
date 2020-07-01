@@ -1,5 +1,3 @@
-import numpy as np
-
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 
@@ -51,10 +49,14 @@ class rang_indice_synthetique_dsr_cible(Variable):
 
     def formula(commune, period, parameters):
         indice_synthetique_dsr_cible = commune("indice_synthetique_dsr_cible", period)
-
-        indices_quicksort = indice_synthetique_dsr_cible.argsort(kind='quicksort')
-        indices_decroissants = np.flip(indices_quicksort)
-        return indices_decroissants.argsort()
+        # L'utilisation d'un double argsort renvoie un tableau qui contient
+        # la statistique d'ordre (indexée par 0) du tableau d'entrée dans
+        # l'ordre croissant (cf par exemple
+        # https://www.berkayantmen.com/rank.html).
+        # On l'applique sur l'opposé de l'indice synthétique
+        # pour obtenir un classement dans l'ordre décroissant.
+        # les communes de même indice synthétique auront un rang différent (non spécifié par la loi)
+        return (-indice_synthetique_dsr_cible).argsort().argsort()
 
 
 class dsr_eligible_fraction_cible(Variable):
