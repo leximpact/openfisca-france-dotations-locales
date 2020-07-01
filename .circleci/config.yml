@@ -9,7 +9,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-py37-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
           name: Create a virtualenv
@@ -25,7 +25,7 @@ jobs:
             # pip install --editable git+https://github.com/openfisca/openfisca-core.git@BRANCH#egg=OpenFisca-Core[web-api]  # use a specific branch of OpenFisca-Core
 
       - save_cache:
-          key: v1-py37-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/france_dotations_locales
 
@@ -62,7 +62,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-py37-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - restore_cache:
           key: v1-py37-build-{{ .Revision }}
