@@ -39,6 +39,8 @@ jobs:
       - image: python:3.7
 
     steps:
+      - checkout
+
       - restore_cache:
           key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
