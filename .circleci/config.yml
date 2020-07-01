@@ -47,7 +47,9 @@ jobs:
 
       - run:
           name: Run tests
-          command: make test
+          command: |
+            source /tmp/venv/france_dotations_locales/bin/activate
+            make test
 
   check_version:
     docker:
