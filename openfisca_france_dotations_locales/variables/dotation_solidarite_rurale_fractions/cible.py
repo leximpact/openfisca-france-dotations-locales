@@ -25,7 +25,7 @@ class indice_synthetique_dsr_cible(Variable):
         limite_population = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
         parametres_poids = parameters(period).dotation_solidarite_rurale.cible.eligibilite.indice_synthetique
         poids_revenu = parametres_poids.poids_revenu
-        poids_pot_fin = parametres_poids.poids_pot_fin
+        poids_pot_fin = parametres_poids.poids_potentiel_financier
 
         return ((population_dgf < limite_population)
             * (dsr_eligible_fraction_bourg_centre | dsr_eligible_fraction_perequation)
