@@ -6,7 +6,6 @@
   output:
     dsr_eligible_fraction_bourg_centre: [False, False]
     dsr_eligible_fraction_perequation: [True, False]
-    rang_indice_synthetique_dsr_cible: [1, 0]
     dsr_eligible_fraction_cible: [True, False]
 
 - name: DSR, éligibilité à la fraction cible, conditions hors classement \
