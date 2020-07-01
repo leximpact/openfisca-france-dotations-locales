@@ -1,5 +1,7 @@
 # OpenFisca France Dotations Locales
 
+[![CircleCI](https://circleci.com/gh/leximpact/openfisca-france-dotations-locales.svg?style=shield)](https://circleci.com/gh/leximpact/openfisca-france-dotations-locales)
+
 [EN] OpenFisca tax and benefit system for France State endowments to local authorities.
 
 [FR] Modèle de microsimulation OpenFisca dédié aux dotations de l'État aux collectivités territoriales.
