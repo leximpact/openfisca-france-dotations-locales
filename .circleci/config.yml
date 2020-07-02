@@ -9,7 +9,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-py3-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
           name: Create a virtualenv
@@ -19,24 +19,39 @@ jobs:
             echo "source /tmp/venv/france_dotations_locales/bin/activate" >> $BASH_ENV
 
       - run:
-          name: Install dependencies
+          name: Remove old builds, install dependencies and build new wheel
           command: |
             make build
             # pip install --editable git+https://github.com/openfisca/openfisca-core.git@BRANCH#egg=OpenFisca-Core[web-api]  # use a specific branch of OpenFisca-Core
 
       - save_cache:
-          key: v1-py3-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/france_dotations_locales
 
       - save_cache:
-          key: v1-py3-build-{{ .Revision }}
+          key: v1-py37-build-{{ .Revision }}
           paths:
             - dist
 
+  test:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - restore_cache:
+          key: v1-py37-build-{{ .Revision }}
+
       - run:
           name: Run tests
-          command: make test
+          command: |
+            source /tmp/venv/france_dotations_locales/bin/activate
+            make test
 
   check_version:
     docker:
@@ -55,24 +70,24 @@ jobs:
     docker:
       - image: python:3.7
     environment:
-      PYPI_USERNAME: openfisca-bot  # Edit this value to replace it by your Pypi username
+      PYPI_USERNAME: leximpact-bot  # Edit this value to replace it by your Pypi username
       # PYPI_PASSWORD: this value is set in CircleCI's web interface; do not set it here, it is a secret!
 
     steps:
       - checkout
 
       - restore_cache:
-          key: v1-py3-deps-{{ checksum "setup.py" }}
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - restore_cache:
-          key: v1-py3-build-{{ .Revision }}
+          key: v1-py37-build-{{ .Revision }}
 
       - run:
           name: Check for functional changes
           command: if ! .circleci/has-functional-changes.sh ; then circleci step halt ; fi
 
       - run:
-          name: Upload a Python package to Pypi
+          name: Upload built Python package to Pypi
           command: |
             source /tmp/venv/france_dotations_locales/bin/activate
             twine upload dist/* --username $PYPI_USERNAME --password $PYPI_PASSWORD
@@ -86,10 +101,16 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - check_version
+      - test:
+          requires:
+            - build
+      - check_version:
+          requires:
+            - build
       - deploy:
           requires:
             - build
+            - test
             - check_version
           filters:
             branches:
