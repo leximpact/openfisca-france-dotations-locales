@@ -1,0 +1,6 @@
+description: Limite en nombre de communes classées selon l'indice synthétique par ordre décroissant \
+  pour éligibilité à la fraction cible de la DSR
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633
+values:
+  2019-01-01:
+    value: 10000

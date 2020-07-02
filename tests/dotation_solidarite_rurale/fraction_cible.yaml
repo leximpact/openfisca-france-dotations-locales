@@ -1,0 +1,70 @@
+- name: DSR, éligibilité à la fraction cible, \
+    données minimales d'éligibilité et valeurs par défaut y contribuant.
+  period: 2020
+  input:
+    population_dgf: [9999, 10000]
+  output:
+    dsr_eligible_fraction_bourg_centre: [False, False]
+    dsr_eligible_fraction_perequation: [True, False]
+    dsr_eligible_fraction_cible: [True, False]
+
+- name: DSR, éligibilité à la fraction cible, conditions hors classement \
+    (population et éligibilité autres fractions)
+  period: 2020
+  input:
+    population_dgf: [9000, 10000, 9000, 9000, 9000]
+    rang_indice_synthetique_dsr_cible: [1, 1, 1, 1, 1]
+    dsr_eligible_fraction_bourg_centre: [True, True, False, True, False]
+    dsr_eligible_fraction_perequation: [True, True, True, False, False]
+  output:
+    dsr_eligible_fraction_cible: [True, False, True, True, False]
+
+- name: DSR, éligibilité à la fraction cible, classement
+  period: 2020
+  input:
+    population_dgf: [9000, 9000, 9000, 9000, 9000, 9000]
+    rang_indice_synthetique_dsr_cible: [1, 9999, 10000, 10001, 1982, 16857]
+    dsr_eligible_fraction_bourg_centre: [True, True, True, True, True, True]
+  output:
+    dsr_eligible_fraction_cible: [True, True, True, False, True, False]
+
+- name: DSR, fraction cible classement indice synthetique correspond au score
+  period: 2020
+  input:
+    indice_synthetique_dsr_cible: [168, 13.2, 1535.0, 1536.0, 12, 8, 0]
+  output:
+    rang_indice_synthetique_dsr_cible: [2, 3, 1, 0, 4, 5, 6]
+
+- name: DSR, éligibilité à la fraction cible, composition de l'indice synthétique.
+  period: 2020
+  input:
+    revenu_par_habitant_moyen: 20
+    potentiel_financier_par_habitant_moyen: 30
+    dsr_eligible_fraction_cible: True
+    revenu_par_habitant: 10
+    potentiel_financier_par_habitant: 15
+  output:
+    indice_synthetique_dsr_cible: 0.7 * (20 / 10) + 0.3 * (30 / 15)
+
+- name: DSR, éligibilité à la fraction cible, calcul de l'indice synthétique. 
+  period: 2020
+  input:
+    revenu_par_habitant_moyen: [10, 10, 10, 10, 10, 10]
+    potentiel_financier_par_habitant_moyen: [10, 10, 10, 10, 10, 10]
+    dsr_eligible_fraction_cible: [True, True, True, True, True, True]
+    revenu_par_habitant: [10, 20, 5, 20, 10, 10]
+    potentiel_financier_par_habitant: [10, 10, 10, 20, 20, 5]
+  output:
+    indice_synthetique_dsr_cible: [1, 0.85, 1.3, 0.5, 0.65, 1.7]
+
+
+- name: DSR, éligibilité à la fraction cible, calcul du revenu moyen de la strate
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    strate_demographique: [1, 2, 5, 2, 5]
+    population_insee: [100, 500, 4000, 500, 4500]
+    revenu_total: [1000, 3000, 45000, 7000, 40000]
+  output:
+    revenu_par_habitant_moyen: [10, 10, 10, 10, 10]
+    revenu_par_habitant: [10, 6, 11.25, 14, 8.88889]
