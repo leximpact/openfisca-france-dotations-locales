@@ -149,3 +149,19 @@
   output:
     dsr_score_attribution_fraction_bourg_centre: [10000, 13000, 5000, 12000, 12000]
   
+- name: DSR, attribution fraction bourg-centre. Valeur du point
+  period: 2020
+  input:
+    dsr_montant_total_eligibles_fraction_bourg_centre: [100, 100]
+    dsr_score_attribution_fraction_bourg_centre: [3, 7]
+  output:
+    dsr_valeur_point_fraction_bourg_centre: [10, 10]
+  
+
+- name: DSR, attribution fraction bourg-centre. Montant brut attribué
+  period: 2020
+  input:
+    dsr_score_attribution_fraction_bourg_centre: [7, 3]
+    dsr_valeur_point_fraction_bourg_centre: [10, 10]
+  output:
+    dsr_montant_hors_garanties_fraction_bourg_centre: [70, 30]

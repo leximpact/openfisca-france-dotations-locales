@@ -243,6 +243,50 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_zrr * facteur_effort_fiscal
 
 
+class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant disponible pour communes éligibles DSR fraction bourg-centre"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = 545_248_126 - 898_172 - 6_165_344
+        # montant inscrit dans la note. Pour le transformer en formule il faut
+        # que soient implémentés :
+        # le montant global de la dgf (facile)
+        # les formules de garanties pour communes nouvellement non éligibles (moyen)
+        # les garanties communes nouvelles (chaud)
+        # la répartition du montant global vers la DSR (très difficile)
+        return montant_total_a_attribuer
+
+
+class dsr_valeur_point_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction bourg-centre"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_bourg_centre", period)
+        dsr_score_attribution_fraction_bourg_centre = commune("dsr_score_attribution_fraction_bourg_centre", period)
+        score_total = dsr_score_attribution_fraction_bourg_centre.sum()
+        return montant_total_a_attribuer / score_total
+
+
+class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeurs attribuée hors garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_fraction_bourg_centre", period)
+        valeur_point = commune("dsr_valeur_point_fraction_bourg_centre", period)
+        return scores * valeur_point
+
+
 class dsr_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
