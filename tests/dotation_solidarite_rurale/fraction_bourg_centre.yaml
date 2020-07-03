@@ -134,3 +134,18 @@
     dsr_exclue_fraction_bourg_centre_pfi: [False, True, False]
     dsr_exclue_fraction_bourg_centre_type_2: [False, True, False]
     dsr_eligible_fraction_bourg_centre_type_2: [True, False, False]
+
+
+
+- name: DSR, attribution fraction bourg-centre. Calcul du score 
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 5000, 10000, 10000]
+    population_insee: [10000, 10000, 5000, 10000, 10000]
+    potentiel_financier: [10000, 10000, 5000, 10000, 10000]
+    dsr_eligible_fraction_bourg_centre: [True, True, True, True, True]
+    zrr: [False, True, False, False, False]
+    effort_fiscal: [1, 1, 1, 1.2, 1.3]
+  output:
+    dsr_score_attribution_fraction_bourg_centre: [10000, 13000, 5000, 12000, 12000]
+  
