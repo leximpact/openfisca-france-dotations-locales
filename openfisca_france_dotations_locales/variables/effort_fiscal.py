@@ -7,5 +7,3 @@ class effort_fiscal(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Effort fiscal de la commune"
-
-
