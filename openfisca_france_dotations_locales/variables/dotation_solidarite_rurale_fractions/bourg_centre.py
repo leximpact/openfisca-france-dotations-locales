@@ -254,7 +254,7 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
         montant_total_a_attribuer = 545_248_126 - 898_172 - 6_165_344
         # montant inscrit dans la note. Pour le transformer en formule il faut
         # que soient implémentés :
-        # le montant global de la dgf (facile)
+        # le montant global de la dgf (fait dans les paramètres)
         # les formules de garanties pour communes nouvellement non éligibles (moyen)
         # les garanties communes nouvelles (chaud)
         # la répartition du montant global vers la DSR (très difficile)
