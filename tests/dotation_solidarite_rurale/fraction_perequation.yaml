@@ -32,3 +32,15 @@
     outre_mer: [False, False, True]
   output:
     dsr_eligible_fraction_perequation: [True,True, False]
+
+
+- name: DSR, attribution fraction perequation. Montants 
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    dsr_montant_total_eligibles_fraction_perequation: 100
+  output:
+    dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_habitant: 30
+    dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie: 30
+    dsr_montant_total_eligibles_fraction_perequation_part_enfants: 30
+    dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare: 10
