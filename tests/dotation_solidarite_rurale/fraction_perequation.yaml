@@ -56,6 +56,13 @@
   output:
     dsr_score_attribution_perequation_part_potentiel_financier_par_habitant: [5000, 6000, 6000, 7000, 3000, 0]
 
+- name: DSR, attribution fraction perequation - part enfants. Calcul du score 
+  period: 2020
+  input:
+    population_enfants: [1000, 2000, 1000]
+    dsr_eligible_fraction_perequation: [False, True, True]
+  output:
+    dsr_score_attribution_perequation_part_enfants: [0, 2000, 1000]
 
 - name: DSR, attribution fraction perequation - part voirie. Calcul du score 
   period: 2020

@@ -149,6 +149,26 @@ Score d'attribution de la fraction péréquation de la DSR au titre de la voirie
         insulaire = commune('insulaire', period)
 
         return dsr_eligible_fraction_perequation * longueur_voirie * np.where(insulaire | zone_de_montagne, 2, 1)
+
+
+class dsr_score_attribution_perequation_part_enfants(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Score DSR fraction péréquation - enfants:\
+Score d'attribution de la fraction péréquation de la DSR au titre du nombre d'enfants dans la population"
+    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+    documentation = """3° Pour 30 % de son montant, proportionnellement au nombre
+    d'enfants de trois à seize ans domiciliés dans la commune, établi lors du dernier
+    recensement.
+    """
+
+    def formula(commune, period, parameters):
+        population_enfants = commune('population_enfants', period)
+        dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
+
+        return dsr_eligible_fraction_perequation * population_enfants
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
