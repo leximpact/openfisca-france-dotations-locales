@@ -169,6 +169,37 @@ Score d'attribution de la fraction péréquation de la DSR au titre du nombre d'
         dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
 
         return dsr_eligible_fraction_perequation * population_enfants
+
+
+class dsr_score_attribution_perequation_part_potentiel_financier_par_hectare(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Score DSR fraction péréquation - potentiel financier par hectare:\
+Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par hectare"
+    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+    documentation = """4° Pour 10 % de son montant au maximum, en fonction de
+    l'écart entre le potentiel financier par hectare de la commune et le potentiel
+    financier moyen par hectare des communes de moins de 10 000 habitants."""
+
+    def formula(commune, period, parameters):
+        potentiel_financier = commune('potentiel_financier', period)
+        outre_mer = commune('outre_mer', period)
+        potentiel_financier_par_habitant = commune('potentiel_financier_par_hectare', period)
+        dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
+        population_dgf = commune('population_dgf', period)
+        # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
+        taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
+        superficie = commune('superficie', period)
+        communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
+
+        pot_fin_par_hectare_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
+                / np.sum(communes_moins_10000 * superficie))
+
+        facteur_pot_fin = 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000
+
+        return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune

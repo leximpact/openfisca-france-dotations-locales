@@ -73,3 +73,13 @@
     zone_de_montagne: [False, False, False, True, False]
   output:
     dsr_score_attribution_perequation_part_longueur_voirie: [0, 2000, 1000, 2000, 2000]
+- name: DSR, attribution fraction perequation - part potentiel financier par hectare. Calcul du score. 
+  period: 2020
+  absolute_error_margin: 0.0001 #grosses erreurs de floating point quand même
+  input:
+    population_dgf: [1000, 2000, 1000, 1000]
+    potentiel_financier: [1000, 1000, 1200, 800]
+    dsr_eligible_fraction_perequation: [True, True, True, True]
+    superficie: [1000, 1000, 1000, 1000]
+  output:
+    dsr_score_attribution_perequation_part_potentiel_financier_par_hectare: [1000, 2000, 800, 1200]
