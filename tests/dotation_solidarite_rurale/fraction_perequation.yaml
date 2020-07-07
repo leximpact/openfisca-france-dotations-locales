@@ -56,3 +56,13 @@
   output:
     dsr_score_attribution_perequation_part_potentiel_financier_par_habitant: [5000, 6000, 6000, 7000, 3000, 0]
 
+
+- name: DSR, attribution fraction perequation - part voirie. Calcul du score 
+  period: 2020
+  input:
+    longueur_voirie: [1000, 2000, 1000, 1000, 1000]
+    dsr_eligible_fraction_perequation: [False, True, True, True, True]
+    insulaire: [False, False, False, False, True]
+    zone_de_montagne: [False, False, False, True, False]
+  output:
+    dsr_score_attribution_perequation_part_longueur_voirie: [0, 2000, 1000, 2000, 2000]

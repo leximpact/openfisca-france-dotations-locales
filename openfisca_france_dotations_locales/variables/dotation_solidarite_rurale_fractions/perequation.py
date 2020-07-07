@@ -1,6 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-
+import numpy as np
 
 class dsr_eligible_fraction_perequation(Variable):
     value_type = bool
@@ -125,6 +125,30 @@ Score d'attribution de la fraction péréquation de la DSR au titre du potentiel
         return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin * facteur_effort_fiscal
 
 
+class dsr_score_attribution_perequation_part_longueur_voirie(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Score DSR fraction péréquation - longueur voirie:\
+Score d'attribution de la fraction péréquation de la DSR au titre de la voirie"
+    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+    documentation = """2° Pour 30 % de son montant, proportionnellement à la longueur
+    de la voirie classée dans le domaine public communal ; pour les communes situées
+    en zone de montagne ou pour les communes insulaires, la longueur de la voirie est
+    doublée. Pour l'application du présent article, une commune insulaire s'entend
+    d'une commune de métropole située sur une île qui, n'étant pas reliée au continent
+    par une infrastructure routière, comprend une seule commune ou un seul
+    établissement public de coopération intercommunale
+    """
+
+    def formula(commune, period, parameters):
+        longueur_voirie = commune('longueur_voirie', period)
+        zone_de_montagne = commune('zone_de_montagne', period)
+        dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
+        insulaire = commune('insulaire', period)
+
+        return dsr_eligible_fraction_perequation * longueur_voirie * np.where(insulaire | zone_de_montagne, 2, 1)
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
