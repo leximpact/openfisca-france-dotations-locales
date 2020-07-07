@@ -120,3 +120,14 @@
     superficie: [1000, 1000, 1000, 1000]
   output:
     dsr_score_attribution_perequation_part_potentiel_financier_par_hectare: [1000, 2000, 800, 1200]
+
+- name: DSR, attribution fraction perequation - prise en compte des non eligibles mais pas des >= 10000 habitants dans la moyenne. 
+  period: 2020
+  input:
+    population_dgf: [1000, 1000, 10000]
+    potentiel_financier: [1000, 3000, 800]
+    dsr_eligible_fraction_perequation: [True, False, False]
+    superficie: [1000, 1000, 1000]
+  output:
+    dsr_score_attribution_perequation_part_potentiel_financier_par_hectare: [1500, 0, 0]
+
