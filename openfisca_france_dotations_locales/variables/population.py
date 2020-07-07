@@ -90,3 +90,11 @@ class population_dgf_plafonnee(Variable):
 
         # pour les communes  à la population insee < à la clef, la population dgf est plafonnée à value
         return min_(bareme_plafond_dgf.calc(population_insee), population_dgf)
+
+
+class population_enfants(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Nombre d'habitants de 3 à 16 ans (selon le dernier recensement)"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
