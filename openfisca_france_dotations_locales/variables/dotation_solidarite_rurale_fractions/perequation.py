@@ -321,6 +321,23 @@ class dsr_fraction_perequation_part_potentiel_financier_par_hectare(Variable):
         return scores * valeur_point
 
 
+class dsr_montant_hors_garanties_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeurs attribuée hors garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        part_potentiel_financier_par_habitant = commune('dsr_fraction_perequation_part_potentiel_financier_par_habitant', period)
+        part_longueur_voirie = commune('dsr_fraction_perequation_part_longueur_voirie', period)
+        part_enfants = commune('dsr_fraction_perequation_part_enfants', period)
+        part_potentiel_financier_par_hectare = commune('dsr_fraction_perequation_part_potentiel_financier_par_hectare', period)
+        return part_potentiel_financier_par_habitant
+        + part_longueur_voirie
+        + part_enfants
+        + part_potentiel_financier_par_hectare
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
