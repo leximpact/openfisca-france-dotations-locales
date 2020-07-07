@@ -2,6 +2,7 @@ from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 import numpy as np
 
+
 class dsr_eligible_fraction_perequation(Variable):
     value_type = bool
     entity = Commune
@@ -213,9 +214,8 @@ class dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_habitan
         montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_habitant", period)
         dsr_score_attribution = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_habitant", period)
         score_total = dsr_score_attribution.sum()
-        print("to attr", montant_total_a_attribuer)
-        print("score tot", score_total)
         return montant_total_a_attribuer / score_total
+
 
 class dsr_valeur_point_fraction_perequation_part_longueur_voirie(Variable):
     value_type = float
@@ -228,8 +228,6 @@ class dsr_valeur_point_fraction_perequation_part_longueur_voirie(Variable):
         montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie", period)
         dsr_score_attribution = commune("dsr_score_attribution_perequation_part_longueur_voirie", period)
         score_total = dsr_score_attribution.sum()
-        print("to attr", montant_total_a_attribuer)
-        print("score tot", score_total)
         return montant_total_a_attribuer / score_total
 
 
@@ -244,8 +242,6 @@ class dsr_valeur_point_fraction_perequation_part_enfants(Variable):
         montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_enfants", period)
         dsr_score_attribution = commune("dsr_score_attribution_perequation_part_enfants", period)
         score_total = dsr_score_attribution.sum()
-        print("to attr", montant_total_a_attribuer)
-        print("score tot", score_total)
         return montant_total_a_attribuer / score_total
 
 
@@ -260,8 +256,6 @@ class dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare
         montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare", period)
         dsr_score_attribution = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_hectare", period)
         score_total = dsr_score_attribution.sum()
-        print("to attr", montant_total_a_attribuer)
-        print("score tot", score_total)
         return montant_total_a_attribuer / score_total
 
 
@@ -275,7 +269,6 @@ class dsr_fraction_perequation_part_potentiel_financier_par_habitant(Variable):
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_habitant", period)
         valeur_point = commune("dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_habitant", period)
-        print(scores, valeur_point)
         return scores * valeur_point
 
 
@@ -289,7 +282,6 @@ class dsr_fraction_perequation_part_longueur_voirie(Variable):
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_perequation_part_longueur_voirie", period)
         valeur_point = commune("dsr_valeur_point_fraction_perequation_part_longueur_voirie", period)
-        print(scores, valeur_point)
         return scores * valeur_point
 
 
@@ -303,7 +295,6 @@ class dsr_fraction_perequation_part_enfants(Variable):
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_perequation_part_enfants", period)
         valeur_point = commune("dsr_valeur_point_fraction_perequation_part_enfants", period)
-        print(scores, valeur_point)
         return scores * valeur_point
 
 
@@ -317,7 +308,6 @@ class dsr_fraction_perequation_part_potentiel_financier_par_hectare(Variable):
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_hectare", period)
         valeur_point = commune("dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare", period)
-        print(scores, valeur_point)
         return scores * valeur_point
 
 
