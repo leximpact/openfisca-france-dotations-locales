@@ -265,6 +265,62 @@ class dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare
         return montant_total_a_attribuer / score_total
 
 
+class dsr_fraction_perequation_part_potentiel_financier_par_habitant(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
+    fraction péréquation de la DSR au titre du potentiel financier par habitant"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_habitant", period)
+        valeur_point = commune("dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_habitant", period)
+        print(scores, valeur_point)
+        return scores * valeur_point
+
+
+class dsr_fraction_perequation_part_longueur_voirie(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
+    fraction péréquation de la DSR au titre des enfants"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_perequation_part_longueur_voirie", period)
+        valeur_point = commune("dsr_valeur_point_fraction_perequation_part_longueur_voirie", period)
+        print(scores, valeur_point)
+        return scores * valeur_point
+
+
+class dsr_fraction_perequation_part_enfants(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
+    fraction péréquation de la DSR au titre de la longueur de voirie"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_perequation_part_enfants", period)
+        valeur_point = commune("dsr_valeur_point_fraction_perequation_part_enfants", period)
+        print(scores, valeur_point)
+        return scores * valeur_point
+
+
+class dsr_fraction_perequation_part_potentiel_financier_par_hectare(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
+    fraction péréquation de la DSR au titre du potentiel financier par hectare"
+    definition_period = YEAR
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_hectare", period)
+        valeur_point = commune("dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare", period)
+        print(scores, valeur_point)
+        return scores * valeur_point
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
