@@ -44,3 +44,15 @@
     dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie: 30
     dsr_montant_total_eligibles_fraction_perequation_part_enfants: 30
     dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare: 10
+  
+  
+- name: DSR, attribution fraction perequation - part potentiel financier. Calcul du score 
+  period: 2020
+  input:
+    population_dgf: [5000, 5000, 5000, 5000, 5000, 5000]
+    potentiel_financier: [5000, 5000, 5000, 3000, 7000, 5000]
+    dsr_eligible_fraction_perequation: [True, True, True, True, True, False]
+    effort_fiscal: [1, 1.2, 1.3, 1, 1, 1]
+  output:
+    dsr_score_attribution_perequation_part_potentiel_financier_par_habitant: [5000, 6000, 6000, 7000, 3000, 0]
+

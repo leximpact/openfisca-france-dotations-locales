@@ -96,6 +96,35 @@ Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles 
         return commune('dsr_montant_total_eligibles_fraction_perequation', period) * poids
 
 
+class dsr_score_attribution_perequation_part_potentiel_financier_par_habitant(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Score DSR fraction péréquation - potentiel financier par habitant:\
+Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par habitant"
+    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+    documentation = """1° Pour 30 % de son montant, en fonction de la population
+    pondérée par l'écart entre le potentiel financier par habitant de la
+    commune et le potentiel financier moyen par habitant des communes
+    appartenant au même groupe démographique ainsi que par l'effort fiscal
+    plafonné à 1,2 ;"""
+
+    def formula(commune, period, parameters):
+        potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
+        potentiel_financier_par_habitant_strate = commune('potentiel_financier_par_habitant_moyen', period)
+        effort_fiscal = commune('effort_fiscal', period)
+        dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
+        population_dgf = commune('population_dgf', period)
+
+        plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.attribution.plafond_effort_fiscal
+
+        facteur_pot_fin = 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate
+        facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
+
+        return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin * facteur_effort_fiscal
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
