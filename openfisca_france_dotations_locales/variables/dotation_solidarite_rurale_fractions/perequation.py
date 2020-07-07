@@ -200,6 +200,71 @@ Score d'attribution de la fraction péréquation de la DSR au titre du potentiel
         facteur_pot_fin = 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000
 
         return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin
+
+
+class dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_habitant(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction péréquation - part potentiel financier par habitant"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_habitant", period)
+        dsr_score_attribution = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_habitant", period)
+        score_total = dsr_score_attribution.sum()
+        print("to attr", montant_total_a_attribuer)
+        print("score tot", score_total)
+        return montant_total_a_attribuer / score_total
+
+class dsr_valeur_point_fraction_perequation_part_longueur_voirie(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction péréquation - part longueur de voirie"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie", period)
+        dsr_score_attribution = commune("dsr_score_attribution_perequation_part_longueur_voirie", period)
+        score_total = dsr_score_attribution.sum()
+        print("to attr", montant_total_a_attribuer)
+        print("score tot", score_total)
+        return montant_total_a_attribuer / score_total
+
+
+class dsr_valeur_point_fraction_perequation_part_enfants(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction péréquation - part enfants"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_enfants", period)
+        dsr_score_attribution = commune("dsr_score_attribution_perequation_part_enfants", period)
+        score_total = dsr_score_attribution.sum()
+        print("to attr", montant_total_a_attribuer)
+        print("score tot", score_total)
+        return montant_total_a_attribuer / score_total
+
+
+class dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction péréquation - part potentiel financier par hectare"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare", period)
+        dsr_score_attribution = commune("dsr_score_attribution_perequation_part_potentiel_financier_par_hectare", period)
+        score_total = dsr_score_attribution.sum()
+        print("to attr", montant_total_a_attribuer)
+        print("score tot", score_total)
+        return montant_total_a_attribuer / score_total
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune

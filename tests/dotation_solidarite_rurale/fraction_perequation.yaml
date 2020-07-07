@@ -46,6 +46,42 @@
     dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare: 10
   
   
+- name: DSR, attribution fraction perequation part potentiel financier. Valeur du point
+  period: 2020
+  input:
+    dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_habitant: [100, 100]
+    dsr_score_attribution_perequation_part_potentiel_financier_par_habitant: [3, 7]
+  output:
+    dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_habitant: [10, 10]
+    dsr_fraction_perequation_part_potentiel_financier_par_habitant: [30, 70]
+
+- name: DSR, attribution fraction perequation part potentiel financier par hectare. Valeur du point
+  period: 2020
+  input:
+    dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_par_hectare: [100, 100]
+    dsr_score_attribution_perequation_part_potentiel_financier_par_hectare: [3, 7]
+  output:
+    dsr_valeur_point_fraction_perequation_part_potentiel_financier_par_hectare: [10, 10]
+    dsr_fraction_perequation_part_potentiel_financier_par_hectare: [30, 70]
+
+- name: DSR, attribution fraction perequation part enfants. Valeur du point
+  period: 2020
+  input:
+    dsr_montant_total_eligibles_fraction_perequation_part_enfants: [100, 100]
+    dsr_score_attribution_perequation_part_enfants: [3, 7]
+  output:
+    dsr_valeur_point_fraction_perequation_part_enfants: [10, 10]
+    dsr_fraction_perequation_part_enfants: [30, 70]
+
+- name: DSR, attribution fraction perequation part longueur voirie. Valeur du point
+  period: 2020
+  input:
+    dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie: [100, 100]
+    dsr_score_attribution_perequation_part_longueur_voirie: [3, 7]
+  output:
+    dsr_valeur_point_fraction_perequation_part_longueur_voirie: [10, 10]
+    dsr_fraction_perequation_part_longueur_voirie: [30, 70]
+
 - name: DSR, attribution fraction perequation - part potentiel financier. Calcul du score 
   period: 2020
   input:
