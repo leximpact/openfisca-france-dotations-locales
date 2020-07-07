@@ -2,6 +2,7 @@ from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 
 
+
 class indice_synthetique_dsr_cible(Variable):
     value_type = float
     entity = Commune

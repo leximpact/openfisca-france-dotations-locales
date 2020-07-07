@@ -156,7 +156,7 @@
     dsr_score_attribution_fraction_bourg_centre: [3, 7]
   output:
     dsr_valeur_point_fraction_bourg_centre: [10, 10]
-  
+
 
 - name: DSR, attribution fraction bourg-centre. Montant brut attribué
   period: 2020
