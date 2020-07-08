@@ -32,7 +32,7 @@ class dsr_montant_total_eligibles_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
-    label = "Montant disponible pour communes éligibles DSR fraction bourg-centre"
+    label = "Montant disponible pour communes éligibles DSR fraction péréquation"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
 
     def formula(commune, period, parameters):
@@ -314,7 +314,7 @@ class dsr_fraction_perequation_part_potentiel_financier_par_hectare(Variable):
 class dsr_montant_hors_garanties_fraction_perequation(Variable):
     value_type = float
     entity = Commune
-    label = "Valeurs attribuée hors garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    label = "Valeurs attribuée hors garanties de stabilité aux communes éligibles au titre de la fraction péréquation de la DSR"
     definition_period = YEAR
 
     def formula(commune, period, parameters):
