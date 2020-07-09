@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 0.2.1 [#5](https://github.com/leximpact/openfisca-france-dotations-locales/pull/5)
+
+* Changement de la gestion des ratios : ils sont maintenant égaux à 0 quand le dénominateur est égal à 0
+
 ## 0.2.0 [#4](https://github.com/leximpact/openfisca-france-dotations-locales/pull/4)
 
 * Évolution du système socio-fiscal.
