@@ -38,6 +38,8 @@
 - name: DSR, éligibilité à la fraction cible, composition de l'indice synthétique.
   period: 2020
   input:
+    population_dgf: 0
+    population_insee: 0
     revenu_par_habitant_moyen: 20
     potentiel_financier_par_habitant_moyen: 30
     dsr_eligible_fraction_cible: True
