@@ -2,6 +2,7 @@ from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 import numpy as np
 
+
 class indice_synthetique_dsr_cible(Variable):
     value_type = float
     entity = Commune
@@ -33,6 +34,7 @@ class indice_synthetique_dsr_cible(Variable):
             * (poids_pot_fin * np.divide(potentiel_financier_par_habitant_strate, potentiel_financier_par_habitant, where= (potentiel_financier_par_habitant > 0))
             + poids_revenu * np.divide(revenu_par_habitant_strate, revenu_par_habitant, where = (revenu_par_habitant > 0)))
             )
+
 
 class rang_indice_synthetique_dsr_cible(Variable):
     value_type = int
