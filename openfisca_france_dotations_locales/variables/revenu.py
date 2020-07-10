@@ -54,4 +54,4 @@ class revenu_par_habitant(Variable):
 
     def formula(commune, period, parameters):
         population_insee = commune('population_insee', period)
-        return (population_insee > 0) * np.divide(commune('revenu_total', period), population_insee, where = (population_insee > 0))
+        return where(population_insee > 0, commune('revenu_total', period) / population_insee, 0)

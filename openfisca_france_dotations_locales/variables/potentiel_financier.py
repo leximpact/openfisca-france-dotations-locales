@@ -45,4 +45,4 @@ class potentiel_financier_par_habitant(Variable):
 
     def formula(commune, period, parameters):
         population_dgf = commune('population_dgf', period)
-        return (population_dgf > 0) * np.divide(commune('potentiel_financier', period), population_dgf, where = (population_dgf > 0))
+        return where(population_dgf > 0, commune('potentiel_financier', period) / population_dgf, 0)
