@@ -130,6 +130,17 @@
   output:
     dsr_score_attribution_cible_part_potentiel_financier_par_habitant: [5000, 6000, 6000, 7000, 3000, 0]
 
+- name: DSR, attribution fraction cible - part potentiel financier. Outre mer a zéro
+  period: 2020
+  input:
+    population_dgf: [5000, 5000]
+    potentiel_financier: [5000, 5000]
+    dsr_eligible_fraction_cible: [True, False]
+    outre_mer: [False, True]
+    effort_fiscal: [1, 1]
+  output:
+    dsr_score_attribution_cible_part_potentiel_financier_par_habitant: [5000, 0]
+
 - name: DSR, attribution fraction cible - part enfants. Calcul du score 
   period: 2020
   input:

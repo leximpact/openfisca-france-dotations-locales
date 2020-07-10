@@ -120,7 +120,7 @@ Score d'attribution de la fraction péréquation de la DSR au titre du potentiel
 
         plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.attribution.plafond_effort_fiscal
 
-        facteur_pot_fin = 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate
+        facteur_pot_fin = where(potentiel_financier_par_habitant_strate > 0, 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate, 0)
         facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
 
         return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin * facteur_effort_fiscal
