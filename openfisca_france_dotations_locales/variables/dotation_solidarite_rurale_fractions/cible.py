@@ -29,7 +29,6 @@ class indice_synthetique_dsr_cible(Variable):
         poids_pot_fin = parametres_poids.poids_potentiel_financier
 
         return ((population_dgf < limite_population)
-            * (population_dgf > 0)
             * (dsr_eligible_fraction_bourg_centre | dsr_eligible_fraction_perequation)
             * (poids_pot_fin * np.divide(potentiel_financier_par_habitant_strate, potentiel_financier_par_habitant, where= (potentiel_financier_par_habitant > 0))
             + poids_revenu * np.divide(revenu_par_habitant_strate, revenu_par_habitant, where = (revenu_par_habitant > 0)))
