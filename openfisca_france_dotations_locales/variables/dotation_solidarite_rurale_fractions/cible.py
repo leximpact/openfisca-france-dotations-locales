@@ -1,11 +1,12 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
+import numpy as np
 
 
 class indice_synthetique_dsr_cible(Variable):
     value_type = float
     entity = Commune
-    label = "Score pour clasement DSR fraction cible (indice synthétique)"
+    label = "Score pour classement DSR fraction cible (indice synthétique)"
     definition_period = YEAR
     reference = [
         'Code général des collectivités territoriales - Article L2334-22-1',
@@ -203,7 +204,7 @@ Score d'attribution de la fraction cible de la DSR au titre de la voirie"
         dsr_eligible_fraction_cible = commune("dsr_eligible_fraction_cible", period)
         insulaire = commune('insulaire', period)
 
-        return dsr_eligible_fraction_cible * longueur_voirie * np.where(insulaire | zone_de_montagne, 2, 1)
+        return dsr_eligible_fraction_cible * longueur_voirie * where(insulaire | zone_de_montagne, 2, 1)
 
 
 class dsr_score_attribution_cible_part_enfants(Variable):
