@@ -44,9 +44,6 @@ jobs:
       - restore_cache:
           key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
-      - restore_cache:
-          key: v1-py37-build-{{ .Revision }}
-
       - run:
           name: Run tests
           command: |
