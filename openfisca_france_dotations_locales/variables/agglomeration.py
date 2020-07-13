@@ -45,7 +45,7 @@ class part_population_agglomeration_departement(Variable):
     def formula(commune, period, parameters):
         population_dgf_agglomeration = commune("population_dgf_agglomeration", period)
         population_dgf_departement_agglomeration = commune("population_dgf_departement_agglomeration", period)
-        return population_dgf_agglomeration / population_dgf_departement_agglomeration
+        return where(population_dgf_departement_agglomeration > 0, population_dgf_agglomeration / population_dgf_departement_agglomeration, 0)
 
 
 class population_dgf_maximum_commune_agglomeration(Variable):

@@ -1,7 +1,7 @@
 # CircleCI 2.0 configuration file. See <https://circleci.com/docs/2.0/language-python/>.
 version: 2
 jobs:
-  build:
+  install:
     docker:
       - image: python:3.7
 
@@ -19,20 +19,15 @@ jobs:
             echo "source /tmp/venv/france_dotations_locales/bin/activate" >> $BASH_ENV
 
       - run:
-          name: Remove old builds, install dependencies and build new wheel
+          name: Install dependencies
           command: |
-            make build
+            make install
             # pip install --editable git+https://github.com/openfisca/openfisca-core.git@BRANCH#egg=OpenFisca-Core[web-api]  # use a specific branch of OpenFisca-Core
 
       - save_cache:
           key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/france_dotations_locales
-
-      - save_cache:
-          key: v1-py37-build-{{ .Revision }}
-          paths:
-            - dist
 
   test:
     docker:
@@ -44,14 +39,32 @@ jobs:
       - restore_cache:
           key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
 
-      - restore_cache:
-          key: v1-py37-build-{{ .Revision }}
-
       - run:
           name: Run tests
           command: |
             source /tmp/venv/france_dotations_locales/bin/activate
             make test
+
+  build:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - run:
+          name: Remove old builds and build new wheel
+          command: |
+            source /tmp/venv/france_dotations_locales/bin/activate
+            make build
+
+      - save_cache:
+          key: v1-py37-build-{{ .Revision }}
+          paths:
+            - dist
 
   check_version:
     docker:
@@ -100,18 +113,21 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - install
+      - check_version
       - test:
           requires:
-            - build
-      - check_version:
+            - install
+      - build:
           requires:
-            - build
-      - deploy:
-          requires:
-            - build
             - test
             - check_version
+      - deploy:
+          requires:
+            - install
+            - test
+            - check_version
+            - build
           filters:
             branches:
               only: master

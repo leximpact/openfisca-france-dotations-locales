@@ -44,4 +44,5 @@ class potentiel_financier_par_habitant(Variable):
     definition_period = YEAR
 
     def formula(commune, period, parameters):
-        return commune('potentiel_financier', period) / commune('population_dgf', period)
+        population_dgf = commune('population_dgf', period)
+        return where(population_dgf > 0, commune('potentiel_financier', period) / population_dgf, 0)

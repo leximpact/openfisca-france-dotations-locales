@@ -29,9 +29,8 @@ class indice_synthetique_dsr_cible(Variable):
 
         return ((population_dgf < limite_population)
             * (dsr_eligible_fraction_bourg_centre | dsr_eligible_fraction_perequation)
-            * (
-                poids_pot_fin * potentiel_financier_par_habitant_strate / potentiel_financier_par_habitant
-                + poids_revenu * revenu_par_habitant_strate / revenu_par_habitant)
+            * (poids_pot_fin * where(potentiel_financier_par_habitant > 0, potentiel_financier_par_habitant_strate / potentiel_financier_par_habitant, 0)
+            + poids_revenu * where(revenu_par_habitant > 0, revenu_par_habitant_strate / revenu_par_habitant, 0))
             )
 
 
