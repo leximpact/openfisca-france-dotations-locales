@@ -32,11 +32,16 @@ class dsr_montant_total_eligibles_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
-    label = "Montant disponible pour communes éligibles DSR fraction péréquation"
+    label = "Montant disponible pour communes éligibles DSR fraction péréquation en métropole"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    En 2019 : La masse des crédits mis en répartition pour la DSR fraction péréquation
+    en métropole s'élève en 2019 à 645 050 872 €. Le montant des garanties versées
+    aux communes nouvelles inéligibles s’élève à 7 403 713 €.
+    '''
 
     def formula(commune, period, parameters):
-        montant_total_a_attribuer = 645_050_872 - 7_403_123
+        montant_total_a_attribuer = 645_050_872 - 7_403_713
         # montant inscrit dans la note. Pour le transformer en formule il faut
         # que soient implémentés :
         # les formules de garanties pour communes nouvellement non éligibles (moyen)
@@ -50,7 +55,7 @@ class dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction péréquation - potentiel financier par habitant:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du potentiel financier par habitant"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du potentiel financier par habitant"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -63,7 +68,7 @@ class dsr_montant_total_eligibles_fraction_perequation_part_longueur_voirie(Vari
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction péréquation - longueur voirie:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre de la longueur de voirie"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre de la longueur de voirie"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -76,7 +81,7 @@ class dsr_montant_total_eligibles_fraction_perequation_part_enfants(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction péréquation - nombre d'enfants:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du nombre d'enfants"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du nombre d'enfants"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -89,7 +94,7 @@ class dsr_montant_total_eligibles_fraction_perequation_part_potentiel_financier_
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction péréquation - potentiel financier par hectare:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du potentiel financier par hectare"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction péréquation de la DSR au titre du potentiel financier par hectare"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -102,9 +107,10 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_habitant(Va
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction péréquation - potentiel financier par habitant:\
-Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par habitant"
-    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
-            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+        Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par habitant"
+    reference = [
+        "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """1° Pour 30 % de son montant, en fonction de la population
     pondérée par l'écart entre le potentiel financier par habitant de la
     commune et le potentiel financier moyen par habitant des communes
@@ -131,9 +137,10 @@ class dsr_score_attribution_perequation_part_longueur_voirie(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction péréquation - longueur voirie:\
-Score d'attribution de la fraction péréquation de la DSR au titre de la voirie"
-    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
-            "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
+        Score d'attribution de la fraction péréquation de la DSR au titre de la voirie"
+    reference = [
+        "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """2° Pour 30 % de son montant, proportionnellement à la longueur
     de la voirie classée dans le domaine public communal ; pour les communes situées
     en zone de montagne ou pour les communes insulaires, la longueur de la voirie est
