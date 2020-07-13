@@ -207,6 +207,10 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         b) De l'écart entre le potentiel financier moyen par habitant des communes de moins de 10 000 habitants et le potentiel financier par habitant de la commune ;
         c) De l'effort fiscal pris en compte dans la limite de 1,2 ;
         d) D'un coefficient multiplicateur égal à 1,3 pour les communes situées en zones de revitalisation rurale telles que définies à l'article 1465 A du code général des impôts.
+
+        La dotation de solidarité rurale des chefs-lieux d'arrondissement de 10000 à 20 000 habitants
+        est répartie selon les mêmes critères que celle des communes de moins de 10 000 habitants,
+        en prenant en compte leur population DGF dans la limite de 10 000 habitants.
     """
     reference = [
         'Code général des collectivités territoriales - Article L2334-21',
@@ -286,8 +290,12 @@ class dsr_valeur_point_fraction_bourg_centre(Variable):
 class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
-    label = "Valeurs attribuée hors garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    label = "Valeurs attribuée hors 'garanties de stabilité' aux communes éligibles au titre de la fraction bourg-centre de la DSR"
     definition_period = YEAR
+    documentation = '''
+    Par garanties de stabilité on entend l'attribution d'un montant aux nouvelles communes
+    ou aux communes nouvellement sorties de l'éligibilité.
+    '''
 
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_fraction_bourg_centre", period)
