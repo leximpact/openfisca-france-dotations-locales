@@ -29,6 +29,22 @@ jobs:
           paths:
             - /tmp/venv/france_dotations_locales
 
+  test:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - run:
+          name: Run tests
+          command: |
+            source /tmp/venv/france_dotations_locales/bin/activate
+            make test
+
   build:
     docker:
       - image: python:3.7
@@ -49,22 +65,6 @@ jobs:
           key: v1-py37-build-{{ .Revision }}
           paths:
             - dist
-
-  test:
-    docker:
-      - image: python:3.7
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          key: v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}
-
-      - run:
-          name: Run tests
-          command: |
-            source /tmp/venv/france_dotations_locales/bin/activate
-            make test
 
   check_version:
     docker:
@@ -115,18 +115,19 @@ workflows:
     jobs:
       - install
       - check_version
-      - build:
-          requires:
-            - install
       - test:
           requires:
             - install
+      - build:
+          requires:
+            - test
+            - check_version
       - deploy:
           requires:
             - install
-            - build
             - test
             - check_version
+            - build
           filters:
             branches:
               only: master
