@@ -1,9 +1,12 @@
 # Changelog
 
 
-## 0.2.1 [#5](https://github.com/leximpact/openfisca-france-dotations-locales/pull/5)
+### 0.2.1 [#5](https://github.com/leximpact/openfisca-france-dotations-locales/pull/5)
 
-* Changement de la gestion des ratios : ils sont maintenant égaux à 0 quand le dénominateur est égal à 0
+* Changement mineur et correction d'un crash en CI.
+* Détails :
+  - Changement de la gestion des ratios : ils sont maintenant égaux à 0 quand le dénominateur est égal à 0
+  - En CI, teste désormais le code source (et non plus la wheel) afin de résoudre un manque de mise à jour du cache `v1-py37-deps-{{ .Branch }}-{{ checksum "setup.py" }}`
 
 ## 0.2.0 [#4](https://github.com/leximpact/openfisca-france-dotations-locales/pull/4)
 
@@ -11,7 +14,7 @@
 * Détails :
   - Ajoute, pour la DSR, l'éligibilité à la fraction cible.
 
-### 0.1.0 [#3](https://github.com/leximpact/openfisca-france-dotations-locales/pull/3)
+## 0.1.0 [#3](https://github.com/leximpact/openfisca-france-dotations-locales/pull/3)
 
 * Premier versionnement d'OpenFisca-France-Dotations-Locales.
 * Amélioration technique.
