@@ -247,10 +247,16 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
-    label = "Montant disponible pour communes éligibles DSR fraction bourg-centre"
+    label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
+    s’élève à 45 248 126 €. Le montant des garanties versées aux communes
+    devenues inéligibles en 2018 (hors communes nouvelles) représente 898 172 €.
+    Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
+    '''
 
-    def formula(commune, period, parameters):
+    def formula_2019_01(commune, period, parameters):
         montant_total_a_attribuer = 545_248_126 - 898_172 - 6_165_344
         # montant inscrit dans la note. Pour le transformer en formule il faut
         # que soient implémentés :
