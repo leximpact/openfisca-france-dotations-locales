@@ -7,5 +7,6 @@ class zrr(Variable):
     entity = Commune
     definition_period = ETERNITY
     label = "Commune située en Zone de Revitalisation Rurale (ZRR)"
-    reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006069577&idArticle=LEGIARTI000006306203",
-    "https://www.data.gouv.fr/fr/datasets/zones-de-revitalisation-rurale-zrr/"]
+    reference = [
+        "https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006069577&idArticle=LEGIARTI000006306203",
+        "https://www.data.gouv.fr/fr/datasets/zones-de-revitalisation-rurale-zrr/"]
