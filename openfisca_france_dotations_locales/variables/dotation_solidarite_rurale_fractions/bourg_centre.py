@@ -200,8 +200,9 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
-    label = "Score en fonction duquel le montant de la fraction bourg centre est réparti au sein des communes éligibles"
-    documentation = """L'attribution revenant à chaque commune est déterminée en fonction :
+    label = "Score en fonction duquel le montant de la fraction bourg-centre est réparti au sein des communes éligibles"
+    documentation = """Extrait du CGCT, Article L2334-21 :
+        L'attribution revenant à chaque commune est déterminée en fonction :
         a) De la population prise en compte dans la limite de 10 000 habitants ;
         b) De l'écart entre le potentiel financier moyen par habitant des communes de moins de 10 000 habitants et le potentiel financier par habitant de la commune ;
         c) De l'effort fiscal pris en compte dans la limite de 1,2 ;
@@ -210,11 +211,11 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
     reference = [
         'Code général des collectivités territoriales - Article L2334-21',
         'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
-        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+        'http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94'
         ]
 
     def formula(commune, period, parameters):
-        population_dgf_plafonnee = commune("population_dgf_plafonnee", period)
+        population_dgf_plafonnee = commune("population_dgf_plafonnee", period)  # cf. Article L2334-21
         potentiel_financier = commune('potentiel_financier', period)
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
         effort_fiscal = commune('effort_fiscal', period)
@@ -223,24 +224,25 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         outre_mer = commune('outre_mer', period)
         population_dgf = commune('population_dgf', period)
 
-        taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
+        parameters_dsr = parameters(period).dotation_solidarite_rurale
 
-        coefficient_zrr = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.coefficient_zrr
-        plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.plafond_effort_fiscal
-        plafond_population = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.plafond_population
+        plafond_effort_fiscal = parameters_dsr.bourg_centre.attribution.plafond_effort_fiscal
+        plafond_population = parameters_dsr.bourg_centre.attribution.plafond_population
+        population_attribution = np.minimum(population_dgf_plafonnee, plafond_population)
+
+        coefficient_zrr = parameters_dsr.bourg_centre.attribution.coefficient_zrr
 
         # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
+        taille_max_commune = parameters_dsr.seuil_nombre_habitants
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
-
         pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
                 / np.sum(communes_moins_10000 * population_dgf))
 
-        population_attribution = np.minimum(population_dgf_plafonnee, plafond_population)
         facteur_pot_fin = 2 - potentiel_financier_par_habitant / pot_fin_10000
         facteur_zrr = np.where(zrr, coefficient_zrr, 1.0)
         facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
 
-        return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_zrr * facteur_effort_fiscal
+        return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_effort_fiscal * facteur_zrr
 
 
 class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
