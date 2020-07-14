@@ -143,3 +143,13 @@
   output:
     dsr_score_attribution_perequation_part_potentiel_financier_par_hectare: [1500, 0, 0]
 
+- name: DSR, attribution fraction péréquation. Montants se somment correctement
+  period: 2020
+  input:
+    dsr_fraction_perequation_part_potentiel_financier_par_habitant: 30
+    dsr_fraction_perequation_part_longueur_voirie: 30
+    dsr_fraction_perequation_part_enfants: 30
+    dsr_fraction_perequation_part_potentiel_financier_par_hectare: 10
+  output:
+    dsr_montant_hors_garanties_fraction_perequation: 100
+

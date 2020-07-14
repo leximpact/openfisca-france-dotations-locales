@@ -329,10 +329,10 @@ class dsr_montant_hors_garanties_fraction_perequation(Variable):
         part_longueur_voirie = commune('dsr_fraction_perequation_part_longueur_voirie', period)
         part_enfants = commune('dsr_fraction_perequation_part_enfants', period)
         part_potentiel_financier_par_hectare = commune('dsr_fraction_perequation_part_potentiel_financier_par_hectare', period)
-        return part_potentiel_financier_par_habitant
+        return (part_potentiel_financier_par_habitant
         + part_longueur_voirie
         + part_enfants
-        + part_potentiel_financier_par_hectare
+        + part_potentiel_financier_par_hectare)
 
 
 class dsr_fraction_perequation(Variable):
