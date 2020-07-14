@@ -242,7 +242,7 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
                 / np.sum(communes_moins_10000 * population_dgf))
 
-        facteur_pot_fin = 2 - potentiel_financier_par_habitant / pot_fin_10000
+        facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_10000)
         facteur_zrr = np.where(zrr, coefficient_zrr, 1.0)
         facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
 

@@ -163,12 +163,12 @@
   period: 2020
   absolute_error_margin: 0.0001 #grosses erreurs de floating point quand même
   input:
-    population_dgf: [1000, 2000, 1000, 1000]
-    potentiel_financier: [1000, 1000, 1200, 800]
-    dsr_eligible_fraction_cible: [True, True, True, True]
-    superficie: [1000, 1000, 1000, 1000]
+    population_dgf: [1000, 2000, 1000, 1000, 1000, 1000]
+    potentiel_financier: [1000, 1000, 1200, 800, 495, 505]
+    dsr_eligible_fraction_cible: [True, True, True, True, True, True]
+    superficie: [1000, 1000, 1000, 1000, 990, 10]
   output:
-    dsr_score_attribution_cible_part_potentiel_financier_par_hectare: [1000, 2000, 800, 1200]
+    dsr_score_attribution_cible_part_potentiel_financier_par_hectare: [1000, 2000, 800, 1200, 1500, 0]
 
 - name: DSR, attribution fraction cible - prise en compte des non eligibles mais pas des >= 10000 habitants dans la moyenne. 
   period: 2020
