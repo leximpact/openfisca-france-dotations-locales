@@ -1,7 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-import numpy as np
-
+from numpy import sum
 
 class dsr_eligible_fraction_perequation(Variable):
     value_type = bool
@@ -127,7 +126,7 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_habitant(Va
         plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.attribution.plafond_effort_fiscal
 
         facteur_pot_fin = where(potentiel_financier_par_habitant_strate > 0, max_(0, 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate), 0)
-        facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
+        facteur_effort_fiscal = min_(plafond_effort_fiscal, effort_fiscal)
 
         return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin * facteur_effort_fiscal
 
@@ -156,7 +155,7 @@ class dsr_score_attribution_perequation_part_longueur_voirie(Variable):
         dsr_eligible_fraction_perequation = commune("dsr_eligible_fraction_perequation", period)
         insulaire = commune('insulaire', period)
 
-        return dsr_eligible_fraction_perequation * longueur_voirie * np.where(insulaire | zone_de_montagne, 2, 1)
+        return dsr_eligible_fraction_perequation * longueur_voirie * where(insulaire | zone_de_montagne, 2, 1)
 
 
 class dsr_score_attribution_perequation_part_enfants(Variable):
@@ -164,7 +163,7 @@ class dsr_score_attribution_perequation_part_enfants(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction péréquation - enfants:\
-Score d'attribution de la fraction péréquation de la DSR au titre du nombre d'enfants dans la population"
+        Score d'attribution de la fraction péréquation de la DSR au titre du nombre d'enfants dans la population"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """3° Pour 30 % de son montant, proportionnellement au nombre
@@ -184,7 +183,7 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_hectare(Var
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction péréquation - potentiel financier par hectare:\
-Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par hectare"
+        Score d'attribution de la fraction péréquation de la DSR au titre du potentiel financier par hectare"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """4° Pour 10 % de son montant au maximum, en fonction de
@@ -202,8 +201,8 @@ Score d'attribution de la fraction péréquation de la DSR au titre du potentiel
         superficie = commune('superficie', period)
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
 
-        pot_fin_par_hectare_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
-                / np.sum(communes_moins_10000 * superficie))
+        pot_fin_par_hectare_10000 = (sum(communes_moins_10000 * potentiel_financier)
+                / sum(communes_moins_10000 * superficie))
 
         facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000)
 

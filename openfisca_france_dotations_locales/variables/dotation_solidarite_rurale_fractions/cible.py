@@ -106,7 +106,7 @@ class dsr_montant_total_eligibles_fraction_cible_part_potentiel_financier_par_ha
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction cible - potentiel financier par habitant:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du potentiel financier par habitant"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du potentiel financier par habitant"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -119,7 +119,7 @@ class dsr_montant_total_eligibles_fraction_cible_part_longueur_voirie(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction cible - longueur voirie:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre de la longueur de voirie"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre de la longueur de voirie"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -132,7 +132,7 @@ class dsr_montant_total_eligibles_fraction_cible_part_enfants(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction cible - nombre d'enfants:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du nombre d'enfants"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du nombre d'enfants"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -145,7 +145,7 @@ class dsr_montant_total_eligibles_fraction_cible_part_potentiel_financier_par_he
     entity = Commune
     definition_period = YEAR
     label = "Montant total DSR fraction cible - potentiel financier par hectare:\
-Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du potentiel financier par hectare"
+        Valeur totale attribuée (hors garanties de stabilité) aux communes éligibles à la fraction cible de la DSR au titre du potentiel financier par hectare"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -158,7 +158,7 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_habitant(Variable
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction cible - potentiel financier par habitant:\
-Score d'attribution de la fraction cible de la DSR au titre du potentiel financier par habitant"
+        Score d'attribution de la fraction cible de la DSR au titre du potentiel financier par habitant"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """1° Pour 30 % de son montant, en fonction de la population
@@ -186,7 +186,7 @@ class dsr_score_attribution_cible_part_longueur_voirie(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction cible - longueur voirie:\
-Score d'attribution de la fraction cible de la DSR au titre de la voirie"
+        Score d'attribution de la fraction cible de la DSR au titre de la voirie"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """2° Pour 30 % de son montant, proportionnellement à la longueur
@@ -212,7 +212,7 @@ class dsr_score_attribution_cible_part_enfants(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction cible - enfants:\
-Score d'attribution de la fraction cible de la DSR au titre du nombre d'enfants dans la population"
+        Score d'attribution de la fraction cible de la DSR au titre du nombre d'enfants dans la population"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """3° Pour 30 % de son montant, proportionnellement au nombre
@@ -232,7 +232,7 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_hectare(Variable)
     entity = Commune
     definition_period = YEAR
     label = "Score DSR fraction cible - potentiel financier par hectare:\
-Score d'attribution de la fraction cible de la DSR au titre du potentiel financier par hectare"
+        Score d'attribution de la fraction cible de la DSR au titre du potentiel financier par hectare"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """4° Pour 10 % de son montant au maximum, en fonction de

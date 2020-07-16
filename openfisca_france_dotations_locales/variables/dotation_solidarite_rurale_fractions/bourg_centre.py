@@ -257,7 +257,7 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
     documentation = '''
     2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
-    s’élève à 45 248 126 €. Le montant des garanties versées aux communes
+    s’élève à [5]45 248 126 €. Le montant des garanties versées aux communes
     devenues inéligibles en 2018 (hors communes nouvelles) représente 898 172 €.
     Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
     '''
