@@ -22,8 +22,8 @@ class dsr_eligible_fraction_perequation(Variable):
 
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
         potentiel_financier_par_habitant_strate = commune('potentiel_financier_par_habitant_moyen', period)
-
-        plafond = 2 * potentiel_financier_par_habitant_strate
+        plafond_ratio_pot_fin = parameters(period).dotation_solidarite_rurale.perequation.seuil_rapport_potentiel_financier
+        plafond = plafond_ratio_pot_fin * potentiel_financier_par_habitant_strate
         outre_mer = commune('outre_mer', period)
         return (~outre_mer) * (population_dgf < seuil_nombre_habitants) * (potentiel_financier_par_habitant <= plafond)
 
