@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 [#8](https://github.com/leximpact/openfisca-france-dotations-locales/pull/8)
+
+* Évolution du système socio-fiscal.
+* Détails :
+  - Ajoute un paramètre : le ratio maximum de potentiel financier. 
+
 ## 0.3.0 [#7](https://github.com/leximpact/openfisca-france-dotations-locales/pull/7)
 
 * Évolution du système socio-fiscal.
