@@ -46,3 +46,16 @@ class potentiel_financier_par_habitant(Variable):
     def formula(commune, period, parameters):
         population_dgf = commune('population_dgf', period)
         return where(population_dgf > 0, commune('potentiel_financier', period) / population_dgf, 0)
+
+
+class potentiel_financier_par_hectare(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Potentiel financier par hectare de la comune"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        potentiel_financier = commune('potentiel_financier', period)
+        superficie = commune('superficie', period)
+        return where(superficie > 0, potentiel_financier / superficie, 0)

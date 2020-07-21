@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 [#7](https://github.com/leximpact/openfisca-france-dotations-locales/pull/7)
+
+* Évolution du système socio-fiscal.
+* Détails :
+  - Ajoute le calcul des montants hors garantie de la DSR pour les trois fractions de la DSR.
 
 ### 0.2.1 [#5](https://github.com/leximpact/openfisca-france-dotations-locales/pull/5)
 

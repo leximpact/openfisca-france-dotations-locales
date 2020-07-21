@@ -196,6 +196,113 @@ class dsr_eligible_fraction_bourg_centre(Variable):
         return dsr_eligible_fraction_bourg_centre_type_1 | dsr_eligible_fraction_bourg_centre_type_2
 
 
+class dsr_score_attribution_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Score en fonction duquel le montant de la fraction bourg-centre est réparti au sein des communes éligibles"
+    documentation = """Extrait du CGCT, Article L2334-21 :
+        L'attribution revenant à chaque commune est déterminée en fonction :
+        a) De la population prise en compte dans la limite de 10 000 habitants ;
+        b) De l'écart entre le potentiel financier moyen par habitant des communes de moins de 10 000 habitants et le potentiel financier par habitant de la commune ;
+        c) De l'effort fiscal pris en compte dans la limite de 1,2 ;
+        d) D'un coefficient multiplicateur égal à 1,3 pour les communes situées en zones de revitalisation rurale telles que définies à l'article 1465 A du code général des impôts.
+
+        La dotation de solidarité rurale des chefs-lieux d'arrondissement de 10000 à 20 000 habitants
+        est répartie selon les mêmes critères que celle des communes de moins de 10 000 habitants,
+        en prenant en compte leur population DGF dans la limite de 10 000 habitants.
+    """
+    reference = [
+        'Code général des collectivités territoriales - Article L2334-21',
+        'https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633',
+        'http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94'
+        ]
+
+    def formula(commune, period, parameters):
+        population_dgf_plafonnee = commune("population_dgf_plafonnee", period)  # cf. Article L2334-21
+        potentiel_financier = commune('potentiel_financier', period)
+        potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
+        effort_fiscal = commune('effort_fiscal', period)
+        zrr = commune('zrr', period)
+        dsr_eligible_fraction_bourg_centre = commune("dsr_eligible_fraction_bourg_centre", period)
+        outre_mer = commune('outre_mer', period)
+        population_dgf = commune('population_dgf', period)
+
+        parameters_dsr = parameters(period).dotation_solidarite_rurale
+
+        plafond_effort_fiscal = parameters_dsr.bourg_centre.attribution.plafond_effort_fiscal
+        plafond_population = parameters_dsr.bourg_centre.attribution.plafond_population
+        population_attribution = np.minimum(population_dgf_plafonnee, plafond_population)
+
+        coefficient_zrr = parameters_dsr.bourg_centre.attribution.coefficient_zrr
+
+        # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
+        taille_max_commune = parameters_dsr.seuil_nombre_habitants
+        communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
+        pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
+                / np.sum(communes_moins_10000 * population_dgf))
+
+        facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_10000)
+        facteur_zrr = np.where(zrr, coefficient_zrr, 1.0)
+        facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
+
+        return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_effort_fiscal * facteur_zrr
+
+
+class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
+    s’élève à [5]45 248 126 €. Le montant des garanties versées aux communes
+    devenues inéligibles en 2018 (hors communes nouvelles) représente 898 172 €.
+    Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
+    '''
+
+    def formula_2019_01(commune, period, parameters):
+        montant_total_a_attribuer = 545_248_126 - 898_172 - 6_165_344
+        # montant inscrit dans la note. Pour le transformer en formule il faut
+        # que soient implémentés :
+        # le montant global de la dgf (fait dans les paramètres)
+        # les formules de garanties pour communes nouvellement non éligibles (moyen)
+        # les garanties communes nouvelles (chaud)
+        # la répartition du montant global vers la DSR (très difficile)
+        return montant_total_a_attribuer
+
+
+class dsr_valeur_point_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Valeur du point DSR fraction bourg-centre"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+
+    def formula(commune, period, parameters):
+        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_bourg_centre", period)
+        dsr_score_attribution_fraction_bourg_centre = commune("dsr_score_attribution_fraction_bourg_centre", period)
+        score_total = dsr_score_attribution_fraction_bourg_centre.sum()
+        return montant_total_a_attribuer / score_total
+
+
+class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    label = "Valeurs attribuée hors 'garanties de stabilité' aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    definition_period = YEAR
+    documentation = '''
+    Par garanties de stabilité on entend l'attribution d'un montant aux nouvelles communes
+    ou aux communes nouvellement sorties de l'éligibilité.
+    '''
+
+    def formula(commune, period, parameters):
+        scores = commune("dsr_score_attribution_fraction_bourg_centre", period)
+        valeur_point = commune("dsr_valeur_point_fraction_bourg_centre", period)
+        return scores * valeur_point
+
+
 class dsr_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune

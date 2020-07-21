@@ -1,0 +1,6 @@
+description: Limite prise en compte de la population DGF dans le calcul de la fraction bourg-centre\
+  en nombre d'habitants
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633&dateTexte=20200616
+values:
+  2019-01-01:
+    value: 10000

@@ -1,0 +1,7 @@
+- name: Potentiel financier par hectare. 
+  period: 2020
+  input:
+    superficie: [499, 500, 4000, 200000]
+    potentiel_financier: [499, 1000, 12000, 300000]
+  output:
+    potentiel_financier_par_hectare: [1, 2, 3, 1.5]

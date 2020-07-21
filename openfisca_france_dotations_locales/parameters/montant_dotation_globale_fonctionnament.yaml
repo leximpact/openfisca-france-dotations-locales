@@ -1,0 +1,6 @@
+description: Montant global DGF
+unit: currency
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000030022048
+values:
+  2019-01-01:
+    value: 26846874416
