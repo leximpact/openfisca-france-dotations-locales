@@ -33,7 +33,6 @@ setup(
             "pandas >= 0.24.0, < 0.25.0",
             "autopep8 == 1.5",
             "flake8 >= 3.5.0,<3.8.0",
-            "flake8-print",
             "pycodestyle >= 2.3.0,<2.6.0",  # To avoid incompatibility with flake
             ]
         },
