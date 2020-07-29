@@ -1,0 +1,5 @@
+description: Coefficient multiplicateur affecté au ratio de population en Zone franche urbaine dans le calcul du score d'attribution de la DSU
+reference: https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633&dateTexte=20200622
+values:
+  2019-01-01:
+    value: 1
