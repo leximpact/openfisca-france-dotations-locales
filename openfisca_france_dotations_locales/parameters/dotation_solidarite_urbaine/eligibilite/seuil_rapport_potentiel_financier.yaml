@@ -1,0 +1,5 @@
+description: Limite de ratio entre le potentiel financier moyen de la commune et le potentiel financier moyen des communes de la strate démographique pour l'éligibilité à la DSU
+reference: https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633&dateTexte=20200622
+values:
+  2019-01-01:
+    value: 2.5
