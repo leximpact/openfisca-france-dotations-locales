@@ -164,3 +164,22 @@ Nombre de communes éligibles à la dsu dans le seuil haut"
         nombre_communes_seuil_haut = ((~outre_mer) * (population_dgf >= seuil_haut)).sum()
 
         return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.9999)
+
+class dsu_eligible(Variable):
+    value_type = bool
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Eligible:\
+Est éligible à la dotation de solidarité urbaine "
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        indice_synthetique_dsu = commune('indice_synthetique_dsu', period)
+        rang_indice_synthetique_dsu_seuil_bas = commune('rang_indice_synthetique_dsu_seuil_bas', period)
+        rang_indice_synthetique_dsu_seuil_haut = commune('rang_indice_synthetique_dsu_seuil_haut', period)
+
+        nombre_elig_seuil_bas = commune('dsu_nombre_communes_eligibles_seuil_bas', period)
+        nombre_elig_seuil_haut = commune('dsu_nombre_communes_eligibles_seuil_haut', period)
+        elig_seuil_bas = (indice_synthetique_dsu > 0) * (rang_indice_synthetique_dsu_seuil_bas < nombre_elig_seuil_bas)
+        elig_seuil_haut = (indice_synthetique_dsu > 0) * (rang_indice_synthetique_dsu_seuil_haut < nombre_elig_seuil_haut)
+        return elig_seuil_bas | elig_seuil_haut

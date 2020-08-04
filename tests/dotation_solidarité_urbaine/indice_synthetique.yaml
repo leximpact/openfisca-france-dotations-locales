@@ -110,6 +110,8 @@
   output:  
     dsu_nombre_communes_eligibles_seuil_bas: [0, 0, 0, 0, 0, 0]
     dsu_nombre_communes_eligibles_seuil_haut: [4, 4, 4, 4, 4, 4]
+    rang_indice_synthetique_dsu_seuil_haut: [0, 1, 2, 3, 4, 5]
+    dsu_eligible: [True, True, True, True, False, False]
 
 - name: Eligibilité à partir du classement - nombre d'éligibles = 10% des communes du seuil bas arrondi supérieur
   period: 2020
@@ -130,3 +132,5 @@
   output:  
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
     dsu_nombre_communes_eligibles_seuil_haut: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    rang_indice_synthetique_dsu_seuil_bas: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    dsu_eligible: [True, True, False, False, False, False, False, False, False, False, False]
