@@ -184,3 +184,25 @@ Est éligible à la dotation de solidarité urbaine "
         elig_seuil_bas = (indice_synthetique_dsu > 0) * (rang_indice_synthetique_dsu_seuil_bas < nombre_elig_seuil_bas)
         elig_seuil_haut = (indice_synthetique_dsu > 0) * (rang_indice_synthetique_dsu_seuil_haut < nombre_elig_seuil_haut)
         return elig_seuil_bas | elig_seuil_haut
+
+
+class dsu_montant_total(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Montant hors garanties:\
+Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
+    reference = "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf"
+    documentation = '''
+    La somme effectivement mise en répartition au profit des
+    communes de métropole s'élève à 2164552909 €
+    '''
+    # Devrait peut-être être un paramètre
+
+    def formula_2018_01(commune, period, parameters):
+        montant_total_a_attribuer = 2_079_328_714
+        return montant_total_a_attribuer
+
+    def formula_2019_01(commune, period, parameters):
+        montant_total_a_attribuer = 2_164_552_909
+        return montant_total_a_attribuer
