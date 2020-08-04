@@ -206,3 +206,71 @@ Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
     def formula_2019_01(commune, period, parameters):
         montant_total_a_attribuer = 2_164_552_909
         return montant_total_a_attribuer
+
+
+class dsu_montant_garantie_pluriannuelle(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Montant garanti au titre des années N-2 ou antérieures:\
+Montant de la garantie pluriannuelle touchée par la commune en cas de non-éligibilité"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
+    documentation = """Lorsqu'une commune cesse d'être éligible à la dotation à la suite
+    d'une baisse de sa population en deçà du seuil minimal fixé au 2° de l'article
+    L. 2334-16, elle perçoit, à titre de garantie pour les neufs exercices suivants,
+    une attribution calculée en multipliant le montant de dotation perçu la dernière
+    année où la commune était éligible par un coefficient égal à 90 % la première
+    année et diminuant ensuite d'un dixième chaque année.
+
+    En outre, lorsque, à compter de 2000, une commune, dont l'établissement public de
+    coopération intercommunale dont elle est membre a opté deux ans auparavant pour
+    l'application du régime fiscal prévu à l'article 1609 nonies C du code général des
+    impôts, cesse d'être éligible à la dotation du fait de l'application des 1 et 2 du
+    II de l'article L2334-4, elle perçoit, pendant cinq ans, une attribution calculée
+    en multipliant le montant de dotation perçu la dernière année où la commune était
+    éligible par un coefficient égal à 90 % la première année et diminuant ensuite d'un
+    dixième chaque année. """
+
+# Bon OK peut être je dis bien peut-être que je peux :
+# prendre montant total à attribuer
+# trouver somehow le montant des garanties du futur
+# retirer ce montant des garanties
+# retirer le montant des dotations spontanées
+
+
+class dsu_montant_garantie_annuelle(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Montant garanti au titre de l'année N-1:\
+Montant garanti en cas de non éligibilité pour les communes non éligibles"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        montant_eligible_an_dernier = commune('dsu_montant_eligible', period.last_year)
+        part_garantie = 0.5
+        return part_garantie * montant_eligible_an_dernier
+
+
+class dsu_montant_garantie_non_eligible(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Montant garanti non éligible:\
+Montant de la garantie de DSU versée aux communes non éligibles"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsu_montant_garantie_annuelle = commune('dsu_montant_garantie_annuelle', period)
+        dsu_montant_garantie_pluriannuelle = commune('dsu_montant_garantie_pluriannuelle', period)
+        dsu_eligible = commune('dsu_eligible', period)
+        return (~dsu_eligible) * max_(dsu_montant_garantie_annuelle, dsu_montant_garantie_pluriannuelle)
+
+
+class dsu_montant_eligible(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU au titre de l'éligibilité:\
+Montant total reçu par la commune au titre de son éligibilité à la DSU (incluant part spontanée et augmentation)"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814543&cidTexte=LEGITEXT000006070633"

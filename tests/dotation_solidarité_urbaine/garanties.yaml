@@ -1,0 +1,26 @@
+- name: Montant de garantie annuelle calculée correctement
+  period: 2020
+  input:
+    dsu_montant_eligible: 
+      2019: 1000
+    dsu_eligible: False        
+  output:
+    dsu_montant_garantie_annuelle: 500
+
+- name: Montant garanti non éligible - meilleure garantie
+  period: 2020
+  input:
+    dsu_montant_garantie_annuelle: [100, 0, 100, 50]
+    dsu_montant_garantie_pluriannuelle: [0, 100, 50, 100]
+    dsu_eligible: [False, False, False, False]
+  output:
+    dsu_montant_garantie_non_eligible: [100, 100, 100, 100]
+
+- name: Montant garanti non éligible - nul si éligible
+  period: 2020
+  input:
+    dsu_montant_garantie_annuelle: 100
+    dsu_montant_garantie_pluriannuelle: 100
+    dsu_eligible: True
+  output:
+    dsu_montant_garantie_non_eligible: 0
