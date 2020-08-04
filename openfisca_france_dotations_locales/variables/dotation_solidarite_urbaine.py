@@ -165,6 +165,7 @@ Nombre de communes éligibles à la dsu dans le seuil haut"
 
         return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.9999)
 
+
 class dsu_eligible(Variable):
     value_type = bool
     entity = Commune
