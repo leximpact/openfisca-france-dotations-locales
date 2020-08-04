@@ -123,3 +123,44 @@ Rang de classement de l'indice synthétique de DSU pour les communes de plus de 
         # les communes de même indice synthétique auront un rang différent (non spécifié par la loi)
         score_a_classer = (indice_synthetique_dsu) * (seuil_haut > population_dgf) * (seuil_bas <= population_dgf)
         return (-score_a_classer).argsort().argsort()
+
+
+class dsu_nombre_communes_eligibles_seuil_bas(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Nombres de communes du seuil bas éligible à la DSU:\
+Nombre de communes éligibles à la dsu dans le seuil bas"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        population_dgf = commune("population_dgf", period)
+        outre_mer = commune('outre_mer', period)
+
+        seuil_bas = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_bas_nombre_habitants
+        seuil_haut = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_haut_nombre_habitants
+        pourcentage_eligible_bas = parameters(period).dotation_solidarite_urbaine.eligibilite.part_eligible_seuil_bas
+
+        nombre_communes_seuil_bas = ((~outre_mer) * (population_dgf >= seuil_bas) * (population_dgf < seuil_haut)).sum()
+
+        return int(nombre_communes_seuil_bas * pourcentage_eligible_bas + 0.9999)
+
+
+class dsu_nombre_communes_eligibles_seuil_haut(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Nombres de communes du seuil haut éligible à la DSU:\
+Nombre de communes éligibles à la dsu dans le seuil haut"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        population_dgf = commune("population_dgf", period)
+        outre_mer = commune('outre_mer', period)
+
+        seuil_haut = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_haut_nombre_habitants
+        pourcentage_eligible_haut = parameters(period).dotation_solidarite_urbaine.eligibilite.part_eligible_seuil_haut
+
+        nombre_communes_seuil_haut = ((~outre_mer) * (population_dgf >= seuil_haut)).sum()
+
+        return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.9999)
