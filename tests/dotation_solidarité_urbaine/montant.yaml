@@ -108,3 +108,15 @@
     # Le montant à répartir est diminué du montant des garanties applicables
   output:
     dsu_montant: [1000, 179, 200, 0]
+
+
+- name: Répartition correcte entre augmentation et part spontanée
+  period: 2020
+  input:
+    dsu_montant_eligible:
+      2019: [1000, 800, 0]
+      2020: [1000, 1000, 1000]
+    # Le montant à répartir est diminué du montant des garanties applicables
+  output:
+    dsu_part_spontanee: [1000, 800, 1000]
+    dsu_part_augmentation: [0, 200, 0]

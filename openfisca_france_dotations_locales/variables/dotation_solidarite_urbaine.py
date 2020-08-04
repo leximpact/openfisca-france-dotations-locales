@@ -368,3 +368,33 @@ Montant total versé au titre de la DSU : garanties + montant spontané + augmen
         dsu_montant_eligible = commune('dsu_montant_eligible', period)
         dsu_montant_garantie_non_eligible = commune('dsu_montant_garantie_non_eligible', period)
         return dsu_montant_eligible + dsu_montant_garantie_non_eligible
+
+
+class dsu_part_spontanee(Variable):
+    # Cette variable est surtout là parce qu'elle existe dans le fichier de la DGCL en output.
+    # Elle représente la partie de la DSU non liée à l'augmentation de la DSU
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU part spontanée:\
+DSU attribution spontanée"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814543&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsu_montant_eligible = commune('dsu_montant_eligible', period)
+        montants_an_precedent = commune('dsu_montant_eligible', period.last_year)
+        return np.where(montants_an_precedent > 0, montants_an_precedent, dsu_montant_eligible)
+
+
+class dsu_part_augmentation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU augmentation:\
+Acroissement de la DSU"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=03CB6A1BBD20CCF171C0623A79187071.tplgfr24s_2?idArticle=LEGIARTI000033814522&cidTexte=LEGITEXT000006070633&dateTexte=20200804"
+
+    def formula(commune, period, parameters):
+        dsu_montant_eligible = commune('dsu_montant_eligible', period)
+        dsu_part_spontanee = commune('dsu_part_spontanee', period)
+        return dsu_montant_eligible - dsu_part_spontanee
