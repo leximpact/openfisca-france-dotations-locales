@@ -354,3 +354,17 @@ Montant total reçu par la commune au titre de son éligibilité à la DSU (incl
         montant_toujours_eligible = (min_(valeur_point * rapport_valeur_point * score_attribution, augmentation_max) + montants_an_precedent) * toujours_eligible
         montant_nouvellement_eligible = valeur_point * score_attribution * nouvellement_eligible
         return montant_toujours_eligible + montant_nouvellement_eligible
+
+
+class dsu_montant(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant total versé au titre de la DSU:\
+Montant total versé au titre de la DSU : garanties + montant spontané + augmentation"
+    reference = "https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsu_montant_eligible = commune('dsu_montant_eligible', period)
+        dsu_montant_garantie_non_eligible = commune('dsu_montant_garantie_non_eligible', period)
+        return dsu_montant_eligible + dsu_montant_garantie_non_eligible
