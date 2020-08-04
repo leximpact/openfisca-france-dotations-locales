@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 [#9](https://github.com/leximpact/openfisca-france-dotations-locales/pull/9)
+
+* Évolution du système socio-fiscal.
+* Détails :
+  - Ajoute le calcul des montants de la DSU
+
 ## 0.3.1 [#8](https://github.com/leximpact/openfisca-france-dotations-locales/pull/8)
 
 * Évolution du système socio-fiscal.
