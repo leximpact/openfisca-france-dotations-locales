@@ -289,3 +289,68 @@ class dsu_montant_eligible(Variable):
     label = "DSU au titre de l'éligibilité:\
 Montant total reçu par la commune au titre de son éligibilité à la DSU (incluant part spontanée et augmentation)"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814543&cidTexte=LEGITEXT000006070633"
+
+    # La vraie clef de répartition n'est pas claire : les dotations sont distribuées
+    # au prorata du score au sein des 4 sous catégories :
+    # - groupe bas (entre 5000 et 9999 habitants DGF) nouvellement éligibles
+    # - groupe bas (entre 5000 et 9999 habitants DGF) augmentation pour communes éligibles 2 ans de suite
+    # - groupe haut (>= 10000 habitants DGF) nouvellement éligibles
+    # - groupe haut (>= 10000 habitants DGF) augmentation pour communes éligibles 2 ans de suite
+    # En revanche, la répartition des dotations entre ces 4 groupes n'est pas claire.
+    # Ici, on :
+    # Fixe la valeur du point identiquement entre le groupe haut et le groupe bas (dans les faits, le groupe bas est
+    # plutôt payé 30% moins mais bon comme on sait pas pourquoi )
+    # Pour la répartition au sein de chaque groupe, on veut que les rapports entre les valeurs de points pour la part spontanées
+    # Et pour l'augmentation reflète la part entre la DSU de l'an dernier et l'augmentation.
+    # On veut donc :  VP(augmentation) / VP(dotation spontanée) = montant augmentation / montant an dernier
+    # Ca correspond grosso modo (mais pas exactement) à la répartition de facto
+    def formula_2019_01(commune, period, parameters):
+        dsu_montant_total = commune('dsu_montant_total', period)
+        dsu_an_precedent = commune('dsu_montant_total', period.last_year)
+        montants_an_precedent = commune('dsu_montant_eligible', period.last_year)
+        dsu_eligible = commune('dsu_eligible', period)
+        total_a_distribuer = commune('dsu_montant_total_eligibles', period)
+        rang_indice_synthetique_dsu_seuil_bas = commune('rang_indice_synthetique_dsu_seuil_bas', period)
+        rang_indice_synthetique_dsu_seuil_haut = commune('rang_indice_synthetique_dsu_seuil_haut', period)
+        nombre_elig_seuil_bas = commune('dsu_nombre_communes_eligibles_seuil_bas', period)
+        nombre_elig_seuil_haut = commune('dsu_nombre_communes_eligibles_seuil_haut', period)
+        effort_fiscal = commune('effort_fiscal', period)
+        population_insee = commune('population_insee', period)
+        population_qpv = commune('population_qpv', period)
+        population_zfu = commune('population_zfu', period)
+        population_dgf = commune('population_dgf', period)
+
+        facteur_classement_max = parameters(period).dotation_solidarite_urbaine.attribution.facteur_classement_max
+        facteur_classement_min = parameters(period).dotation_solidarite_urbaine.attribution.facteur_classement_min
+        poids_quartiers_prioritaires_ville = parameters(period).dotation_solidarite_urbaine.attribution.poids_quartiers_prioritaires_ville
+        poids_zone_franche_urbaine = parameters(period).dotation_solidarite_urbaine.attribution.poids_zone_franche_urbaine
+        plafond_effort_fiscal = parameters(period).dotation_solidarite_urbaine.attribution.plafond_effort_fiscal
+        augmentation_max = parameters(period).dotation_solidarite_urbaine.attribution.augmentation_max
+
+        pourcentage_augmentation_dsu = dsu_montant_total / dsu_an_precedent - 1
+        nouvellement_eligible = dsu_eligible * (montants_an_precedent == 0)
+        toujours_eligible = dsu_eligible * (montants_an_precedent > 0)
+
+        # Détermination des scores
+        facteur_classement_seuil_bas = np.where(rang_indice_synthetique_dsu_seuil_bas < nombre_elig_seuil_bas, np.where(nombre_elig_seuil_bas != 1, (facteur_classement_min - facteur_classement_max) * rang_indice_synthetique_dsu_seuil_bas / (nombre_elig_seuil_bas - 1), 0) + facteur_classement_max, 0)
+        facteur_classement_seuil_haut = (rang_indice_synthetique_dsu_seuil_haut < nombre_elig_seuil_haut) * (facteur_classement_max + (facteur_classement_min - facteur_classement_max) * rang_indice_synthetique_dsu_seuil_haut / (nombre_elig_seuil_haut - 1))
+        facteur_classement = facteur_classement_seuil_bas + facteur_classement_seuil_haut
+        facteur_effort_fiscal = min_(effort_fiscal, plafond_effort_fiscal)
+        facteur_qpv = (1 + poids_quartiers_prioritaires_ville * population_qpv / population_insee)
+        facteur_zfu = (1 + poids_zone_franche_urbaine * population_zfu / population_insee)
+        score_attribution = population_dgf * facteur_classement * facteur_effort_fiscal * facteur_qpv * facteur_zfu
+        score_anciens_eligibles = sum(score_attribution * toujours_eligible)
+        score_nouveaux_eligibles = sum(score_attribution * nouvellement_eligible)
+
+        # clef de répartition : on attribue une valeur des points d'augmentation égale au pourcentage
+        # d'augmentation de la DSU
+        rapport_valeur_point = pourcentage_augmentation_dsu
+        total_points = score_anciens_eligibles * rapport_valeur_point + score_nouveaux_eligibles
+
+        # Détermination de la valeur du point
+        montant_garanti_eligible = (toujours_eligible * montants_an_precedent).sum()
+        valeur_point = (total_a_distribuer - montant_garanti_eligible) / total_points
+
+        montant_toujours_eligible = (min_(valeur_point * rapport_valeur_point * score_attribution, augmentation_max) + montants_an_precedent) * toujours_eligible
+        montant_nouvellement_eligible = valeur_point * score_attribution * nouvellement_eligible
+        return montant_toujours_eligible + montant_nouvellement_eligible
