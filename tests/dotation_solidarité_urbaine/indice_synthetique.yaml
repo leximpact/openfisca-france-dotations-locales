@@ -82,3 +82,11 @@
   output:
     indice_synthetique_dsu: [0.9166667, 1.25] # (0.75 + 0.25 * (revenu moyen / revenu par habitant))
 
+- name: Classement indice synthétique
+  period: 2020
+  input:
+    population_dgf: [7, 70000, 70000, 7000, 7000]
+    indice_synthetique_dsu: [0, 4, 1, 3, 2]
+  output: # Les ex-aequo sont dans l'ordre initial
+    rang_indice_synthetique_dsu_seuil_bas: [2, 3, 4, 0, 1]
+    rang_indice_synthetique_dsu_seuil_haut: [2, 0, 1, 3, 4]

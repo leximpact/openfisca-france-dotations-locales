@@ -76,3 +76,50 @@ indice synthétique pour l'éligibilité à la fraction-cible"
             + poids_revenu * np.where(revenu_par_habitant > 0, np.divide(revenu_moyen_haut, revenu_par_habitant), 0)
             )
         return indice_synthetique_bas + indice_synthetique_haut
+
+
+class rang_indice_synthetique_dsu_seuil_haut(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Rang indice synthétique DSU seuil haut:\
+Rang de classement de l'indice synthétique de DSU pour les communes de plus de 10000 habitants"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        seuil_haut = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_haut_nombre_habitants
+        indice_synthetique_dsu = commune('indice_synthetique_dsu', period)
+        population_dgf = commune('population_dgf', period)
+        # L'utilisation d'un double argsort renvoie un tableau qui contient
+        # la statistique d'ordre (indexée par 0) du tableau d'entrée dans
+        # l'ordre croissant (cf par exemple
+        # https://www.berkayantmen.com/rank.html).
+        # On l'applique sur l'opposé de l'indice synthétique
+        # pour obtenir un classement dans l'ordre décroissant.
+        # les communes de même indice synthétique auront un rang différent (non spécifié par la loi)
+        score_a_classer = (indice_synthetique_dsu) * (seuil_haut <= population_dgf)
+        return (-score_a_classer).argsort().argsort()
+
+
+class rang_indice_synthetique_dsu_seuil_bas(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Rang indice synthétique DSU seuil bas:\
+Rang de classement de l'indice synthétique de DSU pour les communes de plus de 5000 à 9999 habitants"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        seuil_bas = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_bas_nombre_habitants
+        seuil_haut = parameters(period).dotation_solidarite_urbaine.eligibilite.seuil_haut_nombre_habitants
+        indice_synthetique_dsu = commune('indice_synthetique_dsu', period)
+        population_dgf = commune('population_dgf', period)
+        # L'utilisation d'un double argsort renvoie un tableau qui contient
+        # la statistique d'ordre (indexée par 0) du tableau d'entrée dans
+        # l'ordre croissant (cf par exemple
+        # https://www.berkayantmen.com/rank.html).
+        # On l'applique sur l'opposé de l'indice synthétique
+        # pour obtenir un classement dans l'ordre décroissant.
+        # les communes de même indice synthétique auront un rang différent (non spécifié par la loi)
+        score_a_classer = (indice_synthetique_dsu) * (seuil_haut > population_dgf) * (seuil_bas <= population_dgf)
+        return (-score_a_classer).argsort().argsort()
