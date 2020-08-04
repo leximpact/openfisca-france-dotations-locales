@@ -267,6 +267,21 @@ Montant de la garantie de DSU versée aux communes non éligibles"
         return (~dsu_eligible) * max_(dsu_montant_garantie_annuelle, dsu_montant_garantie_pluriannuelle)
 
 
+class dsu_montant_total_eligibles(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "DSU Montant hors garanties:\
+Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
+    reference = "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf"
+
+    def formula_2019_01(commune, period, parameters):
+        dsu_montant_total = commune('dsu_montant_total', period)
+        dsu_montant_garantie_non_eligible = commune('dsu_montant_garantie_non_eligible', period)
+        # retrait des montants garantis, le reste est à distribuer entre communes éligibles
+        return dsu_montant_total - sum(dsu_montant_garantie_non_eligible)
+
+
 class dsu_montant_eligible(Variable):
     value_type = float
     entity = Commune

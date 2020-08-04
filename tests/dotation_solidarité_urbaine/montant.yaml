@@ -1,0 +1,7 @@
+- name: Montant de garantie annuelle calculée correctement
+  period: 2020
+  input:
+    dsu_montant_total: [1000, 1000] 
+    dsu_montant_garantie_non_eligible : [100, 100]
+  output:
+    dsu_montant_total_eligibles: [800, 800]
