@@ -383,7 +383,8 @@ DSU attribution spontanée"
     def formula(commune, period, parameters):
         dsu_montant_eligible = commune('dsu_montant_eligible', period)
         montants_an_precedent = commune('dsu_montant_eligible', period.last_year)
-        return np.where(montants_an_precedent > 0, montants_an_precedent, dsu_montant_eligible)
+        dsu_eligible = commune('dsu_eligible', period)
+        return np.where((montants_an_precedent > 0) * dsu_eligible, montants_an_precedent, dsu_montant_eligible)
 
 
 class dsu_part_augmentation(Variable):

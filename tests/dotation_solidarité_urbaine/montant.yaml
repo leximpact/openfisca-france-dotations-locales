@@ -113,10 +113,22 @@
 - name: Répartition correcte entre augmentation et part spontanée
   period: 2020
   input:
+    dsu_eligible: [True, True, True]
     dsu_montant_eligible:
       2019: [1000, 800, 0]
       2020: [1000, 1000, 1000]
-    # Le montant à répartir est diminué du montant des garanties applicables
   output:
     dsu_part_spontanee: [1000, 800, 1000]
     dsu_part_augmentation: [0, 200, 0]
+
+
+- name: Répartition correcte pour commune non éligible (si le test existe, c'est qu'il n'est pas toujours passé)
+  period: 2020
+  input:
+    dsu_eligible: False
+    dsu_montant_eligible:
+      2019: 1000
+      2020: 0
+  output:
+    dsu_part_spontanee: 0
+    dsu_part_augmentation: 0
