@@ -32,7 +32,7 @@
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
-    rang_indice_synthetique_dsu_seuil_bas: [0, 1] #Donnera un facteur de classement de 4 et 0.5
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:
       2019: [0, 0]
   output:
@@ -51,7 +51,7 @@
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
-    rang_indice_synthetique_dsu_seuil_bas: [0, 1] #Donnera un facteur de classement de 4 et 0.5
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:
       2019: [500, 500]
   output:
@@ -69,7 +69,7 @@
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
-    rang_indice_synthetique_dsu_seuil_bas: [0, 1] #Donnera un facteur de classement de 4 et 0.5
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:
       2019: [4000, 0]
     # Scores respectifs : 40  5
@@ -91,7 +91,7 @@
     effort_fiscal: [1, 1, 1]
     population_insee: [7000, 7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2, 2]
-    rang_indice_synthetique_dsu_seuil_bas: [0, 1, 2] #Donnera un facteur de classement de 4 et 0.5
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2, 3] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:
       2019: [4000, 0, 500]
     # Le montant à répartir est diminué du montant des garanties applicables
