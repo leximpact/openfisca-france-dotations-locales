@@ -143,7 +143,7 @@ Nombre de communes éligibles à la dsu dans le seuil bas"
 
         nombre_communes_seuil_bas = ((~outre_mer) * (population_dgf >= seuil_bas) * (population_dgf < seuil_haut)).sum()
 
-        return int(nombre_communes_seuil_bas * pourcentage_eligible_bas + 0.9999)
+        return int(nombre_communes_seuil_bas * pourcentage_eligible_bas + 0.99)
 
 
 class dsu_nombre_communes_eligibles_seuil_haut(Variable):
@@ -163,7 +163,7 @@ Nombre de communes éligibles à la dsu dans le seuil haut"
 
         nombre_communes_seuil_haut = ((~outre_mer) * (population_dgf >= seuil_haut)).sum()
 
-        return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.9999)
+        return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.99)
 
 
 class dsu_eligible(Variable):
