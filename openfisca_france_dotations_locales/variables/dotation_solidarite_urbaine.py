@@ -334,7 +334,7 @@ Montant total reçu par la commune au titre de son éligibilité à la DSU (incl
 
         # Détermination des scores
         facteur_classement_seuil_bas = np.where(rang_indice_synthetique_dsu_seuil_bas <= nombre_elig_seuil_bas, np.where(nombre_elig_seuil_bas != 1, (facteur_classement_min - facteur_classement_max) * (rang_indice_synthetique_dsu_seuil_bas - 1) / (nombre_elig_seuil_bas - 1), 0) + facteur_classement_max, 0)
-        facteur_classement_seuil_haut = (rang_indice_synthetique_dsu_seuil_haut <= nombre_elig_seuil_haut) * (facteur_classement_max + (facteur_classement_min - facteur_classement_max) * (rang_indice_synthetique_dsu_seuil_haut - 1) / (nombre_elig_seuil_haut - 1))
+        facteur_classement_seuil_haut = np.where(rang_indice_synthetique_dsu_seuil_haut <= nombre_elig_seuil_haut, np.where(nombre_elig_seuil_haut != 1, (facteur_classement_min - facteur_classement_max) * (rang_indice_synthetique_dsu_seuil_haut - 1) / (nombre_elig_seuil_haut - 1), 0) + facteur_classement_max, 0)
         facteur_classement = facteur_classement_seuil_bas + facteur_classement_seuil_haut
         facteur_effort_fiscal = min_(effort_fiscal, plafond_effort_fiscal)
         facteur_qpv = (1 + np.where(population_insee > 0, poids_quartiers_prioritaires_ville * population_qpv / population_insee, 0))
