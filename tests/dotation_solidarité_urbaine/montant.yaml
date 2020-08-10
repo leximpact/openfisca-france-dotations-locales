@@ -14,6 +14,7 @@
     dsu_montant_total_eligibles: [1000, 1000] 
     dsu_eligible: [True, False]
     population_dgf: [7000, 7000]
+    indice_synthetique_dsu: [1, 0.5]
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_montant_eligible:
@@ -32,6 +33,7 @@
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
+    indice_synthetique_dsu: [1, 1]
     rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:
       2019: [0, 0]
@@ -49,6 +51,7 @@
     dsu_eligible: [True, True]
     population_dgf: [7000, 7000]
     effort_fiscal: [1, 1]
+    indice_synthetique_dsu: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
     rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
@@ -66,6 +69,7 @@
       2020: [4900, 4900]
     dsu_eligible: [True, True]
     population_dgf: [7000, 7000]
+    indice_synthetique_dsu: [1, 1]
     effort_fiscal: [1, 1]
     population_insee: [7000, 7000]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
@@ -90,6 +94,7 @@
     population_dgf: [7000, 7000, 7000]
     effort_fiscal: [1, 1, 1]
     population_insee: [7000, 7000, 7000]
+    indice_synthetique_dsu: [1, 1, 1]
     dsu_nombre_communes_eligibles_seuil_bas: [2, 2, 2]
     rang_indice_synthetique_dsu_seuil_bas: [1, 2, 3] #Donnera un facteur de classement de 4 et 0.5
     dsu_montant_eligible:

@@ -319,6 +319,7 @@ Montant total reçu par la commune au titre de son éligibilité à la DSU (incl
         population_qpv = commune('population_qpv', period)
         population_zfu = commune('population_zfu', period)
         population_dgf = commune('population_dgf', period)
+        indice_synthetique_dsu = commune('indice_synthetique_dsu', period)
 
         facteur_classement_max = parameters(period).dotation_solidarite_urbaine.attribution.facteur_classement_max
         facteur_classement_min = parameters(period).dotation_solidarite_urbaine.attribution.facteur_classement_min
@@ -338,6 +339,7 @@ Montant total reçu par la commune au titre de son éligibilité à la DSU (incl
         facteur_effort_fiscal = min_(effort_fiscal, plafond_effort_fiscal)
         facteur_qpv = (1 + np.where(population_insee > 0, poids_quartiers_prioritaires_ville * population_qpv / population_insee, 0))
         facteur_zfu = (1 + np.where(population_insee > 0, poids_zone_franche_urbaine * population_zfu / population_insee, 0))
+        score_attribution = indice_synthetique_dsu * population_dgf * facteur_classement * facteur_effort_fiscal * facteur_qpv * facteur_zfu
         score_attribution = population_dgf * facteur_classement * facteur_effort_fiscal * facteur_qpv * facteur_zfu
         score_anciens_eligibles = sum(score_attribution * toujours_eligible)
         score_nouveaux_eligibles = sum(score_attribution * nouvellement_eligible)
