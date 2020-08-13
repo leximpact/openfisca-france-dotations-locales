@@ -302,6 +302,24 @@ class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
         return scores * valeur_point
 
 
+class dsr_montant_eligible_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant attribué fraction bourg-centre après garanties de stabilité:\
+Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
+    documentation = '''A compter de 2012, l'attribution d'une commune éligible ne peut être ni inférieure à 90 % ni
+            supérieure à 120 % du montant perçu l'année précédente.'''
+
+    def formula(commune, period, parameters):
+        plancher_progression = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.plancher_ratio_progression
+        plafond_progression = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.plafond_ratio_progression
+        montant_an_precedent = commune("dsr_montant_eligible_fraction_bourg_centre", period.last_year)
+        dsr_montant_hors_garanties_fraction_bourg_centre = commune("dsr_montant_hors_garanties_fraction_bourg_centre", period)
+        return where((dsr_montant_hors_garanties_fraction_bourg_centre > 0) & (montant_an_precedent > 0), max_(plancher_progression * montant_an_precedent, min_(plafond_progression * montant_an_precedent, dsr_montant_hors_garanties_fraction_bourg_centre)), dsr_montant_hors_garanties_fraction_bourg_centre)
+
+
 class dsr_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune

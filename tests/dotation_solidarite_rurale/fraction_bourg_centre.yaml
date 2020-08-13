@@ -165,3 +165,13 @@
     dsr_valeur_point_fraction_bourg_centre: [10, 10]
   output:
     dsr_montant_hors_garanties_fraction_bourg_centre: [70, 30]
+
+
+- name: DSR, attribution fraction bourg-centre. Montant garantie de stabilité
+  period: 2020
+  input:
+    dsr_montant_hors_garanties_fraction_bourg_centre: [1000, 1000, 1000, 1000]
+    dsr_montant_eligible_fraction_bourg_centre: 
+      2019: [0, 1000, 600, 2000]
+  output:
+    dsr_montant_eligible_fraction_bourg_centre: [1000, 1000, 720, 1800]
