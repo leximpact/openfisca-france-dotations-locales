@@ -153,3 +153,12 @@
   output:
     dsr_montant_hors_garanties_fraction_perequation: 100
 
+- name: DSR, attribution fraction perequation. Montant garantie de stabilité
+  period: 2020
+  input:
+    dsr_montant_hors_garanties_fraction_perequation: [1000, 1000, 1000, 1000]
+    dsr_montant_eligible_fraction_perequation: 
+      2019: [0, 1000, 600, 2000]
+  output:
+    dsr_montant_eligible_fraction_perequation: [1000, 1000, 720, 1800]
+
