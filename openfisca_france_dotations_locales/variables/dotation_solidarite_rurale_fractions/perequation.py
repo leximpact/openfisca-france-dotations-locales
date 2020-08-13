@@ -372,3 +372,11 @@ class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
+    label = "Montant effectivement attribué DSR fraction péréquation:\
+Montant attribué à la commune au titre de la fraction péréquation de la DSR après garanties de stabilité, et de commune nouvelle"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsr_garantie_commune_nouvelle_fraction_perequation = commune("dsr_garantie_commune_nouvelle_fraction_perequation", period)
+        dsr_montant_eligible_fraction_perequation = commune("dsr_montant_eligible_fraction_perequation", period)
+        return max_(dsr_montant_eligible_fraction_perequation, dsr_garantie_commune_nouvelle_fraction_perequation)

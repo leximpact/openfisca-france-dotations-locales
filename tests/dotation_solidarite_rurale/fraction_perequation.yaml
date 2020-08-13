@@ -162,3 +162,21 @@
   output:
     dsr_montant_eligible_fraction_perequation: [1000, 1000, 720, 1800]
 
+
+- name: DSR, attribution fraction péréquation. Montant final en fonction des montants intermédiaires
+  period: 2020
+  input:
+    dsr_garantie_commune_nouvelle_fraction_perequation: [0, 0, 80, 120]
+    dsr_montant_eligible_fraction_perequation: [0, 100, 0, 0]
+  output:
+    dsr_fraction_perequation: [0, 100, 80, 120]
+
+
+- name: DSR, attribution fraction péréquation. Montant de garantie CN appliqué
+  period: 2020
+  input:
+    dsr_garantie_commune_nouvelle_fraction_perequation: [120, 80]
+    dsr_montant_eligible_fraction_perequation: [100, 100]
+  output:
+    dsr_fraction_perequation: [120, 100]
+
