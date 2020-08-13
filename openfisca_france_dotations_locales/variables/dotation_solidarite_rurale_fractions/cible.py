@@ -420,3 +420,12 @@ class dsr_fraction_cible(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
+    label = "Montant effectivement attribué DSR fraction-cible:\
+Montant attribué à la commune au titre de la fraction cible de la DSR après garanties de sortie et de commune nouvelle"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsr_montant_garantie_non_eligible_fraction_cible = commune("dsr_montant_garantie_non_eligible_fraction_cible", period)
+        dsr_garantie_commune_nouvelle_fraction_cible = commune("dsr_garantie_commune_nouvelle_fraction_cible", period)
+        dsr_montant_hors_garanties_fraction_cible = commune("dsr_montant_hors_garanties_fraction_cible", period)
+        return max_(dsr_montant_garantie_non_eligible_fraction_cible, max_(dsr_garantie_commune_nouvelle_fraction_cible, dsr_montant_hors_garanties_fraction_cible))
