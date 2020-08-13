@@ -383,6 +383,25 @@ class dsr_montant_hors_garanties_fraction_cible(Variable):
         + part_potentiel_financier_par_hectare)
 
 
+class dsr_montant_garantie_non_eligible_fraction_cible(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie de sortie DSR fraction cible:\
+Montant garanti aux communes nouvellement inéligibles au titre de la fraction cible de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
+    documentation = '''Lorsqu'une commune cesse de remplir les conditions requises pour
+bénéficier de cette fraction de la dotation de solidarité rurale, cette
+commune perçoit, à titre de garantie non renouvelable, une attribution
+égale à la moitié de celle qu'elle a perçue l'année précédente.'''
+
+    def formula(commune, period, parameters):
+        dsr_eligible_fraction_cible = commune("dsr_eligible_fraction_cible", period)
+        montant_an_precedent = commune("dsr_montant_hors_garanties_fraction_cible", period.last_year)
+        part_garantie = 0.5
+        return (~dsr_eligible_fraction_cible) * montant_an_precedent * part_garantie
+
+
 class dsr_fraction_cible(Variable):
     value_type = float
     entity = Commune

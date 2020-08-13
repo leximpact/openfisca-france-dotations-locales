@@ -189,3 +189,13 @@
     dsr_fraction_cible_part_potentiel_financier_par_hectare: 10
   output:
     dsr_montant_hors_garanties_fraction_cible: 100
+
+
+- name: DSR, attribution fraction cible. Montant garantie an dernier
+  period: 2020
+  input:
+    dsr_eligible_fraction_cible: [True, False]
+    dsr_montant_hors_garanties_fraction_cible: 
+      2019: [1000, 1000]
+  output:
+    dsr_montant_garantie_non_eligible_fraction_cible: [0, 500]
