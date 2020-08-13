@@ -1,6 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-from numpy import sum as sum_
+from numpy import sum as sum_, where
 
 
 class dsr_eligible_fraction_perequation(Variable):
