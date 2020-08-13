@@ -186,3 +186,23 @@
   output:
     dsr_montant_garantie_non_eligible_fraction_bourg_centre: [0, 500]
 
+
+- name: DSR, attribution fraction bourg-centre. Montant final en fonction des montants intermédiaires
+  period: 2020
+  input:
+    dsr_montant_garantie_non_eligible_fraction_bourg_centre: [0, 0, 100, 100]
+    dsr_garantie_commune_nouvelle_fraction_bourg_centre: [0, 0, 80, 120]
+    dsr_montant_eligible_fraction_bourg_centre: [0, 100, 0, 0]
+  output:
+    dsr_fraction_bourg_centre: [0, 100, 100, 120]
+
+
+- name: DSR, attribution fraction bourg-centre. Montant de garantie CN appliqué
+  period: 2020
+  input:
+    dsr_montant_garantie_non_eligible_fraction_bourg_centre: [0, 0]
+    dsr_garantie_commune_nouvelle_fraction_bourg_centre: [120, 80]
+    dsr_montant_eligible_fraction_bourg_centre: [100, 100]
+  output:
+    dsr_fraction_bourg_centre: [120, 100]
+

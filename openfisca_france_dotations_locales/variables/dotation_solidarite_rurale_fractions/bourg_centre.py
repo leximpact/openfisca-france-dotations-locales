@@ -357,3 +357,12 @@ class dsr_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
+    label = "Montant effectivement attribué DSR fraction bourg-centre:\
+Montant attribué à la commune au titre de la fraction bourg-centre de la DSR après garanties de sortie, de stabilité, et de commune nouvelle"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre = commune("dsr_montant_garantie_non_eligible_fraction_bourg_centre", period)
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre = commune("dsr_garantie_commune_nouvelle_fraction_bourg_centre", period)
+        dsr_montant_eligible_fraction_bourg_centre = commune("dsr_montant_eligible_fraction_bourg_centre", period)
+        return max_(dsr_montant_eligible_fraction_bourg_centre, max_(dsr_montant_garantie_non_eligible_fraction_bourg_centre, dsr_garantie_commune_nouvelle_fraction_bourg_centre))
