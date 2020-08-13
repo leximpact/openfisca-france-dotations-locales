@@ -320,6 +320,25 @@ Valeur attribuée incluant garanties de stabilité aux communes éligibles au ti
         return where((dsr_montant_hors_garanties_fraction_bourg_centre > 0) & (montant_an_precedent > 0), max_(plancher_progression * montant_an_precedent, min_(plafond_progression * montant_an_precedent, dsr_montant_hors_garanties_fraction_bourg_centre)), dsr_montant_hors_garanties_fraction_bourg_centre)
 
 
+class dsr_montant_garantie_non_eligible_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie de sortie DSR fraction bourg-centre:\
+Montant garanti aux communes nouvellement inéligibles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
+    documentation = '''Lorsqu'une commune cesse de remplir les conditions requises pour
+bénéficier de cette fraction de la dotation de solidarité rurale, cette
+commune perçoit, à titre de garantie non renouvelable, une attribution
+égale à la moitié de celle qu'elle a perçue l'année précédente.'''
+
+    def formula(commune, period, parameters):
+        dsr_eligible_fraction_bourg_centre = commune("dsr_eligible_fraction_bourg_centre", period)
+        montant_an_precedent = commune("dsr_montant_eligible_fraction_bourg_centre", period.last_year)
+        part_garantie = 0.5
+        return (~dsr_eligible_fraction_bourg_centre) * montant_an_precedent * part_garantie
+
+
 class dsr_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune

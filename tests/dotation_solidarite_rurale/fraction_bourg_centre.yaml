@@ -175,3 +175,14 @@
       2019: [0, 1000, 600, 2000]
   output:
     dsr_montant_eligible_fraction_bourg_centre: [1000, 1000, 720, 1800]
+
+
+- name: DSR, attribution fraction bourg-centre. Montant garantie an dernier
+  period: 2020
+  input:
+    dsr_eligible_fraction_bourg_centre: [True, False]
+    dsr_montant_eligible_fraction_bourg_centre: 
+      2019: [1000, 1000]
+  output:
+    dsr_montant_garantie_non_eligible_fraction_bourg_centre: [0, 500]
+
