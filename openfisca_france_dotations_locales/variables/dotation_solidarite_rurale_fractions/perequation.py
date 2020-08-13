@@ -1,6 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-from numpy import sum
+from numpy import sum as sum_
 
 
 class dsr_eligible_fraction_perequation(Variable):
@@ -202,8 +202,8 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_hectare(Var
         superficie = commune('superficie', period)
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
 
-        pot_fin_par_hectare_10000 = (sum(communes_moins_10000 * potentiel_financier)
-                / sum(communes_moins_10000 * superficie))
+        pot_fin_par_hectare_10000 = (sum_(communes_moins_10000 * potentiel_financier)
+                / sum_(communes_moins_10000 * superficie))
 
         facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000)
 

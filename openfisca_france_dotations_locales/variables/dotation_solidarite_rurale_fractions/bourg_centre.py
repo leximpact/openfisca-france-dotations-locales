@@ -1,5 +1,4 @@
-import numpy as np
-
+from numpy import sum as sum_, where
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 
@@ -68,8 +67,8 @@ class dsr_exclue_fraction_bourg_centre_pfi(Variable):
         taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
         # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
-        pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
-                / np.sum(communes_moins_10000 * population_dgf))
+        pot_fin_10000 = (sum_(communes_moins_10000 * potentiel_financier)
+                / sum_(communes_moins_10000 * population_dgf))
         return potentiel_financier_par_habitant >= (ratio_max_potentiel_financier * pot_fin_10000)
 
 
@@ -232,19 +231,19 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
 
         plafond_effort_fiscal = parameters_dsr.bourg_centre.attribution.plafond_effort_fiscal
         plafond_population = parameters_dsr.bourg_centre.attribution.plafond_population
-        population_attribution = np.minimum(population_dgf_plafonnee, plafond_population)
+        population_attribution = min_(population_dgf_plafonnee, plafond_population)
 
         coefficient_zrr = parameters_dsr.bourg_centre.attribution.coefficient_zrr
 
         # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
         taille_max_commune = parameters_dsr.seuil_nombre_habitants
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
-        pot_fin_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
-                / np.sum(communes_moins_10000 * population_dgf))
+        pot_fin_10000 = (sum_(communes_moins_10000 * potentiel_financier)
+                / sum_(communes_moins_10000 * population_dgf))
 
         facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_10000)
-        facteur_zrr = np.where(zrr, coefficient_zrr, 1.0)
-        facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
+        facteur_zrr = where(zrr, coefficient_zrr, 1.0)
+        facteur_effort_fiscal = min_(plafond_effort_fiscal, effort_fiscal)
 
         return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_effort_fiscal * facteur_zrr
 
