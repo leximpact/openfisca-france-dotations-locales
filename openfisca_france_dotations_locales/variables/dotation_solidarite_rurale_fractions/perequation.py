@@ -354,6 +354,20 @@ Valeur attribuée incluant garanties de stabilité aux communes éligibles au ti
         return where((dsr_montant_hors_garanties_fraction_perequation > 0) & (montant_an_precedent > 0), max_(plancher_progression * montant_an_precedent, min_(plafond_progression * montant_an_precedent, dsr_montant_hors_garanties_fraction_perequation)), dsr_montant_hors_garanties_fraction_perequation)
 
 
+class dsr_garantie_commune_nouvelle_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie commune nouvelle DSR fraction péréquation:\
+Montant garanti aux communes nouvelles au titre de la fraction péréquation de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
+    documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
+                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+                fractions de la dotation de solidarité rurale au moins égales aux attributions
+                perçues au titre de chacune de ces dotations par les anciennes communes l'année
+                précédant la création de la commune nouvelle.'''
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune

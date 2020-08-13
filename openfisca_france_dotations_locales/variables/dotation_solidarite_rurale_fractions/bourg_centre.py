@@ -320,6 +320,20 @@ Valeur attribuée incluant garanties de stabilité aux communes éligibles au ti
         return where((dsr_montant_hors_garanties_fraction_bourg_centre > 0) & (montant_an_precedent > 0), max_(plancher_progression * montant_an_precedent, min_(plafond_progression * montant_an_precedent, dsr_montant_hors_garanties_fraction_bourg_centre)), dsr_montant_hors_garanties_fraction_bourg_centre)
 
 
+class dsr_garantie_commune_nouvelle_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie commune nouvelle DSR fraction bourg-centre:\
+Montant garanti aux communes nouvelles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
+    documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
+                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+                fractions de la dotation de solidarité rurale au moins égales aux attributions
+                perçues au titre de chacune de ces dotations par les anciennes communes l'année
+                précédant la création de la commune nouvelle.'''
+
+
 class dsr_montant_garantie_non_eligible_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune

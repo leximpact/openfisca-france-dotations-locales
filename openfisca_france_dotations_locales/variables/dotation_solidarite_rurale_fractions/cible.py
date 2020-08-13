@@ -383,6 +383,20 @@ class dsr_montant_hors_garanties_fraction_cible(Variable):
         + part_potentiel_financier_par_hectare)
 
 
+class dsr_garantie_commune_nouvelle_fraction_cible(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie commune nouvelle DSR fraction cible:\
+Montant garanti aux communes nouvelles au titre de la fraction cible de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
+    documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
+                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+                fractions de la dotation de solidarité rurale au moins égales aux attributions
+                perçues au titre de chacune de ces dotations par les anciennes communes l'année
+                précédant la création de la commune nouvelle.'''
+
+
 class dsr_montant_garantie_non_eligible_fraction_cible(Variable):
     value_type = float
     entity = Commune
