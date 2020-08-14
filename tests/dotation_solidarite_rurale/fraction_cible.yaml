@@ -219,3 +219,35 @@
     dsr_montant_hors_garanties_fraction_cible: [100, 100]
   output:
     dsr_fraction_cible: [120, 100]
+
+# montant total
+
+- name: Montant total s'accroît normalement
+  period: 2021
+  absolute_error_margin: 20 # Ah oui, apparemment la précision des divisions c'est plus ce que c'était
+  input:
+    dsr_montant_total_fraction_cible: 
+      2020: 100000000
+  output:
+    dsr_montant_total_fraction_cible: 136556183 # = 100000000 + 90000000 * 0.4061798111
+
+- name: Montant total se décroit normalement 
+  period: 2014
+  absolute_error_margin: 1
+  input:
+    dsr_montant_total_fraction_cible: 
+      2015: 1000000000
+  output:
+    dsr_montant_total_fraction_cible: 952476962.1 # = 1000000000 - 117000000 * 0.4061798111
+
+  
+- name: DSR cible - Montant total restant pour les communes éligibles 
+  period: 2020
+  absolute_error_margin: 0.1
+  input:
+    dsr_montant_total_fraction_cible: [1000, 1000, 1000, 1000]
+    dsr_eligible_fraction_cible: [True, True, False, False]
+    dsr_garantie_commune_nouvelle_fraction_cible: [16, 2, 4, 8]
+    dsr_montant_garantie_non_eligible_fraction_cible: [0, 0, 0, 64]
+  output:
+    dsr_montant_total_eligibles_fraction_cible: [932, 932, 932, 932]
