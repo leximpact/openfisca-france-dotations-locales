@@ -248,6 +248,52 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_effort_fiscal * facteur_zrr
 
 
+pourcentage_accroissement_dsr_bc = (581_804_312 - 545_248_126) / 90_000_000
+
+
+class dsr_montant_total_fraction_bourg_centre(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
+    s’élève à [5]45 248 126 €.
+    2020 : 581 804 312 € sont répartis au titre de la fraction «bourgcentre»  (soit  une augmentation de 6,70 %)
+    '''
+    # montants inscrits dans la note. Pour le transformer en formule il faut
+    # que soient implémentés :
+    # le montant global de la dgf (fait dans les paramètres)
+    # les formules de garanties pour communes nouvellement non éligibles (fait)
+    # les garanties communes nouvelles (fait mais les garanties n'ont pas de formule)
+    # la répartition du montant global vers la DSR (très difficile)
+
+    def formula_2019_01(commune, period, parameters):
+        return 545_248_126
+
+    def formula_2020_01(commune, period, parameters):
+        return 581_804_312
+
+    # A partir de 2020, formule récursive qui bouge en
+    # fonction des pourcentages
+    # d'augmentation constatés (en vrai il faudrait défalquer
+    # des pourcentages de population d'outre-mer)
+    # mais c'est une autre histoire
+    # La variation sera égale à pourcentage_accroissement *
+    # valeur du paramètre "accroissement" pour cette année là.
+
+    def formula_2021_01(commune, period, parameters):
+        montants_an_precedent = commune('dsr_montant_total_fraction_bourg_centre', period.last_year)
+        accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_bc
+
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_bc
+
+
 class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
@@ -261,14 +307,13 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
     '''
 
-    def formula_2019_01(commune, period, parameters):
-        montant_total_a_attribuer = 545_248_126 - 898_172 - 6_165_344
-        # montant inscrit dans la note. Pour le transformer en formule il faut
-        # que soient implémentés :
-        # le montant global de la dgf (fait dans les paramètres)
-        # les formules de garanties pour communes nouvellement non éligibles (moyen)
-        # les garanties communes nouvelles (chaud)
-        # la répartition du montant global vers la DSR (très difficile)
+    def formula_2018_01(commune, period, parameters):
+        dsr_montant_total_fraction_bourg_centre = commune('dsr_montant_total_fraction_bourg_centre', period)
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre = commune('dsr_garantie_commune_nouvelle_fraction_bourg_centre', period)
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre = commune('dsr_montant_garantie_non_eligible_fraction_bourg_centre', period)
+        dsr_eligible_fraction_bourg_centre = commune('dsr_eligible_fraction_bourg_centre', period)
+
+        montant_total_a_attribuer = dsr_montant_total_fraction_bourg_centre - max_((~dsr_eligible_fraction_bourg_centre) * dsr_garantie_commune_nouvelle_fraction_bourg_centre, dsr_montant_garantie_non_eligible_fraction_bourg_centre).sum()
         return montant_total_a_attribuer
 
 
