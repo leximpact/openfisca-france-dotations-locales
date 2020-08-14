@@ -28,7 +28,10 @@ class dsr_eligible_fraction_perequation(Variable):
         return (~outre_mer) * (population_dgf < seuil_nombre_habitants) * (potentiel_financier_par_habitant <= plafond)
 
 
-class dsr_montant_total_eligibles_fraction_perequation(Variable):
+pourcentage_accroissement_dsr_pq = (653_174_468 - 645_050_872) / 90_000_000
+
+
+class dsr_montant_total_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
@@ -40,13 +43,49 @@ class dsr_montant_total_eligibles_fraction_perequation(Variable):
     aux communes nouvelles inéligibles s’élève à 7 403 713 €.
     '''
 
+    def formula_2019_01(commune, period, parameters):
+        return 645_050_872
+
+    def formula_2020_01(commune, period, parameters):
+        return 653_174_468
+
+    # A partir de 2020, formule récursive qui bouge en
+    # fonction des pourcentages
+    # d'augmentation constatés (en vrai il faudrait défalquer
+    # des pourcentages de population d'outre-mer)
+    # mais c'est une autre histoire
+    # La variation sera égale à pourcentage_accroissement *
+    # valeur du paramètre "accroissement" pour cette année là.
+
+    def formula_2021_01(commune, period, parameters):
+        montants_an_precedent = commune('dsr_montant_total_fraction_perequation', period.last_year)
+        accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_pq
+
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsr_montant_total_fraction_perequation', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_pq
+
+
+class dsr_montant_total_eligibles_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant disponible pour communes éligibles DSR fraction péréquation en métropole"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    En 2019 : La masse des crédits mis en répartition pour la DSR fraction péréquation
+    en métropole s'élève en 2019 à 645 050 872 €.
+    2020 : 653 174 468 € au titre de la fraction « péréquation » (soit 1,26 % de plus qu’en 2019)
+    '''
+
     def formula(commune, period, parameters):
-        montant_total_a_attribuer = 645_050_872 - 7_403_713
-        # montant inscrit dans la note. Pour le transformer en formule il faut
-        # que soient implémentés :
-        # les formules de garanties pour communes nouvellement non éligibles (moyen)
-        # les garanties communes nouvelles (chaud)
-        # la répartition du montant global vers la DSR (très difficile)
+        dsr_montant_total_fraction_perequation = commune('dsr_montant_total_fraction_perequation', period)
+        dsr_garantie_commune_nouvelle_fraction_perequation = commune('dsr_garantie_commune_nouvelle_fraction_perequation', period)
+        dsr_eligible_fraction_perequation = commune('dsr_eligible_fraction_perequation', period)
+        montant_total_a_attribuer = dsr_montant_total_fraction_perequation - ((~dsr_eligible_fraction_perequation) * dsr_garantie_commune_nouvelle_fraction_perequation).sum()
+
         return montant_total_a_attribuer
 
 
