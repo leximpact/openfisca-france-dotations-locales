@@ -1,5 +1,9 @@
 description: Augmentation minimale du montant de l'enveloppe de la DSR
 reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000033814588
+# Par défaut, les variations des montants attribués aux différentes fractions seront réparties selon le même
+# ratio qu'en 2020, à savoir ~90.26% des montants sont répartis pour la DSR (le reste va à l'outre-mer)
+# selon la clef de répartition choisie par le Comité des finances locales pour 2020, à savoir
+# 45% bourg-centre, 45% cible, 10% péréquation
 values:
   2014-01-01:
     value: 39000000
