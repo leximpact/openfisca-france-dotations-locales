@@ -2,6 +2,7 @@ description: Augmentation minimale du montant de l'enveloppe de la DSU
 reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000033814588
 # Par défaut, les variations des montants attribués aux différentes fractions seront réparties selon le même
 # ratio qu'en 2020, à savoir ~94.69% des montants sont répartis pour la DSU (le reste va à l'outre-mer)
+values:
   2014-01-01:
     value: 60000000
   2015-01-01:
