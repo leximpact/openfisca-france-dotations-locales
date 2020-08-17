@@ -251,3 +251,9 @@
     dsr_montant_garantie_non_eligible_fraction_cible: [0, 0, 0, 64]
   output:
     dsr_montant_total_eligibles_fraction_cible: [932, 932, 932, 932]
+
+- name: Montant total 2019 et 2020
+  output:
+    dsr_montant_total_fraction_cible: # Attention, pour fonctionner en simulation ce test nécessite de redéfinir max_spiral_loops
+      2019: 323_780_451
+      2020: 360_336_634

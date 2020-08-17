@@ -210,3 +210,10 @@
     dsr_garantie_commune_nouvelle_fraction_perequation: [16, 2, 4, 8]
   output:
     dsr_montant_total_eligibles_fraction_perequation: [988, 988, 988, 988]
+
+
+- name: Montant total 2019 et 2020
+  output:
+    dsr_montant_total_fraction_perequation: # Attention, pour fonctionner en simulation ce test nécessite de redéfinir max_spiral_loops
+      2019: 645_050_872
+      2020: 653_174_468

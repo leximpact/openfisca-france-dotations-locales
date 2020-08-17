@@ -269,11 +269,13 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     # les garanties communes nouvelles (fait mais les garanties n'ont pas de formule)
     # la répartition du montant global vers la DSR (très difficile)
 
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_bc
+
     def formula_2019_01(commune, period, parameters):
         return 545_248_126
-
-    def formula_2020_01(commune, period, parameters):
-        return 581_804_312
 
     # A partir de 2020, formule récursive qui bouge en
     # fonction des pourcentages
@@ -283,15 +285,10 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     # La variation sera égale à pourcentage_accroissement *
     # valeur du paramètre "accroissement" pour cette année là.
 
-    def formula_2021_01(commune, period, parameters):
+    def formula_2020_01(commune, period, parameters):
         montants_an_precedent = commune('dsr_montant_total_fraction_bourg_centre', period.last_year)
         accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
         return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_bc
-
-    def formula_2013_01(commune, period, parameters):
-        montants_an_prochain = commune('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
-        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
-        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_bc
 
 
 class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):

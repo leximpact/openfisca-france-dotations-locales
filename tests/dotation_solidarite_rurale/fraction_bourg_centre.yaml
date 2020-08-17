@@ -238,4 +238,8 @@
   output:
     dsr_montant_total_eligibles_fraction_bourg_centre: [932, 932, 932, 932]
 
-    
+- name: Montant total 2019 et 2020
+  output:
+    dsr_montant_total_fraction_bourg_centre: # Attention, pour fonctionner en simulation ce test nécessite de redéfinir max_spiral_loops
+      2019: 545_248_126
+      2020: 581_804_312

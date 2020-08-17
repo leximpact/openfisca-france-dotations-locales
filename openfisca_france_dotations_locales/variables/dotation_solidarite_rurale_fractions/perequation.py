@@ -43,11 +43,13 @@ class dsr_montant_total_fraction_perequation(Variable):
     aux communes nouvelles inéligibles s’élève à 7 403 713 €.
     '''
 
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsr_montant_total_fraction_perequation', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_pq
+
     def formula_2019_01(commune, period, parameters):
         return 645_050_872
-
-    def formula_2020_01(commune, period, parameters):
-        return 653_174_468
 
     # A partir de 2020, formule récursive qui bouge en
     # fonction des pourcentages
@@ -57,15 +59,10 @@ class dsr_montant_total_fraction_perequation(Variable):
     # La variation sera égale à pourcentage_accroissement *
     # valeur du paramètre "accroissement" pour cette année là.
 
-    def formula_2021_01(commune, period, parameters):
+    def formula_2020_01(commune, period, parameters):
         montants_an_precedent = commune('dsr_montant_total_fraction_perequation', period.last_year)
         accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
         return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_pq
-
-    def formula_2013_01(commune, period, parameters):
-        montants_an_prochain = commune('dsr_montant_total_fraction_perequation', period.offset(1, 'year'))
-        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
-        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_pq
 
 
 class dsr_montant_total_eligibles_fraction_perequation(Variable):
