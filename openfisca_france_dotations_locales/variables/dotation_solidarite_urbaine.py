@@ -8,7 +8,7 @@ class indice_synthetique_dsu(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Indice synthétique DSU:\
-indice synthétique pour l'éligibilité à la fraction-cible"
+        indice synthétique pour l'éligibilité à la fraction-cible"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -83,7 +83,7 @@ class rang_indice_synthetique_dsu_seuil_haut(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Rang indice synthétique DSU seuil haut:\
-Rang de classement de l'indice synthétique de DSU pour les communes de plus de 10000 habitants"
+        Rang de classement de l'indice synthétique de DSU pour les communes de plus de 10000 habitants"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -106,7 +106,7 @@ class rang_indice_synthetique_dsu_seuil_bas(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Rang indice synthétique DSU seuil bas:\
-Rang de classement de l'indice synthétique de DSU pour les communes de plus de 5000 à 9999 habitants"
+        Rang de classement de l'indice synthétique de DSU pour les communes de plus de 5000 à 9999 habitants"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -130,7 +130,7 @@ class dsu_nombre_communes_eligibles_seuil_bas(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Nombres de communes du seuil bas éligible à la DSU:\
-Nombre de communes éligibles à la dsu dans le seuil bas"
+        Nombre de communes éligibles à la dsu dans le seuil bas"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -151,7 +151,7 @@ class dsu_nombre_communes_eligibles_seuil_haut(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Nombres de communes du seuil haut éligible à la DSU:\
-Nombre de communes éligibles à la dsu dans le seuil haut"
+        Nombre de communes éligibles à la dsu dans le seuil haut"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -171,7 +171,7 @@ class dsu_eligible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Eligible:\
-Est éligible à la dotation de solidarité urbaine "
+        Est éligible à la dotation de solidarité urbaine "
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -191,7 +191,7 @@ class dsu_montant_total(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant hors garanties:\
-Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
+        Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
     reference = "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf"
     documentation = '''
     La somme effectivement mise en répartition au profit des
@@ -213,7 +213,7 @@ class dsu_montant_garantie_pluriannuelle(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant garanti au titre des années N-2 ou antérieures:\
-Montant de la garantie pluriannuelle touchée par la commune en cas de non-éligibilité"
+        Montant de la garantie pluriannuelle touchée par la commune en cas de non-éligibilité"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
     documentation = """Lorsqu'une commune cesse d'être éligible à la dotation à la suite
     d'une baisse de sa population en deçà du seuil minimal fixé au 2° de l'article
@@ -243,7 +243,7 @@ class dsu_montant_garantie_annuelle(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant garanti au titre de l'année N-1:\
-Montant garanti en cas de non éligibilité pour les communes non éligibles"
+        Montant garanti en cas de non éligibilité pour les communes non éligibles"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -257,7 +257,7 @@ class dsu_montant_garantie_non_eligible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant garanti non éligible:\
-Montant de la garantie de DSU versée aux communes non éligibles"
+        Montant de la garantie de DSU versée aux communes non éligibles"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814534&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -272,7 +272,7 @@ class dsu_montant_total_eligibles(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant hors garanties:\
-Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
+        Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
     reference = "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf"
 
     def formula_2019_01(commune, period, parameters):
@@ -287,7 +287,7 @@ class dsu_montant_eligible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU au titre de l'éligibilité:\
-Montant total reçu par la commune au titre de son éligibilité à la DSU (incluant part spontanée et augmentation)"
+        Montant total reçu par la commune au titre de son éligibilité à la DSU (incluant part spontanée et augmentation)"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814543&cidTexte=LEGITEXT000006070633"
 
     # La vraie clef de répartition n'est pas claire : les dotations sont distribuées
@@ -354,7 +354,6 @@ Montant total reçu par la commune au titre de son éligibilité à la DSU (incl
         score_nouveaux_eligibles_groupe_haut = (score_attribution * nouvellement_eligible_groupe_haut)
         score_anciens_eligibles_groupe_bas = (score_attribution * toujours_eligible_groupe_bas)
         score_nouveaux_eligibles_groupe_bas = (score_attribution * nouvellement_eligible_groupe_bas)
-        print(score_nouveaux_eligibles_groupe_bas, score_nouveaux_eligibles_groupe_haut, score_anciens_eligibles_groupe_bas, score_anciens_eligibles_groupe_haut)
         # clef de répartition groupe haut/groupe bas
         total_pop_eligible_augmentation_groupe_bas = (toujours_eligible_groupe_bas * population_dgf).sum()
         total_pop_eligible_augmentation_groupe_haut = (toujours_eligible_groupe_haut * population_dgf).sum()
@@ -389,7 +388,7 @@ class dsu_montant(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant total versé au titre de la DSU:\
-Montant total versé au titre de la DSU : garanties + montant spontané + augmentation"
+        Montant total versé au titre de la DSU : garanties + montant spontané + augmentation"
     reference = "https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -405,7 +404,7 @@ class dsu_part_spontanee(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU part spontanée:\
-DSU attribution spontanée"
+        DSU attribution spontanée"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000033814543&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -420,7 +419,7 @@ class dsu_part_augmentation(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU augmentation:\
-Acroissement de la DSU"
+        Acroissement de la DSU"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do;jsessionid=03CB6A1BBD20CCF171C0623A79187071.tplgfr24s_2?idArticle=LEGIARTI000033814522&cidTexte=LEGITEXT000006070633&dateTexte=20200804"
 
     def formula(commune, period, parameters):
