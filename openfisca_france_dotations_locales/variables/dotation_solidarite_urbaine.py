@@ -8,7 +8,7 @@ class indice_synthetique_dsu(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Indice synthétique DSU:\
-        indice synthétique pour l'éligibilité à la fraction-cible"
+        indice synthétique pour l'éligibilité à la DSU"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
@@ -143,7 +143,7 @@ class dsu_nombre_communes_eligibles_seuil_bas(Variable):
 
         nombre_communes_seuil_bas = ((~outre_mer) * (population_dgf >= seuil_bas) * (population_dgf < seuil_haut)).sum()
 
-        return int(nombre_communes_seuil_bas * pourcentage_eligible_bas + 0.99)
+        return int(nombre_communes_seuil_bas * pourcentage_eligible_bas + 0.99)  # 0.99 pour arrondi supérieur
 
 
 class dsu_nombre_communes_eligibles_seuil_haut(Variable):
@@ -163,7 +163,7 @@ class dsu_nombre_communes_eligibles_seuil_haut(Variable):
 
         nombre_communes_seuil_haut = ((~outre_mer) * (population_dgf >= seuil_haut)).sum()
 
-        return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.99)
+        return int(nombre_communes_seuil_haut * pourcentage_eligible_haut + 0.99)  # 0.99 pour arrondi supérieur
 
 
 class dsu_eligible(Variable):
@@ -191,20 +191,36 @@ class dsu_montant_total(Variable):
     entity = Commune
     definition_period = YEAR
     label = "DSU Montant hors garanties:\
-        Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
-    reference = "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf"
+        Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU en métropole"
+    reference = [
+        "https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE/Circulaires_2019/note_dinformation_2019_dsu.pdf",
+        "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=120"
+        ]
     documentation = '''
-    La somme effectivement mise en répartition au profit des
-    communes de métropole s'élève à 2164552909 €
+    En 2019 : La somme effectivement mise en répartition au profit
+    des communes de métropole s'élève à 2 164 552 909 €
+    (...)
+    après prélèvement de la quote-part réservée aux communes des départements
+    et collectivités d'outre-mer (126 185 741 €).
+
+    En 2020 : La somme effectivement mise en répartition au profit
+    des communes de métropole s'élève à 2 244 240 555 €
+    (...)
+    après prélèvement de la quote-part réservée aux communes des départements
+    et collectivités d’outre-mer (136 498 095 €).
     '''
     # Devrait peut-être être un paramètre
 
-    def formula_2018_01(commune, period, parameters):
-        montant_total_a_attribuer = 2_079_328_714
+    def formula_2020_01(commune, period, parameters):
+        montant_total_a_attribuer = 2_244_240_555
         return montant_total_a_attribuer
 
     def formula_2019_01(commune, period, parameters):
         montant_total_a_attribuer = 2_164_552_909
+        return montant_total_a_attribuer
+
+    def formula_2018_01(commune, period, parameters):
+        montant_total_a_attribuer = 2_079_328_714
         return montant_total_a_attribuer
 
 
@@ -269,7 +285,7 @@ class dsu_montant_garantie_non_eligible(Variable):
 
 class dsu_montant_total_eligibles(Variable):
     value_type = float
-    entity = Commune
+    entity = Commune  # une valeur unique valable pour la métropole
     definition_period = YEAR
     label = "DSU Montant hors garanties:\
         Valeur totale attribuée (hors garanties) aux communes éligibles à la DSU"
