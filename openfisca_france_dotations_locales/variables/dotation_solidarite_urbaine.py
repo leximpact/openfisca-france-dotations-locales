@@ -375,7 +375,6 @@ class dsu_montant_eligible(Variable):
         nouvellement_eligible_groupe_bas = eligible_groupe_bas * (montants_an_precedent == 0)
         nouvellement_eligible_groupe_haut = eligible_groupe_haut * (montants_an_precedent == 0)
         toujours_eligible = toujours_eligible_groupe_bas | toujours_eligible_groupe_haut
-        print("elg", eligible_groupe_bas, eligible_groupe_haut, nouvellement_eligible_groupe_bas, nouvellement_eligible_groupe_haut, toujours_eligible_groupe_bas, toujours_eligible_groupe_haut)
         # Détermination des scores
         facteur_classement_seuil_bas = np.where(rang_indice_synthetique_dsu_seuil_bas <= nombre_elig_seuil_bas, np.where(nombre_elig_seuil_bas != 1, (facteur_classement_min - facteur_classement_max) * (rang_indice_synthetique_dsu_seuil_bas - 1) / (nombre_elig_seuil_bas - 1), 0) + facteur_classement_max, 0)
         facteur_classement_seuil_haut = np.where(rang_indice_synthetique_dsu_seuil_haut <= nombre_elig_seuil_haut, np.where(nombre_elig_seuil_haut != 1, (facteur_classement_min - facteur_classement_max) * (rang_indice_synthetique_dsu_seuil_haut - 1) / (nombre_elig_seuil_haut - 1), 0) + facteur_classement_max, 0)
@@ -384,7 +383,6 @@ class dsu_montant_eligible(Variable):
         facteur_qpv = (1 + np.where(population_insee > 0, poids_quartiers_prioritaires_ville * population_qpv / population_insee, 0))
         facteur_zfu = (1 + np.where(population_insee > 0, poids_zone_franche_urbaine * population_zfu / population_insee, 0))
         score_attribution = indice_synthetique_dsu * population_dgf * facteur_classement * facteur_effort_fiscal * facteur_qpv * facteur_zfu
-        print("sc", score_attribution)
         score_anciens_eligibles_groupe_haut = (score_attribution * toujours_eligible_groupe_haut)
         score_nouveaux_eligibles_groupe_haut = (score_attribution * nouvellement_eligible_groupe_haut)
         score_anciens_eligibles_groupe_bas = (score_attribution * toujours_eligible_groupe_bas)
@@ -401,25 +399,20 @@ class dsu_montant_eligible(Variable):
 
         part_augmentation_groupe_bas = total_pop_eligible_augmentation_groupe_bas / total_pop_eligible_augmentation
         part_augmentation_groupe_haut = 1 - part_augmentation_groupe_bas
-        print("part augm", total_pop_eligible_augmentation_groupe_bas, total_pop_eligible_augmentation_groupe_haut, part_augmentation_groupe_haut)
         # clef de répartition : on attribue une valeur des points d'augmentation égale au pourcentage
         # d'augmentation de la DSU
         rapport_valeur_point = pourcentage_augmentation_dsu  # Le rapport valeur point dépend
         # probablement du groupe, mais on ignore les détails de son calcul
         total_points_groupe_bas = (score_anciens_eligibles_groupe_bas * rapport_valeur_point + score_nouveaux_eligibles_groupe_bas).sum()
         total_points_groupe_haut = (score_anciens_eligibles_groupe_haut * rapport_valeur_point + score_nouveaux_eligibles_groupe_haut).sum()
-        print("gold", score_anciens_eligibles_groupe_bas, rapport_valeur_point, score_nouveaux_eligibles_groupe_bas)
         # Détermination de la valeur du point
         montant_garanti_eligible = (toujours_eligible * montants_an_precedent).sum()
         valeur_point_groupe_bas = (total_a_distribuer - montant_garanti_eligible) * part_augmentation_groupe_bas / total_points_groupe_bas if total_points_groupe_bas else 0
         valeur_point_groupe_haut = (total_a_distribuer - montant_garanti_eligible) * part_augmentation_groupe_haut / total_points_groupe_haut if total_points_groupe_haut else 0
-        print(valeur_point_groupe_bas, valeur_point_groupe_haut, total_points_groupe_bas, total_points_groupe_haut)
-        print(score_attribution)
         montant_toujours_eligible_groupe_bas = (min_(valeur_point_groupe_bas * rapport_valeur_point * score_attribution, augmentation_max) + montants_an_precedent) * toujours_eligible_groupe_bas
         montant_toujours_eligible_groupe_haut = (min_(valeur_point_groupe_haut * rapport_valeur_point * score_attribution, augmentation_max) + montants_an_precedent) * toujours_eligible_groupe_haut
         montant_nouvellement_eligible_groupe_bas = valeur_point_groupe_bas * score_attribution * nouvellement_eligible_groupe_bas
         montant_nouvellement_eligible_groupe_haut = valeur_point_groupe_haut * score_attribution * nouvellement_eligible_groupe_haut
-        print(montant_toujours_eligible_groupe_bas, montant_toujours_eligible_groupe_haut, montant_nouvellement_eligible_groupe_bas, montant_nouvellement_eligible_groupe_haut)
         return montant_toujours_eligible_groupe_bas + montant_toujours_eligible_groupe_haut + montant_nouvellement_eligible_groupe_bas + montant_nouvellement_eligible_groupe_haut
 
 
