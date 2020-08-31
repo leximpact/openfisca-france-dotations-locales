@@ -1,0 +1,136 @@
+- name: Indice synthétique nul pour l'outre mer - seuil bas
+  period: 2020
+  input:
+    population_dgf: [7000, 7000]
+    population_insee: [7000, 7000]
+    outre_mer: [False, True]
+    potentiel_financier: [1, 1]
+    nombre_logements: [7000, 7000]
+    nombre_logements_sociaux: [700, 700]
+    nombre_beneficiaires_aides_au_logement: [700, 700]
+    revenu_total: [1, 1]        
+  output:
+    indice_synthetique_dsu: [1, 0]
+
+- name: Indice synthétique nul pour l'outre mer - seuil haut
+  period: 2020
+  input:
+    population_dgf: [70000, 70000]
+    population_insee: [70000, 70000]
+    outre_mer: [False, True]
+    potentiel_financier: [1, 1]
+    nombre_logements: [70000, 70000]
+    nombre_logements_sociaux: [7000, 7000]
+    nombre_beneficiaires_aides_au_logement: [7000, 7000]
+    revenu_total: [1, 1]
+  output:
+    indice_synthetique_dsu: [1, 0]
+
+- name: Indice synthétique - impact du potentiel financier
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    population_dgf: [70000, 70000]
+    population_insee: [70000, 70000]
+    potentiel_financier: [1.5, 0.5] 
+    nombre_logements: [70000, 70000]
+    nombre_logements_sociaux: [7000, 7000]
+    nombre_beneficiaires_aides_au_logement: [7000, 7000]
+    revenu_total: [1, 1]
+  output:
+    indice_synthetique_dsu: [0.9, 1.3] # (0.7 + 0.3 * (1 / potentiel_financier))
+
+- name: Indice synthétique - impact du nombre de logements sociaux
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    population_dgf: [70000, 70000]
+    population_insee: [70000, 70000]
+    potentiel_financier: [1, 1] 
+    nombre_logements: [70000, 70000]
+    nombre_logements_sociaux: [0, 14000]
+    nombre_beneficiaires_aides_au_logement: [7000, 7000]
+    revenu_total: [1, 1]
+  output:
+    indice_synthetique_dsu: [0.85, 1.15] # (0.85 + 0.15 * (part logements sociaux / part moyenne de logements sociaux))
+
+- name: Indice synthétique - impact du nombre d'aides au logement
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    population_dgf: [70000, 70000]
+    population_insee: [70000, 70000]
+    potentiel_financier: [1, 1] 
+    nombre_logements: [70000, 70000]
+    nombre_logements_sociaux: [7000, 7000]
+    nombre_beneficiaires_aides_au_logement: [0, 14000]
+    revenu_total: [1, 1]
+  output:
+    indice_synthetique_dsu: [0.7, 1.3] # (0.7 + 0.3 * (part aides logement / part moyenne aides au logement))
+
+- name: Indice synthétique - impact du revenu
+  period: 2020
+  absolute_error_margin: 0.00001
+  input:
+    population_dgf: [70000, 70000]
+    population_insee: [70000, 70000]
+    potentiel_financier: [1, 1] 
+    nombre_logements: [70000, 70000]
+    nombre_logements_sociaux: [7000, 7000]
+    nombre_beneficiaires_aides_au_logement: [7000, 7000]
+    revenu_total: [1.5, 0.5]
+  output:
+    indice_synthetique_dsu: [0.9166667, 1.25] # (0.75 + 0.25 * (revenu moyen / revenu par habitant))
+
+- name: Classement indice synthétique
+  period: 2020
+  input:
+    population_dgf: [7, 70000, 70000, 7000, 7000]
+    indice_synthetique_dsu: [0, 4, 1, 3, 2]
+  output: # Les ex-aequo sont dans l'ordre initial
+    rang_indice_synthetique_dsu_seuil_bas: [3, 4, 5, 1, 2]
+    rang_indice_synthetique_dsu_seuil_haut: [3, 1, 2, 4, 5]
+
+- name: Eligibilité à partir du classement - nombre d'éligibles = 2/3 des communes du seuil haut arrondi supérieur
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 10000, 10000, 10000]    
+    indice_synthetique_dsu: [7, 6, 5, 4, 3]
+  output:
+    dsu_nombre_communes_eligibles_seuil_bas: [0, 0, 0, 0, 0]
+    dsu_nombre_communes_eligibles_seuil_haut: [4, 4, 4, 4, 4]
+    rang_indice_synthetique_dsu_seuil_haut: [1, 2, 3, 4, 5]
+    dsu_eligible: [True, True, True, True, False]
+
+- name: Eligibilité à partir du classement - nombre d'éligibles = 2/3 des communes du seuil haut arrondi supérieur
+  period: 2020
+  input:
+    population_dgf: [10000, 10000, 10000, 10000, 10000, 10000]    
+    indice_synthetique_dsu: [6, 5, 4, 3, 2, 1]
+  output:  
+    dsu_nombre_communes_eligibles_seuil_bas: [0, 0, 0, 0, 0, 0]
+    dsu_nombre_communes_eligibles_seuil_haut: [4, 4, 4, 4, 4, 4]
+    rang_indice_synthetique_dsu_seuil_haut: [1, 2, 3, 4, 5, 6]
+    dsu_eligible: [True, True, True, True, False, False]
+
+- name: Eligibilité à partir du classement - nombre d'éligibles = 10% des communes du seuil bas arrondi supérieur
+  period: 2020
+  input:
+    population_dgf: [7000, 7000, 7000, 7000, 7000, 7000, 7000]    
+    indice_synthetique_dsu: [7, 6, 5, 4, 3, 2, 1]
+  output:
+    dsu_nombre_communes_eligibles_seuil_bas: [1, 1, 1, 1, 1, 1, 1]
+    dsu_nombre_communes_eligibles_seuil_haut: [0, 0, 0, 0, 0, 0, 0]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2, 3, 4, 5, 6, 7]
+    dsu_eligible: [True, False, False, False, False, False, False]
+
+- name: Eligibilité à partir du classement - nombre d'éligibles = 10%0 des communes du seuil bas arrondi supérieur
+  period: 2020
+  input:
+    population_dgf: [7000, 7000, 7000, 7000, 7000, 7000, 7000, 7000, 7000, 7000, 7000]    
+    indice_synthetique_dsu: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+  output:  
+    dsu_nombre_communes_eligibles_seuil_bas: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+    dsu_nombre_communes_eligibles_seuil_haut: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    dsu_eligible: [True, True, False, False, False, False, False, False, False, False, False]

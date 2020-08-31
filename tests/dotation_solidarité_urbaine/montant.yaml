@@ -1,0 +1,139 @@
+- name: Montant de garantie annuelle calculée correctement
+  period: 2020
+  input:
+    dsu_montant_total: [1000, 1000] 
+    dsu_montant_garantie_non_eligible : [100, 100]
+  output:
+    dsu_montant_total_eligibles: [800, 800]
+
+
+- name: Montant eligibles - ceinture blanche, toute la DSU pour la seule commune éligible
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total_eligibles: [1000, 1000] 
+    dsu_eligible: [True, False]
+    population_dgf: [7000, 7000]
+    indice_synthetique_dsu: [1, 0.5]
+    effort_fiscal: [1, 1]
+    population_insee: [7000, 7000]
+    dsu_montant_eligible:
+      2019: [0, 0]
+  output:
+    dsu_montant_eligible: [1000, 0]
+
+
+- name: Montant eligibles - ceinture jaune, repartition correcte du surplus
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total_eligibles: [450, 450]
+    dsu_eligible: [True, True]
+    population_dgf: [7000, 7000]
+    effort_fiscal: [1, 1]
+    population_insee: [7000, 7000]
+    dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
+    indice_synthetique_dsu: [1, 1]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
+    dsu_montant_eligible:
+      2019: [0, 0]
+  output:
+    dsu_montant_eligible: [400, 50]
+
+
+- name: Montant eligibles - ceinture rouge, repartition correcte du surplus avec montant existant
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total:
+      2019: [1000, 1000]
+      2020: [1450, 1450]
+    dsu_eligible: [True, True]
+    population_dgf: [7000, 7000]
+    effort_fiscal: [1, 1]
+    indice_synthetique_dsu: [1, 1]
+    population_insee: [7000, 7000]
+    dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
+    dsu_montant_eligible:
+      2019: [500, 500]
+  output:
+    dsu_montant_eligible: [900, 550]
+
+- name: Montant eligibles - ceinture marron, repartition correcte du surplus avec montant existant
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total:
+      2019: [4500, 4500]
+      2020: [4900, 4900]
+    dsu_eligible: [True, True]
+    population_dgf: [7000, 7000]
+    indice_synthetique_dsu: [1, 1]
+    effort_fiscal: [1, 1]
+    population_insee: [7000, 7000]
+    dsu_nombre_communes_eligibles_seuil_bas: [2, 2]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2] #Donnera un facteur de classement de 4 et 0.5
+    dsu_montant_eligible:
+      2019: [4000, 0]
+    # Scores respectifs : 40  5
+    # Le montant à répartir (les 900 non garantis) sont répartis au prorata des points
+    # Sachant qu'un point d'acroissement vaut 400/4500 d'un point de nouvellement éligible
+  output:
+    dsu_montant_eligible: [4374.026, 525.974]
+
+
+- name: Montant eligibles - ceinture noire, repartition correcte du surplus avec montant existant et commune nouvellement inéligible
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total:
+      2019: [4500, 4500, 4500]
+      2020: [4900, 4900, 4900]
+    dsu_eligible: [True, True, False]
+    population_dgf: [7000, 7000, 7000]
+    effort_fiscal: [1, 1, 1]
+    population_insee: [7000, 7000, 7000]
+    indice_synthetique_dsu: [1, 1, 1]
+    dsu_nombre_communes_eligibles_seuil_bas: [2, 2, 2]
+    rang_indice_synthetique_dsu_seuil_bas: [1, 2, 3] #Donnera un facteur de classement de 4 et 0.5
+    dsu_montant_eligible:
+      2019: [4000, 0, 500]
+    # Le montant à répartir est diminué du montant des garanties applicables
+  output:
+    dsu_montant_eligible: [4270.13, 379.8701, 0]
+    dsu_montant_garantie_non_eligible: [0, 0, 250]
+
+
+- name: Montant total
+  period: 2020
+  input:
+    dsu_montant_eligible: [1000, 0, 200, 0]
+    dsu_montant_garantie_non_eligible: [0, 179, 0, 0]
+    # Le montant à répartir est diminué du montant des garanties applicables
+  output:
+    dsu_montant: [1000, 179, 200, 0]
+
+
+- name: Répartition correcte entre augmentation et part spontanée
+  period: 2020
+  input:
+    dsu_eligible: [True, True, True]
+    dsu_montant_eligible:
+      2019: [1000, 800, 0]
+      2020: [1000, 1000, 1000]
+  output:
+    dsu_part_spontanee: [1000, 800, 1000]
+    dsu_part_augmentation: [0, 200, 0]
+
+
+- name: Répartition correcte pour commune non éligible (si le test existe, c'est qu'il n'est pas toujours passé)
+  period: 2020
+  input:
+    dsu_eligible: False
+    dsu_montant_eligible:
+      2019: 1000
+      2020: 0
+  output:
+    dsu_part_spontanee: 0
+    dsu_part_augmentation: 0

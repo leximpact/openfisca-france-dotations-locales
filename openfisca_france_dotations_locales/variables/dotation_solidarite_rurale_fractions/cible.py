@@ -55,7 +55,7 @@ class rang_indice_synthetique_dsr_cible(Variable):
         # On l'applique sur l'opposé de l'indice synthétique
         # pour obtenir un classement dans l'ordre décroissant.
         # les communes de même indice synthétique auront un rang différent (non spécifié par la loi)
-        return (-indice_synthetique_dsr_cible).argsort().argsort()
+        return (-indice_synthetique_dsr_cible).argsort().argsort() + 1
 
 
 class dsr_eligible_fraction_cible(Variable):

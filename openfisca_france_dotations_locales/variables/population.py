@@ -98,3 +98,21 @@ class population_enfants(Variable):
     definition_period = YEAR
     label = "Nombre d'habitants de 3 à 16 ans (selon le dernier recensement)"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
+
+
+class population_qpv(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Population QPV:\
+Population des quartiers prioritaires de politique de la ville"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
+
+
+class population_zfu(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Population ZFU:\
+Population des zones franches urbaines de la commune"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"

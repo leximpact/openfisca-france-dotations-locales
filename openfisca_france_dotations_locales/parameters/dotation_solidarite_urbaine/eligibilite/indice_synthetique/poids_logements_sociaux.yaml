@@ -1,0 +1,5 @@
+description: Part de l'indice synthétique d'éligibilité de la DSU déterminée par le ratio entre les parts de logements sociaux de la commune et des communes de la même strate, où les strates sont définies par les seuils de population d'éligibilité à la DSU
+reference: https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633&dateTexte=20200622
+values:
+  2019-01-01:
+    value: 0.15

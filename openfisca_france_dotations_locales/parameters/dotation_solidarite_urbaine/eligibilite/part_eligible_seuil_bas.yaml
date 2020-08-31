@@ -1,0 +1,5 @@
+description: Part des premières communes situées entre le seuil bas et le seuil haut et classées par indice synthétique décroissant touchant la DSU
+reference: https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006197674&cidTexte=LEGITEXT000006070633&dateTexte=20200622
+values:
+  2019-01-01:
+    value: 0.1
