@@ -132,7 +132,10 @@ class dsr_montant_total_eligibles_fraction_cible(Variable):
         dsr_garantie_commune_nouvelle_fraction_cible = commune('dsr_garantie_commune_nouvelle_fraction_cible', period)
         dsr_montant_garantie_non_eligible_fraction_cible = commune('dsr_montant_garantie_non_eligible_fraction_cible', period)
         dsr_eligible_fraction_cible = commune('dsr_eligible_fraction_cible', period)
-        montant_total_a_attribuer = dsr_montant_total_fraction_cible - max_((~dsr_eligible_fraction_cible) * dsr_garantie_commune_nouvelle_fraction_cible, dsr_montant_garantie_non_eligible_fraction_cible).sum()
+        montant_total_a_attribuer = dsr_montant_total_fraction_cible - max_(
+            (~dsr_eligible_fraction_cible) * dsr_garantie_commune_nouvelle_fraction_cible,  # garantie issue du passé des composantes de la commune nouvelle
+            dsr_montant_garantie_non_eligible_fraction_cible
+            ).sum()
         return montant_total_a_attribuer
 
 
@@ -196,11 +199,12 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_habitant(Variable
         Score d'attribution de la fraction cible de la DSR au titre du potentiel financier par habitant"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
-    documentation = """1° Pour 30 % de son montant, en fonction de la population
-    pondérée par l'écart entre le potentiel financier par habitant de la
-    commune et le potentiel financier moyen par habitant des communes
-    appartenant au même groupe démographique ainsi que par l'effort fiscal
-    plafonné à 1,2 ;"""
+    documentation = """
+        1° Pour 30 % de son montant, en fonction de la population
+        pondérée par l'écart entre le potentiel financier par habitant de la
+        commune et le potentiel financier moyen par habitant des communes
+        appartenant au même groupe démographique ainsi que par l'effort fiscal
+        plafonné à 1,2 ;"""
 
     def formula(commune, period, parameters):
         potentiel_financier_par_habitant = commune('potentiel_financier_par_habitant', period)
@@ -224,14 +228,15 @@ class dsr_score_attribution_cible_part_longueur_voirie(Variable):
         Score d'attribution de la fraction cible de la DSR au titre de la voirie"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
-    documentation = """2° Pour 30 % de son montant, proportionnellement à la longueur
-    de la voirie classée dans le domaine public communal ; pour les communes situées
-    en zone de montagne ou pour les communes insulaires, la longueur de la voirie est
-    doublée. Pour l'application du présent article, une commune insulaire s'entend
-    d'une commune de métropole située sur une île qui, n'étant pas reliée au continent
-    par une infrastructure routière, comprend une seule commune ou un seul
-    établissement public de coopération intercommunale
-    """
+    documentation = """
+        2° Pour 30 % de son montant, proportionnellement à la longueur
+        de la voirie classée dans le domaine public communal ; pour les communes situées
+        en zone de montagne ou pour les communes insulaires, la longueur de la voirie est
+        doublée. Pour l'application du présent article, une commune insulaire s'entend
+        d'une commune de métropole située sur une île qui, n'étant pas reliée au continent
+        par une infrastructure routière, comprend une seule commune ou un seul
+        établissement public de coopération intercommunale
+        """
 
     def formula(commune, period, parameters):
         longueur_voirie = commune('longueur_voirie', period)
@@ -250,9 +255,10 @@ class dsr_score_attribution_cible_part_enfants(Variable):
         Score d'attribution de la fraction cible de la DSR au titre du nombre d'enfants dans la population"
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
-    documentation = """3° Pour 30 % de son montant, proportionnellement au nombre
-    d'enfants de trois à seize ans domiciliés dans la commune, établi lors du dernier
-    recensement.
+    documentation = """
+        3° Pour 30 % de son montant, proportionnellement au nombre
+        d'enfants de trois à seize ans domiciliés dans la commune, établi lors du dernier
+        recensement.
     """
 
     def formula(commune, period, parameters):
@@ -271,8 +277,8 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_hectare(Variable)
     reference = ["https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633",
             "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"]
     documentation = """4° Pour 10 % de son montant au maximum, en fonction de
-    l'écart entre le potentiel financier par hectare de la commune et le potentiel
-    financier moyen par hectare des communes de moins de 10 000 habitants."""
+        l'écart entre le potentiel financier par hectare de la commune et le potentiel
+        financier moyen par hectare des communes de moins de 10 000 habitants."""
 
     def formula(commune, period, parameters):
         potentiel_financier = commune('potentiel_financier', period)
@@ -353,7 +359,7 @@ class dsr_fraction_cible_part_potentiel_financier_par_habitant(Variable):
     value_type = float
     entity = Commune
     label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
-    fraction cible de la DSR au titre du potentiel financier par habitant"
+        fraction cible de la DSR au titre du potentiel financier par habitant"
     definition_period = YEAR
 
     def formula(commune, period, parameters):
@@ -366,7 +372,7 @@ class dsr_fraction_cible_part_longueur_voirie(Variable):
     value_type = float
     entity = Commune
     label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
-    fraction cible de la DSR au titre des enfants"
+        fraction cible de la DSR au titre des enfants"
     definition_period = YEAR
 
     def formula(commune, period, parameters):
@@ -379,7 +385,7 @@ class dsr_fraction_cible_part_enfants(Variable):
     value_type = float
     entity = Commune
     label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
-    fraction cible de la DSR au titre de la longueur de voirie"
+        fraction cible de la DSR au titre de la longueur de voirie"
     definition_period = YEAR
 
     def formula(commune, period, parameters):
@@ -392,7 +398,7 @@ class dsr_fraction_cible_part_potentiel_financier_par_hectare(Variable):
     value_type = float
     entity = Commune
     label = "Valeur attribuée (hors garanties de stabilité) à la commune pour la \
-    fraction cible de la DSR au titre du potentiel financier par hectare"
+        fraction cible de la DSR au titre du potentiel financier par hectare"
     definition_period = YEAR
 
     def formula(commune, period, parameters):
@@ -423,13 +429,13 @@ class dsr_garantie_commune_nouvelle_fraction_cible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Garantie commune nouvelle DSR fraction cible:\
-Montant garanti aux communes nouvelles au titre de la fraction cible de la dotation de solidarité rurale"
+        Montant garanti aux communes nouvelles au titre de la fraction cible de la dotation de solidarité rurale"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
     documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
-                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
-                fractions de la dotation de solidarité rurale au moins égales aux attributions
-                perçues au titre de chacune de ces dotations par les anciennes communes l'année
-                précédant la création de la commune nouvelle.'''
+        les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+        fractions de la dotation de solidarité rurale au moins égales aux attributions
+        perçues au titre de chacune de ces dotations par les anciennes communes l'année
+        précédant la création de la commune nouvelle.'''
 
 
 class dsr_montant_garantie_non_eligible_fraction_cible(Variable):
@@ -437,12 +443,12 @@ class dsr_montant_garantie_non_eligible_fraction_cible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Garantie de sortie DSR fraction cible:\
-Montant garanti aux communes nouvellement inéligibles au titre de la fraction cible de la dotation de solidarité rurale"
+        Montant garanti aux communes nouvellement inéligibles au titre de la fraction cible de la dotation de solidarité rurale"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
     documentation = '''Lorsqu'une commune cesse de remplir les conditions requises pour
-bénéficier de cette fraction de la dotation de solidarité rurale, cette
-commune perçoit, à titre de garantie non renouvelable, une attribution
-égale à la moitié de celle qu'elle a perçue l'année précédente.'''
+        bénéficier de cette fraction de la dotation de solidarité rurale, cette
+        commune perçoit, à titre de garantie non renouvelable, une attribution
+        égale à la moitié de celle qu'elle a perçue l'année précédente.'''
 
     def formula(commune, period, parameters):
         dsr_eligible_fraction_cible = commune("dsr_eligible_fraction_cible", period)
@@ -456,7 +462,7 @@ class dsr_fraction_cible(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant effectivement attribué DSR fraction-cible:\
-Montant attribué à la commune au titre de la fraction cible de la DSR après garanties de sortie et de commune nouvelle"
+        Montant attribué à la commune au titre de la fraction cible de la DSR après garanties de sortie et de commune nouvelle"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):

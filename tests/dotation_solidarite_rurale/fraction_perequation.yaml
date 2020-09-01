@@ -172,7 +172,7 @@
     dsr_fraction_perequation: [0, 100, 80, 120]
 
 
-- name: DSR, attribution fraction péréquation. Montant de garantie CN appliqué
+- name: DSR, attribution fraction péréquation. Montant de garantie commune nouvelle appliqué
   period: 2020
   input:
     dsr_garantie_commune_nouvelle_fraction_perequation: [120, 80]
@@ -189,7 +189,7 @@
     dsr_montant_total_fraction_perequation: 
       2020: 100000000
   output:
-    dsr_montant_total_fraction_perequation: 108123596 # = 100000000 + 90000000 * 0.09026217778
+    dsr_montant_total_fraction_perequation: 108123596  # = 100000000 + 90000000 * 0.09026217778
 
 - name: Montant total se décroit normalement 
   period: 2014
@@ -198,7 +198,7 @@
     dsr_montant_total_fraction_perequation: 
       2015: 1000000000
   output:
-    dsr_montant_total_fraction_perequation: 989439325.2 # = 1000000000 - 117000000 * 0.09026217778
+    dsr_montant_total_fraction_perequation: 989439325.2  # = 1000000000 - 117000000 * 0.09026217778
 
 
 - name: DSR perequation - Montant total restant pour les communes éligibles 
@@ -209,7 +209,7 @@
     dsr_eligible_fraction_perequation: [True, True, False, False]
     dsr_garantie_commune_nouvelle_fraction_perequation: [16, 2, 4, 8]
   output:
-    dsr_montant_total_eligibles_fraction_perequation: [988, 988, 988, 988]
+    dsr_montant_total_eligibles_fraction_perequation: [988, 988, 988, 988]  # métropole 1000-(4+8)
 
 
 - name: Montant total 2019 et 2020

@@ -376,11 +376,13 @@ class dsr_montant_eligible_fraction_perequation(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant attribué fraction péréquation après garanties de stabilité:\
-Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction péréquation de la DSR"
+        Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction péréquation de la DSR"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
-    documentation = '''A compter de 2012, l'attribution au titre de cette fraction d'une
-    commune éligible ne peut être ni inférieure à 90 % ni supérieure à 120 %
-    du montant perçu l'année précédente.'''
+    documentation = '''
+        A compter de 2012, l'attribution au titre de cette fraction d'une
+        commune éligible ne peut être ni inférieure à 90 % ni supérieure à 120 %
+        du montant perçu l'année précédente.
+        '''
 
     def formula(commune, period, parameters):
         plancher_progression = parameters(period).dotation_solidarite_rurale.perequation.attribution.plancher_ratio_progression
@@ -395,13 +397,13 @@ class dsr_garantie_commune_nouvelle_fraction_perequation(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Garantie commune nouvelle DSR fraction péréquation:\
-Montant garanti aux communes nouvelles au titre de la fraction péréquation de la dotation de solidarité rurale"
+        Montant garanti aux communes nouvelles au titre de la fraction péréquation de la dotation de solidarité rurale"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
     documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
-                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
-                fractions de la dotation de solidarité rurale au moins égales aux attributions
-                perçues au titre de chacune de ces dotations par les anciennes communes l'année
-                précédant la création de la commune nouvelle.'''
+        les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+        fractions de la dotation de solidarité rurale au moins égales aux attributions
+        perçues au titre de chacune de ces dotations par les anciennes communes l'année
+        précédant la création de la commune nouvelle.'''
 
 
 class dsr_fraction_perequation(Variable):
@@ -409,10 +411,13 @@ class dsr_fraction_perequation(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant effectivement attribué DSR fraction péréquation:\
-Montant attribué à la commune au titre de la fraction péréquation de la DSR après garanties de stabilité, et de commune nouvelle"
+        Montant attribué à la commune au titre de la fraction péréquation de la DSR après garanties de stabilité, et de commune nouvelle"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
         dsr_garantie_commune_nouvelle_fraction_perequation = commune("dsr_garantie_commune_nouvelle_fraction_perequation", period)
         dsr_montant_eligible_fraction_perequation = commune("dsr_montant_eligible_fraction_perequation", period)
-        return max_(dsr_montant_eligible_fraction_perequation, dsr_garantie_commune_nouvelle_fraction_perequation)
+        return max_(
+            dsr_montant_eligible_fraction_perequation,
+            dsr_garantie_commune_nouvelle_fraction_perequation
+            )

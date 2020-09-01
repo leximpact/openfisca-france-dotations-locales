@@ -255,13 +255,13 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
-    label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
+    label = "Montant total disponible pour communes de métropole éligibles DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
     documentation = '''
-    2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
-    s’élève à [5]45 248 126 €.
-    2020 : 581 804 312 € sont répartis au titre de la fraction «bourgcentre»  (soit  une augmentation de 6,70 %)
-    '''
+        2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
+        s’élève à [5]45 248 126 €.
+        2020 : 581 804 312 € sont répartis au titre de la fraction «bourgcentre»  (soit  une augmentation de 6,70 %)
+        '''
     # montants inscrits dans la note. Pour le transformer en formule il faut
     # que soient implémentés :
     # le montant global de la dgf (fait dans les paramètres)
@@ -298,11 +298,11 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
     documentation = '''
-    2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
-    s’élève à [5]45 248 126 €. Le montant des garanties versées aux communes
-    devenues inéligibles en 2018 (hors communes nouvelles) représente 898 172 €.
-    Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
-    '''
+        2019 : La masse des crédits mis en répartition en métropole au titre de l'année 2019
+        s’élève à [5]45 248 126 €. Le montant des garanties versées aux communes
+        devenues inéligibles en 2018 (hors communes nouvelles) représente 898 172 €.
+        Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
+        '''
 
     def formula_2018_01(commune, period, parameters):
         dsr_montant_total_fraction_bourg_centre = commune('dsr_montant_total_fraction_bourg_centre', period)
@@ -334,9 +334,9 @@ class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
     label = "Valeurs attribuée hors 'garanties de stabilité' aux communes éligibles au titre de la fraction bourg-centre de la DSR"
     definition_period = YEAR
     documentation = '''
-    Par garanties de stabilité on entend l'attribution d'un montant aux nouvelles communes
-    ou aux communes nouvellement sorties de l'éligibilité.
-    '''
+        Par garanties de stabilité on entend l'attribution d'un montant aux nouvelles communes
+        ou aux communes nouvellement sorties de l'éligibilité.
+        '''
 
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_fraction_bourg_centre", period)
@@ -349,10 +349,11 @@ class dsr_montant_eligible_fraction_bourg_centre(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant attribué fraction bourg-centre après garanties de stabilité:\
-Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
+        Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction bourg-centre de la DSR"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
-    documentation = '''A compter de 2012, l'attribution d'une commune éligible ne peut être ni inférieure à 90 % ni
-            supérieure à 120 % du montant perçu l'année précédente.'''
+    documentation = '''
+        A compter de 2012, l'attribution d'une commune éligible ne peut être ni inférieure à 90 %
+        ni supérieure à 120 % du montant perçu l'année précédente.'''
 
     def formula(commune, period, parameters):
         plancher_progression = parameters(period).dotation_solidarite_rurale.bourg_centre.attribution.plancher_ratio_progression
@@ -367,13 +368,13 @@ class dsr_garantie_commune_nouvelle_fraction_bourg_centre(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Garantie commune nouvelle DSR fraction bourg-centre:\
-Montant garanti aux communes nouvelles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
+        Montant garanti aux communes nouvelles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
     documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
-                les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
-                fractions de la dotation de solidarité rurale au moins égales aux attributions
-                perçues au titre de chacune de ces dotations par les anciennes communes l'année
-                précédant la création de la commune nouvelle.'''
+        les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+        fractions de la dotation de solidarité rurale au moins égales aux attributions
+        perçues au titre de chacune de ces dotations par les anciennes communes l'année
+        précédant la création de la commune nouvelle.'''
 
 
 class dsr_montant_garantie_non_eligible_fraction_bourg_centre(Variable):
@@ -381,12 +382,12 @@ class dsr_montant_garantie_non_eligible_fraction_bourg_centre(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Garantie de sortie DSR fraction bourg-centre:\
-Montant garanti aux communes nouvellement inéligibles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
+        Montant garanti aux communes nouvellement inéligibles au titre de la fraction bourg-centre de la dotation de solidarité rurale"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
     documentation = '''Lorsqu'une commune cesse de remplir les conditions requises pour
-bénéficier de cette fraction de la dotation de solidarité rurale, cette
-commune perçoit, à titre de garantie non renouvelable, une attribution
-égale à la moitié de celle qu'elle a perçue l'année précédente.'''
+        bénéficier de cette fraction de la dotation de solidarité rurale, cette
+        commune perçoit, à titre de garantie non renouvelable, une attribution
+        égale à la moitié de celle qu'elle a perçue l'année précédente.'''
 
     def formula(commune, period, parameters):
         dsr_eligible_fraction_bourg_centre = commune("dsr_eligible_fraction_bourg_centre", period)
@@ -400,7 +401,7 @@ class dsr_fraction_bourg_centre(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Montant effectivement attribué DSR fraction bourg-centre:\
-Montant attribué à la commune au titre de la fraction bourg-centre de la DSR après garanties de sortie, de stabilité, et de commune nouvelle"
+        Montant attribué à la commune au titre de la fraction bourg-centre de la DSR après garanties de sortie, de stabilité, et de commune nouvelle"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633"
 
     def formula(commune, period, parameters):
