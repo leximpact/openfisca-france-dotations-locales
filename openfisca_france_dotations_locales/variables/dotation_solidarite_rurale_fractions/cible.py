@@ -453,8 +453,8 @@ class dsr_montant_garantie_non_eligible_fraction_cible(Variable):
     def formula(commune, period, parameters):
         dsr_eligible_fraction_cible = commune("dsr_eligible_fraction_cible", period)
         montant_an_precedent = commune("dsr_montant_hors_garanties_fraction_cible", period.last_year)
-        part_garantie = 0.5
-        return (~dsr_eligible_fraction_cible) * montant_an_precedent * part_garantie
+        ratio_garantie = parameters(period).dotation_solidarite_rurale.cible.attribution.ratio_garantie
+        return (~dsr_eligible_fraction_cible) * montant_an_precedent * ratio_garantie
 
 
 class dsr_fraction_cible(Variable):

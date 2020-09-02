@@ -1,0 +1,7 @@
+description: Part de l'attribution de la DSR fraction cible par rapport à son montant de l'an passé\
+  pour une commune perdant son éligibilité
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000037994647&cidTexte=LEGITEXT000006070633
+unit: /1
+values:
+  2019-01-01:
+    value: 0.5
