@@ -330,14 +330,14 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
 
 class dsr_valeur_point_fraction_bourg_centre(Variable):
     value_type = float
-    entity = Commune
+    entity = Etat
     definition_period = YEAR
     label = "Valeur du point DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
 
-    def formula(commune, period, parameters):
-        montant_total_a_attribuer = commune.etat("dsr_montant_total_eligibles_fraction_bourg_centre", period)
-        dsr_score_attribution_fraction_bourg_centre = commune("dsr_score_attribution_fraction_bourg_centre", period)
+    def formula(etat, period, parameters):
+        montant_total_a_attribuer = etat("dsr_montant_total_eligibles_fraction_bourg_centre", period)
+        dsr_score_attribution_fraction_bourg_centre = etat.members("dsr_score_attribution_fraction_bourg_centre", period)
         score_total = dsr_score_attribution_fraction_bourg_centre.sum()
         return montant_total_a_attribuer / score_total
 
@@ -354,7 +354,7 @@ class dsr_montant_hors_garanties_fraction_bourg_centre(Variable):
 
     def formula(commune, period, parameters):
         scores = commune("dsr_score_attribution_fraction_bourg_centre", period)
-        valeur_point = commune("dsr_valeur_point_fraction_bourg_centre", period)
+        valeur_point = commune.etat("dsr_valeur_point_fraction_bourg_centre", period)
         return scores * valeur_point
 
 
