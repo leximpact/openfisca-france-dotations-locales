@@ -152,8 +152,15 @@
 - name: DSR, attribution fraction bourg-centre. Valeur du point
   period: 2020
   input:
-    dsr_montant_total_eligibles_fraction_bourg_centre: [100, 100]
-    dsr_score_attribution_fraction_bourg_centre: [3, 7]
+    etats:
+      france:
+        communes: [c1, c2]
+        dsr_montant_total_eligibles_fraction_bourg_centre: 100.
+    communes:
+      c1:
+        dsr_score_attribution_fraction_bourg_centre: 3
+      c2:
+        dsr_score_attribution_fraction_bourg_centre: 7
   output:
     dsr_valeur_point_fraction_bourg_centre: [10 , 10]  # 100/(3+7)
 
@@ -231,12 +238,29 @@
   period: 2020
   absolute_error_margin: 0.1
   input:
-    dsr_montant_total_fraction_bourg_centre: [1000, 1000, 1000, 1000]
-    dsr_eligible_fraction_bourg_centre: [True, True, False, False]
-    dsr_garantie_commune_nouvelle_fraction_bourg_centre: [16, 2, 4, 8]
-    dsr_montant_garantie_non_eligible_fraction_bourg_centre: [0, 0, 0, 64]
+    etats:
+      france:
+        communes: [c1, c2, c3, c4]
+        dsr_montant_total_fraction_bourg_centre: 1000.
+    communes:
+      c1:
+        dsr_eligible_fraction_bourg_centre: True
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre: 16
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre: 0
+      c2:
+        dsr_eligible_fraction_bourg_centre: True
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre: 2
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre: 0
+      c3:
+        dsr_eligible_fraction_bourg_centre: False
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre: 4
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre: 0
+      c4:
+        dsr_eligible_fraction_bourg_centre: False
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre: 8
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre: 64
   output:
-    dsr_montant_total_eligibles_fraction_bourg_centre: [932, 932, 932, 932]
+    dsr_montant_total_eligibles_fraction_bourg_centre: 932.
 
 - name: Montant total 2019 et 2020
   output:

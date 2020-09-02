@@ -253,7 +253,7 @@ pourcentage_accroissement_dsr_bc = (581_804_312 - 545_248_126) / 90_000_000
 
 class dsr_montant_total_fraction_bourg_centre(Variable):
     value_type = float
-    entity = Commune
+    entity = Etat
     definition_period = YEAR
     label = "Montant total disponible pour communes de métropole éligibles DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
@@ -269,12 +269,12 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     # les garanties communes nouvelles (fait mais les garanties n'ont pas de formule)
     # la répartition du montant global vers la DSR (très difficile)
 
-    def formula_2013_01(commune, period, parameters):
-        montants_an_prochain = commune('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
+    def formula_2013_01(etat, period, parameters):
+        montants_an_prochain = etat('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
         accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
         return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_bc
 
-    def formula_2019_01(commune, period, parameters):
+    def formula_2019_01(etat, period, parameters):
         return 545_248_126
 
     # A partir de 2020, formule récursive qui bouge en
@@ -285,15 +285,15 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     # La variation sera égale à pourcentage_accroissement *
     # valeur du paramètre "accroissement" pour cette année là.
 
-    def formula_2020_01(commune, period, parameters):
-        montants_an_precedent = commune('dsr_montant_total_fraction_bourg_centre', period.last_year)
+    def formula_2020_01(etat, period, parameters):
+        montants_an_precedent = etat('dsr_montant_total_fraction_bourg_centre', period.last_year)
         accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
         return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_bc
 
 
 class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
     value_type = float
-    entity = Commune
+    entity = Etat
     definition_period = YEAR
     label = "Montant disponible pour communes de métropole éligibles DSR fraction bourg-centre"
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
@@ -304,11 +304,11 @@ class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
         Par ailleurs, 6 165 344 € ont été alloués aux communes nouvelles inéligibles.
         '''
 
-    def formula_2018_01(commune, period, parameters):
-        dsr_montant_total_fraction_bourg_centre = commune('dsr_montant_total_fraction_bourg_centre', period)
-        dsr_garantie_commune_nouvelle_fraction_bourg_centre = commune('dsr_garantie_commune_nouvelle_fraction_bourg_centre', period)
-        dsr_montant_garantie_non_eligible_fraction_bourg_centre = commune('dsr_montant_garantie_non_eligible_fraction_bourg_centre', period)
-        dsr_eligible_fraction_bourg_centre = commune('dsr_eligible_fraction_bourg_centre', period)
+    def formula_2018_01(etat, period, parameters):
+        dsr_montant_total_fraction_bourg_centre = etat('dsr_montant_total_fraction_bourg_centre', period)
+        dsr_garantie_commune_nouvelle_fraction_bourg_centre = etat.members('dsr_garantie_commune_nouvelle_fraction_bourg_centre', period)
+        dsr_montant_garantie_non_eligible_fraction_bourg_centre = etat.members('dsr_montant_garantie_non_eligible_fraction_bourg_centre', period)
+        dsr_eligible_fraction_bourg_centre = etat.members('dsr_eligible_fraction_bourg_centre', period)
 
         montant_total_a_attribuer = dsr_montant_total_fraction_bourg_centre - max_((~dsr_eligible_fraction_bourg_centre) * dsr_garantie_commune_nouvelle_fraction_bourg_centre, dsr_montant_garantie_non_eligible_fraction_bourg_centre).sum()
         return montant_total_a_attribuer
@@ -322,7 +322,7 @@ class dsr_valeur_point_fraction_bourg_centre(Variable):
     reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
 
     def formula(commune, period, parameters):
-        montant_total_a_attribuer = commune("dsr_montant_total_eligibles_fraction_bourg_centre", period)
+        montant_total_a_attribuer = commune.etat("dsr_montant_total_eligibles_fraction_bourg_centre", period)
         dsr_score_attribution_fraction_bourg_centre = commune("dsr_score_attribution_fraction_bourg_centre", period)
         score_total = dsr_score_attribution_fraction_bourg_centre.sum()
         return montant_total_a_attribuer / score_total
