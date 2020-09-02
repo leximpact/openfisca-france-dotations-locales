@@ -248,7 +248,19 @@ class dsr_score_attribution_fraction_bourg_centre(Variable):
         return dsr_eligible_fraction_bourg_centre * population_attribution * facteur_pot_fin * facteur_effort_fiscal * facteur_zrr
 
 
-pourcentage_accroissement_dsr_bc = (581_804_312 - 545_248_126) / 90_000_000
+class dsr_pourcentage_accroissement_bourg_centre(Variable):
+    value_type = float
+    entity = Etat
+    definition_period = YEAR
+    label = "Pourcentage d'accroissement du montant de la DSR d'une année à l'autre"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000033814588"
+
+    def formula(etat, period, parameters):  # % augmentation de 2020 appliqué en tout temps
+        temporary_fixed_period = '2020'
+        augmentation_montant = parameters(temporary_fixed_period).dotation_solidarite_rurale.augmentation_montant
+        dsr_montant_2019 = 545_248_126
+        dsr_montant_2020 = 581_804_312
+        return (dsr_montant_2020 - dsr_montant_2019) / augmentation_montant
 
 
 class dsr_montant_total_fraction_bourg_centre(Variable):
@@ -272,7 +284,8 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     def formula_2013_01(etat, period, parameters):
         montants_an_prochain = etat('dsr_montant_total_fraction_bourg_centre', period.offset(1, 'year'))
         accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
-        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_bc
+        dsr_pourcentage_accroissement_bourg_centre = etat('dsr_pourcentage_accroissement_bourg_centre', period)
+        return montants_an_prochain - accroissement * dsr_pourcentage_accroissement_bourg_centre
 
     def formula_2019_01(etat, period, parameters):
         return 545_248_126
@@ -288,7 +301,8 @@ class dsr_montant_total_fraction_bourg_centre(Variable):
     def formula_2020_01(etat, period, parameters):
         montants_an_precedent = etat('dsr_montant_total_fraction_bourg_centre', period.last_year)
         accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
-        return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_bc
+        dsr_pourcentage_accroissement_bourg_centre = etat('dsr_pourcentage_accroissement_bourg_centre', period)
+        return montants_an_precedent + accroissement * dsr_pourcentage_accroissement_bourg_centre
 
 
 class dsr_montant_total_eligibles_fraction_bourg_centre(Variable):
