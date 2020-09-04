@@ -1,0 +1,8 @@
+- name: DSR, sommation correcte des fractions
+  period: 2020
+  input:
+    dsr_fraction_cible: [0, 0, 0, 0, 4, 4, 4, 4]
+    dsr_fraction_bourg_centre: [0, 0, 2, 2, 0, 0, 2, 2]
+    dsr_fraction_perequation: [0, 1, 0, 1, 0, 1, 0, 1]
+  output:
+    dotation_solidarite_rurale: [0, 1, 2, 3, 4, 5, 6, 7]

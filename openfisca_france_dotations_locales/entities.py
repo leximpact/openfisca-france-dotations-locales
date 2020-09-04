@@ -14,4 +14,17 @@ Commune = build_entity(
     is_person = True,  # entité pivot
     )
 
-entities = [Commune]  # [Household, Commune]
+Etat = build_entity(
+    key = "etat",
+    plural = "etats",
+    label = 'État',
+    roles = [
+        {
+            'key': 'commune',
+            'plural': 'communes',
+            'label': 'Communes',
+            }
+        ]
+    )
+
+entities = [Etat, Commune]

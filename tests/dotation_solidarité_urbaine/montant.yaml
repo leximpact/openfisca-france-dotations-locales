@@ -7,6 +7,27 @@
     dsu_montant_total_eligibles: [800, 800]
 
 
+# montant total
+
+- name: Montant total s'accroît normalement
+  period: 2020
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total: 
+      2019: 100000000
+  output:
+    dsu_montant_total: 185224195 # = 100000000 + 90000000 * 0.9469355
+
+- name: Montant total se décroit normalement 
+  period: 2014
+  absolute_error_margin: 0.0001
+  input:
+    dsu_montant_total: 
+      2015: 1000000000
+  output:
+    dsu_montant_total: 829551610 # = 1000000000 - 180000000 * 0.9469355
+
+
 - name: Montant eligibles - ceinture blanche, toute la DSU pour la seule commune éligible
   period: 2020
   absolute_error_margin: 0.0001

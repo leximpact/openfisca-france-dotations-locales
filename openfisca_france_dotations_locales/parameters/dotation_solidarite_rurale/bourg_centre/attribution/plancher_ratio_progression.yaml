@@ -1,0 +1,6 @@
+description: Plancher de l'attribution de la DSR fraction bourg-centre pour une commune éligible en fonction de son attribution de l'année précédente
+reference: https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433099&cidTexte=LEGITEXT000006070633
+unit: /1
+values:
+  2019-01-01:
+    value: 0.9

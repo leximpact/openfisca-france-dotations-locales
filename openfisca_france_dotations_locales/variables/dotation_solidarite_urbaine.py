@@ -186,6 +186,9 @@ class dsu_eligible(Variable):
         return elig_seuil_bas | elig_seuil_haut
 
 
+pourcentage_accroissement_dsu = (2_164_552_909 - 2_079_328_714) / 90_000_000
+
+
 class dsu_montant_total(Variable):
     value_type = float
     entity = Commune
@@ -209,19 +212,29 @@ class dsu_montant_total(Variable):
     après prélèvement de la quote-part réservée aux communes des départements
     et collectivités d’outre-mer (136 498 095 €).
     '''
-    # Devrait peut-être être un paramètre
-
-    def formula_2020_01(commune, period, parameters):
-        montant_total_a_attribuer = 2_244_240_555
-        return montant_total_a_attribuer
+    # Est un montant fixe pour 2019
 
     def formula_2019_01(commune, period, parameters):
         montant_total_a_attribuer = 2_164_552_909
         return montant_total_a_attribuer
 
-    def formula_2018_01(commune, period, parameters):
-        montant_total_a_attribuer = 2_079_328_714
-        return montant_total_a_attribuer
+    # A partir de 2020, formule récursive qui bouge en
+    # fonction des pourcentages
+    # d'augmentation constatés (en vrai il faudrait défalquer
+    # des pourcentages de population d'outre-mer)
+    # mais c'est une autre histoire
+    # La variation sera égale à pourcentage_accroissement *
+    # valeur du paramètre "accroissement" pour cette année là.
+
+    def formula_2020_01(commune, period, parameters):
+        montants_an_precedent = commune('dsu_montant_total', period.last_year)
+        accroissement = parameters(period).dotation_solidarite_urbaine.augmentation_montant
+        return montants_an_precedent + accroissement * pourcentage_accroissement_dsu
+
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsu_montant_total', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_urbaine.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsu
 
 
 class dsu_montant_garantie_pluriannuelle(Variable):

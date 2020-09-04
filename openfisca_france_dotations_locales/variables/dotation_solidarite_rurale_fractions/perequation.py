@@ -1,6 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-from numpy import sum
+from numpy import sum as sum_, where
 
 
 class dsr_eligible_fraction_perequation(Variable):
@@ -28,7 +28,10 @@ class dsr_eligible_fraction_perequation(Variable):
         return (~outre_mer) * (population_dgf < seuil_nombre_habitants) * (potentiel_financier_par_habitant <= plafond)
 
 
-class dsr_montant_total_eligibles_fraction_perequation(Variable):
+pourcentage_accroissement_dsr_pq = (653_174_468 - 645_050_872) / 90_000_000
+
+
+class dsr_montant_total_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
@@ -40,13 +43,46 @@ class dsr_montant_total_eligibles_fraction_perequation(Variable):
     aux communes nouvelles inéligibles s’élève à 7 403 713 €.
     '''
 
+    def formula_2013_01(commune, period, parameters):
+        montants_an_prochain = commune('dsr_montant_total_fraction_perequation', period.offset(1, 'year'))
+        accroissement = parameters(period.offset(1, 'year')).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_prochain - accroissement * pourcentage_accroissement_dsr_pq
+
+    def formula_2019_01(commune, period, parameters):
+        return 645_050_872
+
+    # A partir de 2020, formule récursive qui bouge en
+    # fonction des pourcentages
+    # d'augmentation constatés (en vrai il faudrait défalquer
+    # des pourcentages de population d'outre-mer)
+    # mais c'est une autre histoire
+    # La variation sera égale à pourcentage_accroissement *
+    # valeur du paramètre "accroissement" pour cette année là.
+
+    def formula_2020_01(commune, period, parameters):
+        montants_an_precedent = commune('dsr_montant_total_fraction_perequation', period.last_year)
+        accroissement = parameters(period).dotation_solidarite_rurale.augmentation_montant
+        return montants_an_precedent + accroissement * pourcentage_accroissement_dsr_pq
+
+
+class dsr_montant_total_eligibles_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant disponible pour communes éligibles DSR fraction péréquation en métropole"
+    reference = "http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94"
+    documentation = '''
+    En 2019 : La masse des crédits mis en répartition pour la DSR fraction péréquation
+    en métropole s'élève en 2019 à 645 050 872 €.
+    2020 : 653 174 468 € au titre de la fraction « péréquation » (soit 1,26 % de plus qu’en 2019)
+    '''
+
     def formula(commune, period, parameters):
-        montant_total_a_attribuer = 645_050_872 - 7_403_713
-        # montant inscrit dans la note. Pour le transformer en formule il faut
-        # que soient implémentés :
-        # les formules de garanties pour communes nouvellement non éligibles (moyen)
-        # les garanties communes nouvelles (chaud)
-        # la répartition du montant global vers la DSR (très difficile)
+        dsr_montant_total_fraction_perequation = commune('dsr_montant_total_fraction_perequation', period)
+        dsr_garantie_commune_nouvelle_fraction_perequation = commune('dsr_garantie_commune_nouvelle_fraction_perequation', period)
+        dsr_eligible_fraction_perequation = commune('dsr_eligible_fraction_perequation', period)
+        montant_total_a_attribuer = dsr_montant_total_fraction_perequation - ((~dsr_eligible_fraction_perequation) * dsr_garantie_commune_nouvelle_fraction_perequation).sum()
+
         return montant_total_a_attribuer
 
 
@@ -202,8 +238,8 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_hectare(Var
         superficie = commune('superficie', period)
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
 
-        pot_fin_par_hectare_10000 = (sum(communes_moins_10000 * potentiel_financier)
-                / sum(communes_moins_10000 * superficie))
+        pot_fin_par_hectare_10000 = (sum_(communes_moins_10000 * potentiel_financier)
+                / sum_(communes_moins_10000 * superficie))
 
         facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000)
 
@@ -335,7 +371,53 @@ class dsr_montant_hors_garanties_fraction_perequation(Variable):
         + part_potentiel_financier_par_hectare)
 
 
+class dsr_montant_eligible_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Montant attribué fraction péréquation après garanties de stabilité:\
+        Valeur attribuée incluant garanties de stabilité aux communes éligibles au titre de la fraction péréquation de la DSR"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
+    documentation = '''
+        A compter de 2012, l'attribution au titre de cette fraction d'une
+        commune éligible ne peut être ni inférieure à 90 % ni supérieure à 120 %
+        du montant perçu l'année précédente.
+        '''
+
+    def formula(commune, period, parameters):
+        plancher_progression = parameters(period).dotation_solidarite_rurale.perequation.attribution.plancher_ratio_progression
+        plafond_progression = parameters(period).dotation_solidarite_rurale.perequation.attribution.plafond_ratio_progression
+        montant_an_precedent = commune("dsr_montant_eligible_fraction_perequation", period.last_year)
+        dsr_montant_hors_garanties_fraction_perequation = commune("dsr_montant_hors_garanties_fraction_perequation", period)
+        return where((dsr_montant_hors_garanties_fraction_perequation > 0) & (montant_an_precedent > 0), max_(plancher_progression * montant_an_precedent, min_(plafond_progression * montant_an_precedent, dsr_montant_hors_garanties_fraction_perequation)), dsr_montant_hors_garanties_fraction_perequation)
+
+
+class dsr_garantie_commune_nouvelle_fraction_perequation(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Garantie commune nouvelle DSR fraction péréquation:\
+        Montant garanti aux communes nouvelles au titre de la fraction péréquation de la dotation de solidarité rurale"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000041473401&cidTexte=LEGITEXT000006070633"
+    documentation = '''Au cours des trois années suivant le 1er janvier de l'année de leur création,
+        les communes nouvelles [...] perçoivent des attributions au titre [...] des trois
+        fractions de la dotation de solidarité rurale au moins égales aux attributions
+        perçues au titre de chacune de ces dotations par les anciennes communes l'année
+        précédant la création de la commune nouvelle.'''
+
+
 class dsr_fraction_perequation(Variable):
     value_type = float
     entity = Commune
     definition_period = YEAR
+    label = "Montant effectivement attribué DSR fraction péréquation:\
+        Montant attribué à la commune au titre de la fraction péréquation de la DSR après garanties de stabilité, et de commune nouvelle"
+    reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000036433094&cidTexte=LEGITEXT000006070633"
+
+    def formula(commune, period, parameters):
+        dsr_garantie_commune_nouvelle_fraction_perequation = commune("dsr_garantie_commune_nouvelle_fraction_perequation", period)
+        dsr_montant_eligible_fraction_perequation = commune("dsr_montant_eligible_fraction_perequation", period)
+        return max_(
+            dsr_montant_eligible_fraction_perequation,
+            dsr_garantie_commune_nouvelle_fraction_perequation
+            )
