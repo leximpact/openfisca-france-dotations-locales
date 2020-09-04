@@ -256,8 +256,7 @@ class dsr_pourcentage_accroissement_bourg_centre(Variable):
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070633&idArticle=LEGIARTI000033814588"
 
     def formula(etat, period, parameters):  # % augmentation de 2020 appliqué en tout temps
-        temporary_fixed_period = '2020'
-        augmentation_montant = parameters(temporary_fixed_period).dotation_solidarite_rurale.augmentation_montant
+        augmentation_montant = 90_000_000  # montant indépendant de la réforme
         dsr_montant_2019 = 545_248_126
         dsr_montant_2020 = 581_804_312
         return (dsr_montant_2020 - dsr_montant_2019) / augmentation_montant
