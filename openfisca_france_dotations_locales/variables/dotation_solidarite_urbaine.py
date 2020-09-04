@@ -214,10 +214,6 @@ class dsu_montant_total(Variable):
     '''
     # Est un montant fixe pour 2019
 
-    def formula_2020_01(commune, period, parameters):
-        montant_total_a_attribuer = 2_244_240_555
-        return montant_total_a_attribuer
-
     def formula_2019_01(commune, period, parameters):
         montant_total_a_attribuer = 2_164_552_909
         return montant_total_a_attribuer
