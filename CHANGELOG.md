@@ -6,6 +6,7 @@
 * Détails :
   - Précise le calcul de la DSR : garanties
   - Ajoute le calcul des augmentations de montant de la DSU et de la DSR
+  - Ajoute l'entité État
 
 ## 0.4.0 [#9](https://github.com/leximpact/openfisca-france-dotations-locales/pull/9)
 
