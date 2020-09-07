@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 [#11](https://github.com/leximpact/openfisca-france-dotations-locales/pull/11)
+
+* Paramètres par défaut pour 2021 (à 0) sur l'augmentation des montants DSR/DSU
+
 ## 0.5.0 [#10](https://github.com/leximpact/openfisca-france-dotations-locales/pull/10)
 
 * Évolution du système socio-fiscal.
