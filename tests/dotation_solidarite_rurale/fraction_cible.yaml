@@ -223,11 +223,11 @@
 # montant total
 
 - name: Montant total s'accroît normalement
-  period: 2021
+  period: 2020
   absolute_error_margin: 20 # Ah oui, apparemment la précision des divisions c'est plus ce que c'était
   input:
     dsr_montant_total_fraction_cible: 
-      2020: 100000000
+      2019: 100000000
   output:
     dsr_montant_total_fraction_cible: 136556183 # = 100000000 + 90000000 * 0.4061798111
 
