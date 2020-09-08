@@ -224,11 +224,11 @@
 # montant total
 
 - name: DSR bourg-centre -  Montant total s'accroît normalement
-  period: 2021
+  period: 2020
   absolute_error_margin: 0.0001
   input:
     dsr_montant_total_fraction_bourg_centre: 
-      2020: 100000000
+      2019: 100000000
   output:
     dsr_montant_total_fraction_bourg_centre: 136556186 # = 100000000 + 90000000 * 0.4061798444
 
