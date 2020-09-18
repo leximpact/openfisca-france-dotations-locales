@@ -1,8 +1,21 @@
 
-## Références législatives
+# Références législatives
 
 * [Code général des collectivités territoriales](https://www.legifrance.gouv.fr/affichCode.do?cidTexte=LEGITEXT000006070633)
 * [Toutes notes dotations de la DGCL](http://www.dotations-dgcl.interieur.gouv.fr/consultation/informations_repartition.php)
+
+## Dotation forfaitaire (DF)
+
+* [collectivites-locales.gouv.fr, DF 2019](https://www.collectivites-locales.gouv.fr/files/files/dgcl_v2/FLAE_circulaires_10_fevrier2016/note_dinformation_2019_dfcom_-_vdef2.pdf)
+
+* Note DGCL, [DF 2020](http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=115)
+
+> Documents historiques pouvant servir à la compréhension des mécanismes de calcul :
+> * [collectivites-locales.gouv.fr, DF 2015](https://www.collectivites-locales.gouv.fr/files/files/noteinfo_dotationforfaitairecommunes.pdf)
+> * [amf.asso.fr, DF 2016](http://medias.amf.asso.fr/docs/DOCUMENTS/AMF_14463_NOTE.pdf)
+> * [yvelines.gouv.fr, DF 2018](http://www.yvelines.gouv.fr/content/download/15362/97278/file/Annexe%20de%20calcul-2018%20Dotation%20forfaitaire.pdf)
+
+## Dotation d'aménagement
 
 ### Dotation de Solidarité Rurale (DSR)
 
