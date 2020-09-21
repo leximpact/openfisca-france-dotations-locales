@@ -92,6 +92,23 @@ class population_dgf_plafonnee(Variable):
         return min_(bareme_plafond_dgf.calc(population_insee), population_dgf)
 
 
+class population_dgf_majoree(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Population DGF majorée:\
+        Population DGF majorée pour le calcul de la dotation forfaitaire"
+    reference = "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006070633/LEGISCTA000006192290?etatTexte=VIGUEUR&etatTexte=VIGUEUR_DIFF#LEGISCTA000006192290"
+    documentation = '''
+        La population de la commune prise en compte au titre de 2019 est celle définie à l'article L. 2334-2
+        du présent code majorée de 0,5 habitant supplémentaire par résidence secondaire pour les communes
+        dont la population est inférieure à 3 500 habitants, dont le potentiel fiscal par habitant
+        est inférieur au potentiel fiscal moyen par habitant des communes appartenant à la même
+        strate démographique et dont la part de la majoration au titre des résidences secondaires
+        dans la population avant application de la présente disposition est supérieure à 30 %.
+        '''
+
+
 class population_enfants(Variable):
     value_type = int
     entity = Commune
@@ -105,7 +122,7 @@ class population_qpv(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Population QPV:\
-Population des quartiers prioritaires de politique de la ville"
+        Population des quartiers prioritaires de politique de la ville"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
 
 
@@ -114,5 +131,5 @@ class population_zfu(Variable):
     entity = Commune
     definition_period = YEAR
     label = "Population ZFU:\
-Population des zones franches urbaines de la commune"
+        Population des zones franches urbaines de la commune"
     reference = "https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000038834291&cidTexte=LEGITEXT000006070633"
