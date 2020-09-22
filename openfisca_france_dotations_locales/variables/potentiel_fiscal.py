@@ -3,23 +3,6 @@ from openfisca_france_dotations_locales.entities import *
 
 
 class potentiel_fiscal(Variable):
-    value_type = float
-    entity = Commune
-    definition_period = YEAR
-    label = "Potentiel fiscal de la commune"
-
-
-class potentiel_fiscal_par_habitant(Variable):
-    value_type = float
-    entity = Commune
-    definition_period = YEAR
-
-    def formula(commune, period, parameters):
-        population_dgf = commune('population_dgf', period)
-        return where(population_dgf > 0, commune('potentiel_fiscal', period) / population_dgf, 0)
-
-
-class potentiel_fiscal(Variable):
     value_type = int
     entity = Commune
     definition_period = YEAR
