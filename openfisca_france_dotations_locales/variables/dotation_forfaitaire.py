@@ -109,6 +109,21 @@ class df_score_attribution_ecretement(Variable):
         par habitant constaté pour l'ensemble des communes.
         '''
 
+    def formula(commune, period, parameters):
+        df_eligible_ecretement = commune('df_eligible_ecretement', period)
+        df_coefficient_logarithmique = commune("df_coefficient_logarithmique", period)
+        potentiel_fiscal = commune('potentiel_fiscal', period)
+        population_dgf = commune('population_dgf', period)
+        potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
+        pourcentage_potentiel_fiscal = parameters(period).dotation_forfaitaire.ecretement.seuil_rapport_potentiel_fiscal
+        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / df_coefficient_logarithmique
+
+        return (df_eligible_ecretement
+            * (potentiel_fiscal_moyen_commune
+            - pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national)
+            / (pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national)
+            * population_dgf)
+
 
 class df_evolution_part_dynamique(Variable):
     value_type = int
