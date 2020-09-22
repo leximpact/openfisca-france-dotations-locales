@@ -20,3 +20,46 @@
     df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
   output:
     df_montant_total_ecretement: 280000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu
+
+
+
+- name: Eligibilité écrêtement
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [c1, c2, c3, c4, c5]
+        potentiel_fiscal_moyen_national: 1000
+    communes:
+      c1: #Eligible cas standard
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c2: #Potentiel fiscal < 75% moyenne nationale. Pas d'écrêtement
+        potentiel_fiscal: 360000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c3: #Pas de DF de l'an dernier à écrêter.
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  0
+      c4: #Potentiel fiscal < 75% moyenne nationale en prenant en compte coefficient logarithmique
+        potentiel_fiscal: 200000000
+        population_dgf: 200000
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c5: #Pas de DF à écrêter une fois prise en compte la part dynamique de la population
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: -15
+        dotation_forfaitaire:
+          2019:  10
+  output:
+    df_eligible_ecretement: [True, False, False, False, False]

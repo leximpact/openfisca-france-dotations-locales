@@ -28,7 +28,34 @@ class df_eligible_ecretement(Variable):
         d'une attribution au titre de la garantie égale à celle perçue l'année précédente. \
         Pour les communes dont le potentiel fiscal par habitant est supérieur ou égal à 0,75 fois \
         le potentiel fiscal moyen par habitant constaté pour l'ensemble des communes, ce montant est diminué
+
+        Ici, on déclare comme éligible les communes qui :
+          - ont plus de 0.75 du potentiel fiscal moyen
+          - auraient une df non nulle hors écrètement
         '''
+
+    def formula(commune, period, parameters):
+        pourcentage_potentiel_fiscal = parameters(period).dotation_forfaitaire.ecretement.seuil_rapport_potentiel_fiscal
+        potentiel_fiscal = commune('potentiel_fiscal', period)
+        population_dgf = commune('population_dgf', period)
+
+        # ON établit le coefficient logarithmique.
+        # C'est pas exactement le même que celui dans le calcul
+        # de la part dynamique : ici la population dgf n'est
+        # pas majorée
+        plancher_dgcl_population_dgf = 500
+        plafond_dgcl_population_dgf = 200000
+        facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf / plancher_dgcl_population_dgf))  # le fameux 0.38431089
+        coefficient_logarithmique = 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)
+        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / coefficient_logarithmique
+        print("potfin", potentiel_fiscal_moyen_commune)
+        print(coefficient_logarithmique)
+        potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
+        df_an_dernier = commune('dotation_forfaitaire', period.last_year)
+        df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
+        df_hors_ecretement = df_an_dernier + df_evolution_part_dynamique
+        df_ecretement_eligible = (potentiel_fiscal_moyen_commune >= pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national) * (df_hors_ecretement > 0)
+        return df_ecretement_eligible
 
 
 class df_montant_total_ecretement(Variable):
@@ -91,7 +118,6 @@ class df_evolution_part_dynamique(Variable):
 
         facteur_minimum = parameters(period).dotation_forfaitaire.montant_minimum_par_habitant
         facteur_maximum = parameters(period).dotation_forfaitaire.montant_maximum_par_habitant
-        print(facteur_maximum, facteur_minimum, facteur_maximum)
         dotation_supp_par_habitant = facteur_minimum + (facteur_maximum - facteur_minimum) * facteur_du_coefficient_logarithmique * log10(population_majoree_dgf / plancher_dgcl_population_dgf_majoree)
 
         return dotation_supp_par_habitant * evolution_population
