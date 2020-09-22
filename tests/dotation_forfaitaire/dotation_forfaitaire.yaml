@@ -160,3 +160,15 @@
         recettes_reelles_fonctionnement: 2000
   output:
     df_montant_ecretement: [10, 40, 6, 7, 0]
+
+
+- name: Dotation forfaitaire somme correctement (et floore à zéro)
+  period: 2020
+  input:
+    dotation_forfaitaire:
+      2019: [100,50]
+    df_evolution_part_dynamique: [20,-100]
+    df_montant_ecretement: [10,0]
+  output:
+    dotation_forfaitaire: [110, 0]
+  

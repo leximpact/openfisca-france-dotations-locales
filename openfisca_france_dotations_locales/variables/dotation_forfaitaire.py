@@ -11,10 +11,10 @@ class dotation_forfaitaire(Variable):
     reference = "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006070633/LEGISCTA000006192290?etatTexte=VIGUEUR&etatTexte=VIGUEUR_DIFF#LEGISCTA000006192290"
 
     def formula_2018(commune, period, parameters):
-        dotation_forfaitaire_an_dernier = commune('dotation_forfaitaire', period.offset(1, 'year'))
+        dotation_forfaitaire_an_dernier = commune('dotation_forfaitaire', period.last_year)
         df_evolution_part_dynamique = commune('df_evolution_part_dynamique', period)
         df_montant_ecretement = commune('df_montant_ecretement', period)
-        return dotation_forfaitaire_an_dernier + df_evolution_part_dynamique - df_montant_ecretement
+        return max_(0, dotation_forfaitaire_an_dernier + df_evolution_part_dynamique - df_montant_ecretement)
 
 
 class df_coefficient_logarithmique(Variable):
@@ -69,7 +69,7 @@ class df_eligible_ecretement(Variable):
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         df_an_dernier = commune('dotation_forfaitaire', period.last_year)
         df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
-        df_hors_ecretement = df_an_dernier + df_evolution_part_dynamique
+        df_hors_ecretement = max_(0, df_an_dernier + df_evolution_part_dynamique)
         df_ecretement_eligible = (potentiel_fiscal_moyen_commune >= pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national) * (df_hors_ecretement > 0)
         return df_ecretement_eligible
 
