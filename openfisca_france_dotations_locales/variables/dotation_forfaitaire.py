@@ -36,7 +36,7 @@ class df_coefficient_logarithmique(Variable):
         plancher_dgcl_population_dgf = 500
         plafond_dgcl_population_dgf = 200000
         facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf / plancher_dgcl_population_dgf))  # le fameux 0.38431089
-        coefficient_logarithmique = 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)
+        coefficient_logarithmique = max_(1, min_(2, 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)))
         return coefficient_logarithmique
 
 

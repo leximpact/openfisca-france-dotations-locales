@@ -67,6 +67,6 @@
 - name: Coefficient logarithmique
   period: 2020
   input:
-    population_dgf: [500, 50000, 200000]
+    population_dgf: [10, 500, 50000, 200000, 1000000]
   output:
-    df_coefficient_logarithmique: [1, 1.76862178684024, 2]
+    df_coefficient_logarithmique: [1, 1, 1.76862178684024, 2, 2]
