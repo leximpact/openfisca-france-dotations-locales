@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 [#12](https://github.com/leximpact/openfisca-france-dotations-locales/pull/12)
+
+* Évolution du système socio-fiscal.
+* Détails :
+  - Ajoute le calcul des montants de la Dotation forfaitaire
+
 ## 0.6.0 [#11](https://github.com/leximpact/openfisca-france-dotations-locales/pull/11)
 
 * Évolution du système socio-fiscal.
