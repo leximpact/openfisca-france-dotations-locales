@@ -120,13 +120,13 @@
     df_score_attribution_ecretement: [1, 2, 1.5, 3]
 
 
-- name: Score d'attribution écrêtement - variations
+- name: Montant écrêtement - variations
   period: 2020
   input:
     etats:
       Essos:
-        communes: [tyrosh, norvos, qohor, lorath]
-        df_montant_total_ecretement: 70 #10 par point d'attribution
+        communes: [tyrosh, norvos, qohor, lorath, pentos]
+        df_montant_total_ecretement: 80 #10 par point d'attribution
     communes:
       tyrosh: # aucun plafond d'écrêtement ne joue
         df_score_attribution_ecretement: 1
@@ -152,5 +152,11 @@
         dotation_forfaitaire:
           2019: 5
         recettes_reelles_fonctionnement: 2000
+      pentos: #montant de l'écrêtement cappé au montant total écrétable dans un monde sans montant total écrétable
+        df_score_attribution_ecretement: 1
+        df_evolution_part_dynamique: -50
+        dotation_forfaitaire:
+          2019: 30
+        recettes_reelles_fonctionnement: 2000
   output:
-    df_montant_ecretement: [10, 40, 6, 7]
+    df_montant_ecretement: [10, 40, 6, 7, 0]
