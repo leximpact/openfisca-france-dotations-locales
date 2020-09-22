@@ -152,3 +152,42 @@ class df_evolution_part_dynamique(Variable):
         dotation_supp_par_habitant = facteur_minimum + (facteur_maximum - facteur_minimum) * facteur_du_coefficient_logarithmique * log10(population_majoree_dgf / plancher_dgcl_population_dgf_majoree)
 
         return dotation_supp_par_habitant * evolution_population
+
+
+class recettes_reelles_fonctionnement(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Recettes réelles de fonctionnement:\
+    Recettes réelles de fonctionnement prises en compte pour le plafonnement de l'écrètement de la dotation forfaitaire"
+    reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037994287"
+
+
+class df_montant_ecretement(Variable):
+    value_type = int
+    entity = Commune
+    definition_period = YEAR
+    label = "Ecrètement de la dotation forfaitaire:\
+    Montant retiré à la dotation forfaitaire de chaque commune"
+    reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037994287"
+    documentation = '''Cette minoration ne peut être supérieure à 1 % des recettes réelles de fonctionnement de leur budget principal'''
+
+    def formula(commune, period, parameters):
+        df_montant_total_ecretement = commune.etat("df_montant_total_ecretement", period)
+        df_score_attribution_ecretement = commune('df_score_attribution_ecretement', period)
+
+        valeur_point = df_montant_total_ecretement / df_score_attribution_ecretement.sum()
+
+        ecretement = valeur_point * df_score_attribution_ecretement
+        df_an_dernier = commune('dotation_forfaitaire', period.last_year)
+        df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
+        df_hors_ecretement = max_(0, df_an_dernier + df_evolution_part_dynamique)
+        ecretement = min_(ecretement, df_hors_ecretement)
+
+        # plafonnement en fonction des recettes réelles
+
+        plafond_recettes = parameters(period).dotation_forfaitaire.ecretement.plafond_pourcentage_recettes_max
+        recettes = commune("recettes_reelles_fonctionnement", period)
+        ecretement = min_(ecretement, plafond_recettes * recettes)
+
+        return ecretement
