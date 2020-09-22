@@ -12,7 +12,32 @@ class dotation_forfaitaire(Variable):
 
     def formula_2018(commune, period, parameters):
         dotation_forfaitaire_an_dernier = commune('dotation_forfaitaire', period.offset(1, 'year'))
-        return dotation_forfaitaire_an_dernier
+        df_evolution_part_dynamique = commune('df_evolution_part_dynamique', period)
+        df_montant_ecretement = commune('df_montant_ecretement', period)
+        return dotation_forfaitaire_an_dernier + df_evolution_part_dynamique - df_montant_ecretement
+
+
+class df_coefficient_logarithmique(Variable):
+    value_type = float
+    entity = Commune
+    definition_period = YEAR
+    label = "Dotation forfaitaire : coefficient logarithmique de la population prise en compte:\
+    Coefficient appliqué à la population non majorée pour calcul de la dotation forfaitaire"
+    reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037994287"
+    documentation = '''La population prise en compte pour la détermination du potentiel fiscal par habitant est corrigée par un coefficient logarithmique dont la valeur varie de 1 à 2 en fonction croissante de la population de la commune tel que défini pour l'application du 1° du présent I ;'''
+
+    def formula(commune, period, parameters):
+        population_dgf = commune('population_dgf', period)
+
+        # On établit le coefficient logarithmique.
+        # C'est pas exactement le même que celui dans le calcul
+        # de la part dynamique : ici la population dgf n'est
+        # pas majorée
+        plancher_dgcl_population_dgf = 500
+        plafond_dgcl_population_dgf = 200000
+        facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf / plancher_dgcl_population_dgf))  # le fameux 0.38431089
+        coefficient_logarithmique = 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)
+        return coefficient_logarithmique
 
 
 class df_eligible_ecretement(Variable):
@@ -37,17 +62,10 @@ class df_eligible_ecretement(Variable):
     def formula(commune, period, parameters):
         pourcentage_potentiel_fiscal = parameters(period).dotation_forfaitaire.ecretement.seuil_rapport_potentiel_fiscal
         potentiel_fiscal = commune('potentiel_fiscal', period)
+        df_coefficient_logarithmique = commune("df_coefficient_logarithmique", period)
         population_dgf = commune('population_dgf', period)
 
-        # On établit le coefficient logarithmique.
-        # C'est pas exactement le même que celui dans le calcul
-        # de la part dynamique : ici la population dgf n'est
-        # pas majorée
-        plancher_dgcl_population_dgf = 500
-        plafond_dgcl_population_dgf = 200000
-        facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf / plancher_dgcl_population_dgf))  # le fameux 0.38431089
-        coefficient_logarithmique = 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)
-        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / coefficient_logarithmique
+        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / df_coefficient_logarithmique
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         df_an_dernier = commune('dotation_forfaitaire', period.last_year)
         df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
