@@ -39,7 +39,7 @@ class df_eligible_ecretement(Variable):
         potentiel_fiscal = commune('potentiel_fiscal', period)
         population_dgf = commune('population_dgf', period)
 
-        # ON établit le coefficient logarithmique.
+        # On établit le coefficient logarithmique.
         # C'est pas exactement le même que celui dans le calcul
         # de la part dynamique : ici la population dgf n'est
         # pas majorée
@@ -48,8 +48,6 @@ class df_eligible_ecretement(Variable):
         facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf / plancher_dgcl_population_dgf))  # le fameux 0.38431089
         coefficient_logarithmique = 1 + facteur_du_coefficient_logarithmique * log10(population_dgf / plancher_dgcl_population_dgf)
         potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / coefficient_logarithmique
-        print("potfin", potentiel_fiscal_moyen_commune)
-        print(coefficient_logarithmique)
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         df_an_dernier = commune('dotation_forfaitaire', period.last_year)
         df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
