@@ -42,7 +42,7 @@ class df_eligible_ecretement(Variable):
 
 class df_montant_total_ecretement(Variable):
     value_type = int
-    entity = Commune
+    entity = Etat
     definition_period = YEAR
     label = "Montant total d'écrêtement à la dotation forfaitaire"
     reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
@@ -50,7 +50,7 @@ class df_montant_total_ecretement(Variable):
 
 class df_montant_total_ecretement_hors_dsu_dsr(Variable):
     value_type = int
-    entity = Commune
+    entity = Etat
     definition_period = YEAR
     label = "Montant total à écréter à la dotation forfaitaire hors variations de la DSU et de la DSR"
     reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
