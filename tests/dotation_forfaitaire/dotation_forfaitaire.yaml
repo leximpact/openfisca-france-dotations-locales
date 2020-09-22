@@ -1,0 +1,8 @@
+- name: part dynamique de la population
+  period: 2020
+  input:
+    population_dgf_majoree:
+      2019: [499, 199999]
+      2020: [500, 200000]
+  output:
+    df_evolution_part_dynamique: [64, 128]

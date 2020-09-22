@@ -1,5 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
+from numpy import log10
 
 
 class dotation_forfaitaire(Variable):
@@ -73,3 +74,18 @@ class df_evolution_part_dynamique(Variable):
         et d’un montant compris entre 64,46 € et 128,93 € calculé en fonction croissante \
         de la population de la commune.
         '''
+
+    def formula(commune, period, parameters):
+        plancher_dgcl_population_dgf_majoree = 500
+        plafond_dgcl_population_dgf_majoree = 200000
+        facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf_majoree / plancher_dgcl_population_dgf_majoree))  # le fameux 0.38431089
+        population_majoree_dgf = commune('population_dgf_majoree', period)
+        population_majoree_dgf_an_dernier = commune('population_dgf_majoree', period.last_year)
+        evolution_population = population_majoree_dgf - population_majoree_dgf_an_dernier
+
+        facteur_minimum = parameters(period).dotation_forfaitaire.montant_minimum_par_habitant
+        facteur_maximum = parameters(period).dotation_forfaitaire.montant_maximum_par_habitant
+        print(facteur_maximum, facteur_minimum, facteur_maximum)
+        dotation_supp_par_habitant = facteur_minimum + (facteur_maximum - facteur_minimum) * facteur_du_coefficient_logarithmique * log10(population_majoree_dgf / plancher_dgcl_population_dgf_majoree)
+
+        return dotation_supp_par_habitant * evolution_population
