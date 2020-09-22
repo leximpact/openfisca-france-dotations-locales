@@ -6,3 +6,17 @@
       2020: [500, 200000]
   output:
     df_evolution_part_dynamique: [64, 128]
+
+
+- name: montant total écrêtement - prend en compte l'évolution DSR/DSU
+  period: 2020
+  output:
+    df_montant_total_ecretement: 180000000  #= somme des evolutions DSR et DSU
+
+
+- name: montant total écrêtement - prend en compte le montant hors dsu et dsr
+  period: 2020
+  input:
+    df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
+  output:
+    df_montant_total_ecretement: 280000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu

@@ -38,6 +38,12 @@ class df_montant_total_ecretement(Variable):
     label = "Montant total d'écrêtement à la dotation forfaitaire"
     reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
 
+    def formula(etat, period, parameters):
+        df_montant_total_ecretement_hors_dsu_dsr = etat('df_montant_total_ecretement_hors_dsu_dsr', period)
+        accroissement_dsr = parameters(period).dotation_solidarite_rurale.augmentation_montant
+        accroissement_dsu = parameters(period).dotation_solidarite_urbaine.augmentation_montant
+        return accroissement_dsr + accroissement_dsu + df_montant_total_ecretement_hors_dsu_dsr
+
 
 class df_montant_total_ecretement_hors_dsu_dsr(Variable):
     value_type = int
