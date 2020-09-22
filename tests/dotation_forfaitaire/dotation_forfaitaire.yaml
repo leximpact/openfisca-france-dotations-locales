@@ -22,7 +22,6 @@
     df_montant_total_ecretement: 280000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu
 
 
-
 - name: Eligibilité écrêtement
   period: 2020
   input:
@@ -63,3 +62,11 @@
           2019:  10
   output:
     df_eligible_ecretement: [True, False, False, False, False]
+
+
+- name: Coefficient logarithmique
+  period: 2020
+  input:
+    population_dgf: [500, 50000, 200000]
+  output:
+    df_coefficient_logarithmique: [1, 1.76862178684024, 2]
