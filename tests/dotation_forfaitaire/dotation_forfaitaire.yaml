@@ -70,3 +70,51 @@
     population_dgf: [10, 500, 50000, 200000, 1000000]
   output:
     df_coefficient_logarithmique: [1, 1, 1.76862178684024, 2, 2]
+
+- name: Score d'attribution écrêtement - Calculé seulement si éligible à l'écrêtement
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [c1, c2]
+        potentiel_fiscal_moyen_national: 800
+    communes:
+      c1: # Score = 1 * (1200 - 800 *0.75)/ (800 *0.75) = 1
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1200
+        population_dgf: 1
+      c2: #Score nul car non éligible
+        df_eligible_ecretement: False
+        potentiel_fiscal: 1200
+        population_dgf: 1
+  output:
+    df_score_attribution_ecretement: [1, 0]
+
+
+- name: Score d'attribution écrêtement - variations
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [aquarium, babaorum, laudanum, petibonum]
+        potentiel_fiscal_moyen_national: 800
+    communes:
+      aquarium: # Score = 1 * (1200 - 800 *0.75)/ (800 *0.75) = 1
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1200
+        population_dgf: 1
+      babaorum: #Score proportionnel à la population dgf
+        df_eligible_ecretement: True
+        potentiel_fiscal: 2400 #1200 * 2
+        population_dgf: 2
+      laudanum: # Score = 1 * (1500 - 800 *0.75)/ (800 *0.75) = 1.5
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1500
+        population_dgf: 1
+      petibonum: #Score proportionnel à la population dgf
+        df_eligible_ecretement: True
+        potentiel_fiscal: 3000 # 1500 * 2
+        population_dgf: 2
+      
+  output:
+    df_score_attribution_ecretement: [1, 2, 1.5, 3]
