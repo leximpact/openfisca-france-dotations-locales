@@ -1,6 +1,6 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
-from numpy import log10
+from numpy import log10, where
 
 
 class dotation_forfaitaire(Variable):
@@ -117,12 +117,12 @@ class df_score_attribution_ecretement(Variable):
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         pourcentage_potentiel_fiscal = parameters(period).dotation_forfaitaire.ecretement.seuil_rapport_potentiel_fiscal
         potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / df_coefficient_logarithmique
-
-        return (df_eligible_ecretement
-            * (potentiel_fiscal_moyen_commune
+        return where(df_eligible_ecretement,
+             (potentiel_fiscal_moyen_commune
             - pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national)
             / (pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national)
-            * population_dgf)
+            * population_dgf,
+            0)
 
 
 class df_evolution_part_dynamique(Variable):
