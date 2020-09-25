@@ -11,15 +11,30 @@
 - name: montant total écrêtement - prend en compte l'évolution DSR/DSU
   period: 2020
   output:
-    df_montant_total_ecretement: 180000000  #= somme des evolutions DSR et DSU
-
+    montant_total_ecretement: 210000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 126000000  #= 60% * montant total ecretement
 
 - name: montant total écrêtement - prend en compte le montant hors dsu et dsr
   period: 2020
   input:
     df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
   output:
-    df_montant_total_ecretement: 280000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu
+    montant_total_ecretement: 310000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 186000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu
+
+
+- name: montant total écrêtement - prend en compte la part dynamique
+  period: 2020
+  input:
+    etats:
+      monovilleland:
+        communes: [capital]
+    communes:
+      capital:
+        df_evolution_part_dynamique: 10000000
+  output:
+    montant_total_ecretement: 220000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 132000000  #= 60% * montant total ecretement
 
 
 - name: Eligibilité écrêtement

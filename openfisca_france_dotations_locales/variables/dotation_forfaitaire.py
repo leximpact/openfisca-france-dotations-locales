@@ -74,6 +74,27 @@ class df_eligible_ecretement(Variable):
         return df_ecretement_eligible
 
 
+class montant_total_ecretement(Variable):
+    value_type = int
+    entity = Etat
+    definition_period = YEAR
+    label = "Montant total d'écrêtement qui sera ventilé entre la dotation forfaitaire et la dotation des EPCI"
+    reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
+
+    def formula(etat, period, parameters):
+        df_montant_total_ecretement_hors_dsu_dsr = etat('df_montant_total_ecretement_hors_dsu_dsr', period)
+        accroissement_dsr = parameters(period).dotation_solidarite_rurale.augmentation_montant
+        accroissement_dsu = parameters(period).dotation_solidarite_urbaine.augmentation_montant
+        acroissement_intercommunalite = parameters(period).dotation_intercommunalite.augmentation_montant
+        df_evolution_part_dynamique = etat.members('df_evolution_part_dynamique', period)
+        total_evolution_part_dynamique = df_evolution_part_dynamique.sum()
+        return (accroissement_dsr
+            + accroissement_dsu
+            + df_montant_total_ecretement_hors_dsu_dsr
+            + acroissement_intercommunalite
+            + total_evolution_part_dynamique)
+
+
 class df_montant_total_ecretement(Variable):
     value_type = int
     entity = Etat
@@ -82,10 +103,9 @@ class df_montant_total_ecretement(Variable):
     reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
 
     def formula(etat, period, parameters):
-        df_montant_total_ecretement_hors_dsu_dsr = etat('df_montant_total_ecretement_hors_dsu_dsr', period)
-        accroissement_dsr = parameters(period).dotation_solidarite_rurale.augmentation_montant
-        accroissement_dsu = parameters(period).dotation_solidarite_urbaine.augmentation_montant
-        return accroissement_dsr + accroissement_dsu + df_montant_total_ecretement_hors_dsu_dsr
+        montant_total_ecretement = etat('montant_total_ecretement', period)
+        pourcentage_ecretement_attribue_df = 0.6
+        return pourcentage_ecretement_attribue_df * montant_total_ecretement
 
 
 class df_montant_total_ecretement_hors_dsu_dsr(Variable):
