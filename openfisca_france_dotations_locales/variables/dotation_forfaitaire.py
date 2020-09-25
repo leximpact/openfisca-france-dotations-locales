@@ -65,7 +65,8 @@ class df_eligible_ecretement(Variable):
         df_coefficient_logarithmique = commune("df_coefficient_logarithmique", period)
         population_dgf = commune('population_dgf', period)
 
-        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / df_coefficient_logarithmique
+        population_logarithmee = population_dgf * df_coefficient_logarithmique
+        potentiel_fiscal_moyen_commune = where(population_logarithmee > 0, potentiel_fiscal / population_logarithmee, 0)
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         df_an_dernier = commune('dotation_forfaitaire', period.last_year)
         df_evolution_part_dynamique = commune("df_evolution_part_dynamique", period)
