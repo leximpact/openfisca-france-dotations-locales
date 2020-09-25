@@ -170,8 +170,7 @@ class df_evolution_part_dynamique(Variable):
 
         facteur_minimum = parameters(period).dotation_forfaitaire.montant_minimum_par_habitant
         facteur_maximum = parameters(period).dotation_forfaitaire.montant_maximum_par_habitant
-        dotation_supp_par_habitant = facteur_minimum + (facteur_maximum - facteur_minimum) * facteur_du_coefficient_logarithmique * log10(population_majoree_dgf / plancher_dgcl_population_dgf_majoree)
-
+        dotation_supp_par_habitant = facteur_minimum + (facteur_maximum - facteur_minimum) * max_(0, min_(1, facteur_du_coefficient_logarithmique * log10(population_majoree_dgf / plancher_dgcl_population_dgf_majoree)))
         return dotation_supp_par_habitant * evolution_population
 
 
