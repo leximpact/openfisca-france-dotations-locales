@@ -137,7 +137,7 @@ class df_score_attribution_ecretement(Variable):
         potentiel_fiscal_moyen_national = commune.etat('potentiel_fiscal_moyen_national', period)
         pourcentage_potentiel_fiscal = parameters(period).dotation_forfaitaire.ecretement.seuil_rapport_potentiel_fiscal
         population_logarithmee = population_dgf * df_coefficient_logarithmique
-        potentiel_fiscal_moyen_commune = potentiel_fiscal / population_dgf / df_coefficient_logarithmique
+        potentiel_fiscal_moyen_commune = where(population_logarithmee > 0, potentiel_fiscal / population_logarithmee, 0)
         return where(df_eligible_ecretement,
              (potentiel_fiscal_moyen_commune
             - pourcentage_potentiel_fiscal * potentiel_fiscal_moyen_national)
