@@ -105,7 +105,7 @@ class df_montant_total_ecretement(Variable):
     documentation = '''
     Le pourcentage d'écrêtement est décidé par le Comité des Finances Locales.
     En 2019, extrait du rapport du gouvernement au parlement :
-    
+
     Compte tenu des règles de financement entre la dotation forfaitaire des communes
     et la dotation de compensation des EPCI prévues à l’article L. 2334-7-1 du CGCT
     et des choix opérés par le CFL en 2019, 60% des coûts sont supportés
