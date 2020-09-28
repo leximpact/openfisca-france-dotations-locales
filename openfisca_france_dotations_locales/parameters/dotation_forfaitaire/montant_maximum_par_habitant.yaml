@@ -1,0 +1,6 @@
+description: Montant maximum supplémentaire de dotation forfaitaire \
+  par habitant supplémentaire de la commune
+reference: https://www.legifrance.gouv.fr/codes/id/LEGIARTI000037994287
+values:
+  2011-01-01:
+    value: 128.93

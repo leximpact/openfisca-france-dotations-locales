@@ -1,0 +1,15 @@
+description: Potentiel fiscal à partir duquel une commune est éligible \
+  à l'écrêtement de sa dotation forfaitaire, exprimé en pourcentage \
+  de l'effort fiscal moyen
+documentation: Extrait Article L2334-7, 4° b \
+  Pour les communes dont le potentiel fiscal par habitant \
+  est supérieur ou égal à 0,75 fois le potentiel fiscal moyen par habitant constaté \
+  pour l'ensemble des communes, ce montant [d'attribution au titre de la garantie] \
+  est diminué, dans les conditions prévues à l'article L. 2334-7-1, \
+  en proportion de leur population et de l'écart relatif entre le potentiel fiscal \
+  par habitant de la commune et 0,75 fois le potentiel fiscal moyen par habitant \
+  constaté pour l'ensemble des communes.
+reference: https://www.legifrance.gouv.fr/codes/id/LEGIARTI000037994287
+values:
+  2015-01-01:
+    value: 0.75

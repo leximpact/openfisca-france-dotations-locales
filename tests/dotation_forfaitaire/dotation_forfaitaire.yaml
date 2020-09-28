@@ -1,0 +1,188 @@
+- name: part dynamique de la population
+  period: 2020
+  input:
+    population_dgf_majoree:
+      2019: [499, 199999]
+      2020: [500, 200000]
+  output:
+    df_evolution_part_dynamique: [64, 128]
+
+
+- name: montant total écrêtement - prend en compte l'évolution DSR/DSU
+  period: 2020
+  output:
+    montant_total_ecretement: 210000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 126000000  #= 60% * montant total ecretement
+
+- name: montant total écrêtement - prend en compte le montant hors dsu et dsr
+  period: 2020
+  input:
+    df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
+  output:
+    montant_total_ecretement: 310000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 186000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu
+
+
+- name: montant total écrêtement - prend en compte la part dynamique
+  period: 2020
+  input:
+    etats:
+      monovilleland:
+        communes: [capital]
+    communes:
+      capital:
+        df_evolution_part_dynamique: 10000000
+  output:
+    montant_total_ecretement: 220000000  #= somme des evolutions DSR et DSU + interco
+    df_montant_total_ecretement: 132000000  #= 60% * montant total ecretement
+
+
+- name: Eligibilité écrêtement
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [c1, c2, c3, c4, c5]
+        potentiel_fiscal_moyen_national: 1000
+    communes:
+      c1: #Eligible cas standard
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c2: #Potentiel fiscal < 75% moyenne nationale. Pas d'écrêtement
+        potentiel_fiscal: 360000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c3: #Pas de DF de l'an dernier à écrêter.
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  0
+      c4: #Potentiel fiscal < 75% moyenne nationale en prenant en compte coefficient logarithmique
+        potentiel_fiscal: 200000000
+        population_dgf: 200000
+        df_evolution_part_dynamique: 0
+        dotation_forfaitaire:
+          2019:  10
+      c5: #Pas de DF à écrêter une fois prise en compte la part dynamique de la population
+        potentiel_fiscal: 500000
+        population_dgf: 500
+        df_evolution_part_dynamique: -15
+        dotation_forfaitaire:
+          2019:  10
+  output:
+    df_eligible_ecretement: [True, False, False, False, False]
+
+
+- name: Coefficient logarithmique
+  period: 2020
+  input:
+    population_dgf: [10, 500, 50000, 200000, 1000000]
+  output:
+    df_coefficient_logarithmique: [1, 1, 1.76862178684024, 2, 2]
+
+- name: Score d'attribution écrêtement - Calculé seulement si éligible à l'écrêtement
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [c1, c2]
+        potentiel_fiscal_moyen_national: 800
+    communes:
+      c1: # Score = 1 * (1200 - 800 *0.75)/ (800 *0.75) = 1
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1200
+        population_dgf: 1
+      c2: #Score nul car non éligible
+        df_eligible_ecretement: False
+        potentiel_fiscal: 1200
+        population_dgf: 1
+  output:
+    df_score_attribution_ecretement: [1, 0]
+
+
+- name: Score d'attribution écrêtement - variations
+  period: 2020
+  input:
+    etats:
+      Sandraistan:
+        communes: [aquarium, babaorum, laudanum, petibonum]
+        potentiel_fiscal_moyen_national: 800
+    communes:
+      aquarium: # Score = 1 * (1200 - 800 *0.75)/ (800 *0.75) = 1
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1200
+        population_dgf: 1
+      babaorum: #Score proportionnel à la population dgf
+        df_eligible_ecretement: True
+        potentiel_fiscal: 2400 #1200 * 2
+        population_dgf: 2
+      laudanum: # Score = 1 * (1500 - 800 *0.75)/ (800 *0.75) = 1.5
+        df_eligible_ecretement: True
+        potentiel_fiscal: 1500
+        population_dgf: 1
+      petibonum: #Score proportionnel à la population dgf
+        df_eligible_ecretement: True
+        potentiel_fiscal: 3000 # 1500 * 2
+        population_dgf: 2
+      
+  output:
+    df_score_attribution_ecretement: [1, 2, 1.5, 3]
+
+
+- name: Montant écrêtement - variations
+  period: 2020
+  input:
+    etats:
+      Essos:
+        communes: [tyrosh, norvos, qohor, lorath, pentos]
+        df_montant_total_ecretement: 80 #10 par point d'attribution
+    communes:
+      tyrosh: # aucun plafond d'écrêtement ne joue
+        df_score_attribution_ecretement: 1
+        df_evolution_part_dynamique: 10
+        dotation_forfaitaire:
+          2019: 100
+        recettes_reelles_fonctionnement: 1000
+      norvos: #montant proportionnel au score
+        df_score_attribution_ecretement: 4
+        df_evolution_part_dynamique: 10
+        dotation_forfaitaire:
+          2019: 100
+        recettes_reelles_fonctionnement: 5000
+      qohor: # montant de l'écrêtement cappé à 1% des recettes réelles
+        df_score_attribution_ecretement: 1
+        df_evolution_part_dynamique: 10
+        dotation_forfaitaire:
+          2019: 100
+        recettes_reelles_fonctionnement: 600
+      lorath: #montant de l'écrêtement cappé au montant total écrétable
+        df_score_attribution_ecretement: 1
+        df_evolution_part_dynamique: 2
+        dotation_forfaitaire:
+          2019: 5
+        recettes_reelles_fonctionnement: 2000
+      pentos: #montant de l'écrêtement cappé au montant total écrétable dans un monde sans montant total écrétable
+        df_score_attribution_ecretement: 1
+        df_evolution_part_dynamique: -50
+        dotation_forfaitaire:
+          2019: 30
+        recettes_reelles_fonctionnement: 2000
+  output:
+    df_montant_ecretement: [10, 40, 6, 7, 0]
+
+
+- name: Dotation forfaitaire somme correctement (et floore à zéro)
+  period: 2020
+  input:
+    dotation_forfaitaire:
+      2019: [100,50]
+    df_evolution_part_dynamique: [20,-100]
+    df_montant_ecretement: [10,0]
+  output:
+    dotation_forfaitaire: [110, 0]
