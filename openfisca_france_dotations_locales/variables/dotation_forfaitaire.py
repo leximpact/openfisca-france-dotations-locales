@@ -102,6 +102,19 @@ class df_montant_total_ecretement(Variable):
     definition_period = YEAR
     label = "Montant total d'écrêtement à la dotation forfaitaire"
     reference = "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033878417"
+    documentation = '''
+    Le pourcentage d'écrêtement est décidé par le Comité des Finances Locales.
+    En 2019, extrait du rapport du gouvernement au parlement :
+    
+    Compte tenu des règles de financement entre la dotation forfaitaire des communes
+    et la dotation de compensation des EPCI prévues à l’article L. 2334-7-1 du CGCT
+    et des choix opérés par le CFL en 2019, 60% des coûts sont supportés
+    par la dotation forfaitaire. Par conséquent, 60% du surcoût de 12,7 M€ soit 7,6 M€,
+    doit être écrêté en plus.
+
+    Source :
+    https://www.banquedesterritoires.fr/sites/default/files/2019-12/Coefficient%20logarithmique%20-%20Rapport%20global%20%282%29.pdf
+    '''
 
     def formula(etat, period, parameters):
         montant_total_ecretement = etat('montant_total_ecretement', period)

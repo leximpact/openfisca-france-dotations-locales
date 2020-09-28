@@ -10,7 +10,8 @@
 
 * Note DGCL, [DF 2020](http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=115)
 
-> Documents historiques pouvant servir à la compréhension des mécanismes de calcul :
+> Documents complémentaires pouvant servir à la compréhension des mécanismes de calcul :
+> * [Rapport du Gouvernement au Parlement, Historique et analyse des effets de l’introduction d’un coefficient logarithmique](https://www.banquedesterritoires.fr/sites/default/files/2019-12/Coefficient%20logarithmique%20-%20Rapport%20global%20%282%29.pdf)
 > * [collectivites-locales.gouv.fr, DF 2015](https://www.collectivites-locales.gouv.fr/files/files/noteinfo_dotationforfaitairecommunes.pdf)
 > * [amf.asso.fr, DF 2016](http://medias.amf.asso.fr/docs/DOCUMENTS/AMF_14463_NOTE.pdf)
 > * [yvelines.gouv.fr, DF 2018](http://www.yvelines.gouv.fr/content/download/15362/97278/file/Annexe%20de%20calcul-2018%20Dotation%20forfaitaire.pdf)

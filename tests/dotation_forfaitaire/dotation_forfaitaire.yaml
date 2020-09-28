@@ -186,4 +186,3 @@
     df_montant_ecretement: [10,0]
   output:
     dotation_forfaitaire: [110, 0]
-  
