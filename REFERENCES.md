@@ -20,6 +20,7 @@
 
 ### Dotation de Solidarité Rurale (DSR)
 
+* Note DGCL, [DSR 2020](http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=123)
 * Note DGCL, [DSR 2019](http://www.dotations-dgcl.interieur.gouv.fr/consultation/documentAffichage.php?id=94)
 
 ### Dotation de Solidarité Urbaine et de cohésion sociale (DSU)
