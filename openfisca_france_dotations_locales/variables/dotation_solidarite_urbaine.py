@@ -1,6 +1,7 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 import numpy as np
+from openfisca_france_dotations_locales.variables.base import safe_divide
 
 
 class indice_synthetique_dsu(Variable):
@@ -59,21 +60,21 @@ class indice_synthetique_dsu(Variable):
         revenu_moyen_haut = (np.sum(groupe_haut * revenu)
                 / np.sum(groupe_haut * population_insee)) if np.sum(groupe_haut * population_insee) > 0 else 0
 
-        part_logements_sociaux_commune = np.where(nombre_logements > 0, np.divide(nombre_logements_sociaux, nombre_logements), 0)
-        part_aides_logement_commune = np.where(nombre_logements > 0, np.divide(nombre_aides_au_logement, nombre_logements), 0)
+        part_logements_sociaux_commune = safe_divide(nombre_logements_sociaux, nombre_logements)
+        part_aides_logement_commune = safe_divide(nombre_aides_au_logement, nombre_logements)
 
         indice_synthetique_bas = groupe_bas_score_positif * (
-            poids_pot_fin * np.where(potentiel_financier_par_habitant > 0, np.divide(pot_fin_bas, potentiel_financier_par_habitant), 0)
-            + poids_logements_sociaux * np.where(part_logements_sociaux_bas > 0, np.divide(part_logements_sociaux_commune, part_logements_sociaux_bas), 0)
-            + poids_aides_au_logement * np.where(part_aides_logement_bas > 0, np.divide(part_aides_logement_commune, part_aides_logement_bas), 0)
-            + poids_revenu * np.where(revenu_par_habitant > 0, np.divide(revenu_moyen_bas, revenu_par_habitant), 0)
+            poids_pot_fin * safe_divide(pot_fin_bas, potentiel_financier_par_habitant)
+            + poids_logements_sociaux * safe_divide(part_logements_sociaux_commune, part_logements_sociaux_bas)
+            + poids_aides_au_logement * safe_divide(part_aides_logement_commune, part_aides_logement_bas)
+            + poids_revenu * safe_divide(revenu_moyen_bas, revenu_par_habitant)
             )
 
         indice_synthetique_haut = groupe_haut_score_positif * (
-            poids_pot_fin * np.where(potentiel_financier_par_habitant > 0, np.divide(pot_fin_haut, potentiel_financier_par_habitant), 0)
-            + poids_logements_sociaux * np.where(part_logements_sociaux_haut > 0, np.divide(part_logements_sociaux_commune, part_logements_sociaux_haut), 0)
-            + poids_aides_au_logement * np.where(part_aides_logement_haut > 0, np.divide(part_aides_logement_commune, part_aides_logement_haut), 0)
-            + poids_revenu * np.where(revenu_par_habitant > 0, np.divide(revenu_moyen_haut, revenu_par_habitant), 0)
+            poids_pot_fin * safe_divide(pot_fin_haut, potentiel_financier_par_habitant)
+            + poids_logements_sociaux * safe_divide(part_logements_sociaux_commune, part_logements_sociaux_haut)
+            + poids_aides_au_logement * safe_divide(part_aides_logement_commune, part_aides_logement_haut)
+            + poids_revenu * safe_divide(revenu_moyen_haut, revenu_par_habitant)
             )
         return indice_synthetique_bas + indice_synthetique_haut
 
