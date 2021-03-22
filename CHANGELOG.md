@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.7.1 [#13](https://github.com/leximpact/openfisca-france-dotations-locales/pull/13)
+
+* Amélioration technique.
+* Périodes concernées : toutes.
+* Zones impactées : toutes.
+* Détails :
+  - Met à jour la dépendance à OpenFisca-Core.
+  - Permet l'emploi de `numpy` v1.18 apporté par [OpenFisca-Core v35](https://github.com/openfisca/openfisca-core/blob/a8d91949b522b5a214a5b44c88ce85b19277ec8b/CHANGELOG.md#3500-954) et influe sur les syntaxes autorisées des formulas.
+
 ## 0.7.0 [#12](https://github.com/leximpact/openfisca-france-dotations-locales/pull/12)
 
 * Évolution du système socio-fiscal.

@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "OpenFisca-France-Dotations-Locales",
-    version = "0.7.0",
+    version = "0.7.1",
     author = "LexImpact Team",
     author_email = "leximpact@an.fr",
     classifiers=[
@@ -26,7 +26,7 @@ setup(
         ["CHANGELOG.md", "LICENSE", "README.md"]),
         ],
     install_requires = [
-        "OpenFisca-Core[web-api] >=27.0,<35.0",
+        "OpenFisca-Core[web-api] >=27.0,<36.0",
         ],
     extras_require = {
         "dev": [
