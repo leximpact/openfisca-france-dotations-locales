@@ -1,6 +1,14 @@
 # Changelog
 
-### 0.7.1 [#13](https://github.com/leximpact/openfisca-france-dotations-locales/pull/13)
+### 0.7.2 [#14](https://github.com/leximpact/openfisca-france-dotations-locales/pull/14)
+
+* Amélioration technique.
+* Périodes concernées : toutes. 
+* Zones impactées : `openfisca-france-dotations-locales/openfisca_france_dotations_locales/variables/dotation_solidarite_urbaine.py`.
+* Détails :
+  - Création d'une fonction custom de division, safe_divide, qui effectue une division mais renvoie une valeur par défaut si on essaye de diviser par zéro.
+  
+  ### 0.7.1 [#13](https://github.com/leximpact/openfisca-france-dotations-locales/pull/13)
 
 * Amélioration technique.
 * Périodes concernées : toutes.
