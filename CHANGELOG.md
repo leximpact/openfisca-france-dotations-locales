@@ -1,6 +1,13 @@
 # Changelog
 
-### 0.7.3 inprogress 
+### 0.7.3 [#15] (https://github.com/leximpact/openfisca-france-dotations-locales/pull/15)
+
+* Changement mineur.
+* Périodes concernées : toutes.
+* Zones impactées : `openfisca_france_dotations_locales/variables/base.py`.
+* Détails :
+  - Suppression des warnings 'divide by zero' dans la fonction custom de division que nous avons écrite (et qui fait bien attention à ne pas diviser par zéro)
+
 ### 0.7.2 [#14](https://github.com/leximpact/openfisca-france-dotations-locales/pull/14)
 
 * Amélioration technique.
