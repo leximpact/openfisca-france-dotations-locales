@@ -178,7 +178,7 @@ class df_evolution_part_dynamique(Variable):
     def formula(commune, period, parameters):
         plancher_dgcl_population_dgf_majoree = 500
         plafond_dgcl_population_dgf_majoree = 200000
-        facteur_du_coefficient_logarithmique = 1 / (log10(plafond_dgcl_population_dgf_majoree / plancher_dgcl_population_dgf_majoree))  # le fameux 0.38431089
+        facteur_du_coefficient_logarithmique = safe_divide(1, log10(safe_divide(plafond_dgcl_population_dgf_majoree, plancher_dgcl_population_dgf_majoree, 1)), 0)  # le fameux 0.38431089
         population_majoree_dgf = commune('population_dgf_majoree', period)
         population_majoree_dgf_an_dernier = commune('population_dgf_majoree', period.last_year)
         evolution_population = population_majoree_dgf - population_majoree_dgf_an_dernier
