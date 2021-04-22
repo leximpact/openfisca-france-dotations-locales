@@ -1,6 +1,7 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 from numpy import sum as sum_, where
+from openfisca_france_dotations_locales.variables.base import safe_divide
 
 
 class dsr_eligible_fraction_perequation(Variable):
@@ -162,7 +163,7 @@ class dsr_score_attribution_perequation_part_potentiel_financier_par_habitant(Va
 
         plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.attribution.plafond_effort_fiscal
 
-        facteur_pot_fin = where(potentiel_financier_par_habitant_strate > 0, max_(0, 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate), 0)
+        facteur_pot_fin = max_(0, 2 - safe_divide(potentiel_financier_par_habitant, potentiel_financier_par_habitant_strate, 0))
         facteur_effort_fiscal = min_(plafond_effort_fiscal, effort_fiscal)
 
         return dsr_eligible_fraction_perequation * population_dgf * facteur_pot_fin * facteur_effort_fiscal

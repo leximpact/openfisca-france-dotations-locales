@@ -67,8 +67,10 @@ class dsr_exclue_fraction_bourg_centre_pfi(Variable):
         taille_max_commune = parameters(period).dotation_solidarite_rurale.seuil_nombre_habitants
         # oui le taille_max_commune est le même que pour le seuil d'éligibilité, notre paramétrisation est ainsi
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
-        pot_fin_10000 = (sum_(communes_moins_10000 * potentiel_financier)
-                / sum_(communes_moins_10000 * population_dgf))
+        if sum_(communes_moins_10000 * population_dgf) != 0:
+            pot_fin_10000 = sum_(communes_moins_10000 * potentiel_financier) / sum_(communes_moins_10000 * population_dgf)
+        else:
+            pot_fin_10000 = 0
         return potentiel_financier_par_habitant >= (ratio_max_potentiel_financier * pot_fin_10000)
 
 
@@ -84,7 +86,6 @@ class dsr_exclue_fraction_bourg_centre_type_1(Variable):
         dsr_exclue_fraction_bourg_centre_agglomeration = commune("dsr_exclue_fraction_bourg_centre_agglomeration", period)
         dsr_exclue_fraction_bourg_centre_canton = commune("dsr_exclue_fraction_bourg_centre_canton", period)
         dsr_exclue_fraction_bourg_centre_pfi = commune("dsr_exclue_fraction_bourg_centre_pfi", period)
-
         return (dsr_exclue_fraction_bourg_centre_agglomeration
             | dsr_exclue_fraction_bourg_centre_canton
             | dsr_exclue_fraction_bourg_centre_pfi)
@@ -101,7 +102,6 @@ class dsr_exclue_fraction_bourg_centre_type_2(Variable):
         # Sources d'exclusion de l'éligibilité...
         dsr_exclue_fraction_bourg_centre_agglomeration = commune("dsr_exclue_fraction_bourg_centre_agglomeration", period)
         dsr_exclue_fraction_bourg_centre_pfi = commune("dsr_exclue_fraction_bourg_centre_pfi", period)
-
         return (dsr_exclue_fraction_bourg_centre_agglomeration
             | dsr_exclue_fraction_bourg_centre_pfi)
 

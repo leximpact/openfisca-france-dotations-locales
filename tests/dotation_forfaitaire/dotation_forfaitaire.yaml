@@ -10,6 +10,15 @@
 
 - name: montant total écrêtement - prend en compte l'évolution DSR/DSU
   period: 2020
+  input:
+    etats:
+      IndependentBrittany:
+        communes: [Lorientgeles]
+    communes:
+      Lorientgeles:
+        population_dgf_majoree:
+          2019: 1000000000
+          2020: 1000000000
   output:
     montant_total_ecretement: 210000000  #= somme des evolutions DSR et DSU + interco
     df_montant_total_ecretement: 126000000  #= 60% * montant total ecretement
@@ -17,7 +26,15 @@
 - name: montant total écrêtement - prend en compte le montant hors dsu et dsr
   period: 2020
   input:
-    df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
+    etats:
+      IndependentBrittany:
+        df_montant_total_ecretement_hors_dsu_dsr: 100000000  #= somme des evolutions DSR et DSU
+        communes: [Lorientgeles]
+    communes:
+      Lorientgeles:
+        population_dgf_majoree:
+          2019: 1000000000
+          2020: 1000000000
   output:
     montant_total_ecretement: 310000000  #= somme des evolutions DSR et DSU + interco
     df_montant_total_ecretement: 186000000  #= somme des evolutions DSR et DSU + montant hors dsr / dsu

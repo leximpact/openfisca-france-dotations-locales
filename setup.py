@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "OpenFisca-France-Dotations-Locales",
-    version = "0.7.2",
+    version = "0.7.3",
     author = "LexImpact Team",
     author_email = "leximpact@an.fr",
     classifiers=[

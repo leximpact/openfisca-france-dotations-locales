@@ -1,6 +1,7 @@
 from openfisca_core.model_api import *
 from openfisca_france_dotations_locales.entities import *
 import numpy as np
+from openfisca_france_dotations_locales.variables.base import safe_divide
 
 
 class indice_synthetique_dsr_cible(Variable):
@@ -30,8 +31,8 @@ class indice_synthetique_dsr_cible(Variable):
 
         return ((population_dgf < limite_population)
             * (dsr_eligible_fraction_bourg_centre | dsr_eligible_fraction_perequation)
-            * (poids_pot_fin * where(potentiel_financier_par_habitant > 0, potentiel_financier_par_habitant_strate / potentiel_financier_par_habitant, 0)
-            + poids_revenu * where(revenu_par_habitant > 0, revenu_par_habitant_strate / revenu_par_habitant, 0))
+            * (poids_pot_fin * safe_divide(potentiel_financier_par_habitant_strate, potentiel_financier_par_habitant, 0)
+            + poids_revenu * safe_divide(revenu_par_habitant_strate, revenu_par_habitant, 0))
             )
 
 
@@ -214,7 +215,7 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_habitant(Variable
         population_dgf = commune('population_dgf', period)
 
         plafond_effort_fiscal = parameters(period).dotation_solidarite_rurale.attribution.plafond_effort_fiscal
-        facteur_pot_fin = where(potentiel_financier_par_habitant_strate > 0, max_(0, 2 - potentiel_financier_par_habitant / potentiel_financier_par_habitant_strate), 0)
+        facteur_pot_fin = max_(0, 2 - safe_divide(potentiel_financier_par_habitant, potentiel_financier_par_habitant_strate, 2))
         facteur_effort_fiscal = np.minimum(plafond_effort_fiscal, effort_fiscal)
 
         return dsr_eligible_fraction_cible * population_dgf * facteur_pot_fin * facteur_effort_fiscal
@@ -291,10 +292,9 @@ class dsr_score_attribution_cible_part_potentiel_financier_par_hectare(Variable)
         superficie = commune('superficie', period)
         communes_moins_10000 = (~outre_mer) * (population_dgf < taille_max_commune)
 
-        pot_fin_par_hectare_10000 = (np.sum(communes_moins_10000 * potentiel_financier)
-                / np.sum(communes_moins_10000 * superficie))
+        pot_fin_par_hectare_10000 = safe_divide(np.sum(communes_moins_10000 * potentiel_financier), np.sum(communes_moins_10000 * superficie))
 
-        facteur_pot_fin = max_(0, 2 - potentiel_financier_par_habitant / pot_fin_par_hectare_10000)
+        facteur_pot_fin = max_(0, safe_divide((2 * pot_fin_par_hectare_10000 - potentiel_financier_par_habitant), pot_fin_par_hectare_10000, 0))
 
         return dsr_eligible_fraction_cible * population_dgf * facteur_pot_fin
 
