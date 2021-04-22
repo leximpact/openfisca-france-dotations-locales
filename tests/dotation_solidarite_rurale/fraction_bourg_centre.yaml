@@ -109,18 +109,18 @@
 - name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'exclusion au titre de l'agglomération 
   period: 2020
   input:
-    population_dgf: [10000, 10000, 10000, 10000, 10000]
-    population_insee: [10000, 10000, 10000, 10000, 10000]
-    potentiel_financier: [10000, 10000, 10000, 10000, 10000]
-    chef_lieu_arrondissement: [True, True, True, True, True]
-    population_dgf_agglomeration: [10000, 10000, 250000, 125000, 10000]
-    part_population_agglomeration_departement: [0.09, 0.11, 0.09, 0.09, 0.09]
-    chef_lieu_departement_dans_agglomeration: [False, False, False, False, True]
-    population_dgf_maximum_commune_agglomeration: [800, 800, 80000, 100000, 800]
+    population_dgf: [10000, 10000, 10000, 10000, 10000, 1000]
+    population_insee: [10000, 10000, 10000, 10000, 10000, 1000]
+    potentiel_financier: [10000, 10000, 10000, 10000, 10000, 1000]
+    chef_lieu_arrondissement: [True, True, True, True, True, False]
+    population_dgf_agglomeration: [10000, 10000, 250000, 125000, 10000, 1000]
+    part_population_agglomeration_departement: [0.09, 0.11, 0.09, 0.09, 0.09, 0]
+    chef_lieu_departement_dans_agglomeration: [False, False, False, False, True, False]
+    population_dgf_maximum_commune_agglomeration: [800, 800, 80000, 100000, 800, 1000]
   output:
-    dsr_exclue_fraction_bourg_centre_agglomeration: [False, True, True, True, True]
-    dsr_exclue_fraction_bourg_centre_type_2: [False, True, True, True, True]
-    dsr_eligible_fraction_bourg_centre_type_2: [True, False, False, False, False]
+    dsr_exclue_fraction_bourg_centre_agglomeration: [False, True, True, True, True, False]
+    dsr_exclue_fraction_bourg_centre_type_2: [False, True, True, True, True, False]
+    dsr_eligible_fraction_bourg_centre_type_2: [True, False, False, False, False, False]
 
 
 - name: DSR, éligibilité à la fraction bourg centre type 2. Conditions d'exclusion au titre du potentiel financier 
