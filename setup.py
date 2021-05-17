@@ -19,7 +19,7 @@ setup(
         [FR] Modèle de microsimulation OpenFisca dédié aux dotations de l'État aux collectivités territoriales.",
     keywords = "France microsimulation local tax endowment dotations territoires",
     license ="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
-    url = "https://github.com/leximpact/openfisca-france-dotations-locales",
+    url = "https://git.leximpact.dev/leximpact/openfisca-france-dotations-locales",
     include_package_data = True,  # Will read MANIFEST.in
     data_files = [
         ("share/openfisca/openfisca-france-dotations-locales",
