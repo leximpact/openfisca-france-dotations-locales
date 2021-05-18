@@ -1,3 +1,11 @@
+---
+
+# Pour consulter la dernière version du projet, merci de vous rendre sur https://git.leximpact.dev/leximpact/openfisca-france-dotations-locales/
+
+---
+![](changement-depot-github-gitlab-illustration-small.png)
+---
+
 # OpenFisca France Dotations Locales
 
 [![CircleCI](https://circleci.com/gh/leximpact/openfisca-france-dotations-locales.svg?style=shield)](https://circleci.com/gh/leximpact/openfisca-france-dotations-locales)
